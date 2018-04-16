@@ -171,3 +171,133 @@ def generate_votes_csv():
 def generate_debates_csv():
     """ Generates a csv of the contents of the debates table """
     generate_csv('DEBATE')
+
+
+def get_debates_from_term(db_path, term):
+    """ Returns a list of debate ids where the term is in the debate title """
+
+    conn = sqlite3.connect(db_path)
+    curs = conn.cursor()
+
+    curs.execute('''SELECT URL FROM DEBATE
+                    WHERE TITLE LIKE ? COLLATE NOCASE''', ('%{}%'.format(term),))
+
+    rows = curs.fetchall()
+
+    return [row[0] for row in rows]
+
+
+def get_debates(settings):
+    """ Returns a list of debate ids matching the given settings """
+
+    if settings['all_debates']:
+        conn = sqlite3.connect(settings['db_path'])
+        curs = conn.cursor()
+        curs.execute("SELECT URL FROM DEBATE")
+        rows = curs.fetchall()
+        ret = [row[0] for row in rows]
+    else:
+        debates = set()
+        for term in settings['debate_terms']:
+            debates = debates.union(set(get_debates_from_term(settings['db_path'], term)))
+        ret = list(debates)
+
+    return ret
+
+
+def get_all_members_from_term(db_path, term, division_id):
+    """ Returns a list of debate ids where the given term is in the debate title """
+
+    conn = sqlite3.connect(db_path)
+    curs = conn.cursor()
+
+    curs.execute('''SELECT DISTINCT MEMBER_ID FROM SPEECH
+                        WHERE DEBATE_URL IN (SELECT URL FROM DEBATE
+                                             WHERE TITLE LIKE ? COLLATE NOCASE)
+                        AND MEMBER_ID IN (SELECT ID FROM MEMBER INNER JOIN VOTE ON
+                                          VOTE.MEMBER_ID = MEMBER.ID
+                                          WHERE VOTE.DIVISION_ID=? AND
+                                          (VOTE.VOTE='AyeVote' OR VOTE.VOTE='NoVote')) ''',
+                 ('%{}%'.format(term), division_id))
+
+    rows = curs.fetchall()
+
+    return [row[0] for row in rows]
+
+
+def get_aye_members_from_term(db_path, term, division_id):
+    """ Returns a list of debate ids where the given term is in the debate title """
+
+    conn = sqlite3.connect(db_path)
+    curs = conn.cursor()
+
+    curs.execute('''SELECT DISTINCT MEMBER_ID FROM SPEECH
+                        WHERE DEBATE_URL IN (SELECT URL FROM DEBATE
+                                             WHERE TITLE LIKE ? COLLATE NOCASE)
+                        AND MEMBER_ID IN (SELECT ID FROM MEMBER INNER JOIN VOTE ON
+                                          VOTE.MEMBER_ID = MEMBER.ID
+                                          WHERE VOTE.DIVISION_ID=? AND
+                                          (VOTE.VOTE='AyeVote')) ''',
+                 ('%{}%'.format(term), division_id))
+
+    rows = curs.fetchall()
+
+    return [row[0] for row in rows]
+
+
+def get_no_members_from_term(db_path, term, division_id):
+    """ Returns a list of debate ids where the given term is in the debate title """
+
+    conn = sqlite3.connect(db_path)
+    curs = conn.cursor()
+
+    curs.execute('''SELECT DISTINCT MEMBER_ID FROM SPEECH
+                        WHERE DEBATE_URL IN (SELECT URL FROM DEBATE
+                                             WHERE TITLE LIKE ? COLLATE NOCASE)
+                        AND MEMBER_ID IN (SELECT ID FROM MEMBER INNER JOIN VOTE ON
+                                          VOTE.MEMBER_ID = MEMBER.ID
+                                          WHERE VOTE.DIVISION_ID=? AND
+                                          (VOTE.VOTE='NoVote')) ''',
+                 ('%{}%'.format(term), division_id))
+
+    rows = curs.fetchall()
+
+    return [row[0] for row in rows]
+
+
+def get_member_no_of_speeches(db_path, debate_ids, member_id):
+    conn = sqlite3.connect(db_path)
+    curs = conn.cursor()
+
+    statement = ''' SELECT COUNT(*) FROM SPEECH WHERE DEBATE_URL IN ({debates})
+                    AND MEMBER_ID={member} '''.format(
+                        debates=','.join(['?']*len(debate_ids)),
+                        member=member_id)
+
+    curs.execute(statement, debate_ids)
+
+    return curs.fetchone()[0]
+
+
+def get_speech_texts(db_path, member, debate):
+    """ Returns a list of strings of the speeches of a given MP in a given debate """
+    conn = sqlite3.connect(db_path)
+    curs = conn.cursor()
+
+    curs.execute('''SELECT QUOTE FROM SPEECH
+                    WHERE MEMBER_ID=? AND DEBATE_URL=?''', (member['id'], debate))
+
+    rows = curs.fetchall()
+
+    return [{'text': row[0], 'votes': member['votes'], 'member': member['id']} for row in rows]
+
+
+def is_aye_vote(db_path, division_id, member_id):
+
+    conn = sqlite3.connect(db_path)
+    curs = conn.cursor()
+
+    curs.execute('''SELECT VOTE FROM VOTE WHERE MEMBER_ID=? AND DIVISION_ID=? ''',
+                 (member_id, division_id))
+
+    return curs.fetchone()[0] == 'AyeVote'
