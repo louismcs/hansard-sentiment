@@ -2,7 +2,7 @@ import csv
 import sqlite3
 
 
-DB_PATH = '../database/corpus.db'
+DB_PATH = 'corpus.db'
 
 
 class MatchException(Exception):
@@ -301,3 +301,40 @@ def is_aye_vote(db_path, division_id, member_id):
                  (member_id, division_id))
 
     return curs.fetchone()[0] == 'AyeVote'
+
+
+def get_members_from_term(db_path, term, division_id):
+    """ Returns a list of debate ids where the given term is in the debate title """
+
+    conn = sqlite3.connect(db_path)
+    curs = conn.cursor()
+
+    curs.execute('''SELECT DISTINCT MEMBER_ID FROM SPEECH
+                        WHERE DEBATE_URL IN (SELECT URL FROM DEBATE
+                                             WHERE TITLE LIKE ? COLLATE NOCASE)
+                        AND MEMBER_ID IN (SELECT ID FROM MEMBER INNER JOIN VOTE ON
+                                          VOTE.MEMBER_ID = MEMBER.ID
+                                          WHERE VOTE.DIVISION_ID=? AND
+                                          (VOTE.VOTE='AyeVote' OR VOTE.VOTE='NoVote')) ''',
+                 ('%{}%'.format(term), division_id))
+
+    rows = curs.fetchall()
+
+    return [row[0] for row in rows]
+
+
+def get_number_of_speeches(db_path, debate_ids, member_ids):
+
+    conn = sqlite3.connect(db_path)
+    curs = conn.cursor()
+
+    statement = ''' SELECT COUNT(*) FROM SPEECH WHERE DEBATE_URL IN ({debates})
+                    AND MEMBER_ID IN ({members}) '''.format(
+                        debates=','.join(['?']*len(debate_ids)),
+                        members=','.join(['?']*len(member_ids)))
+
+    curs.execute(statement, debate_ids + member_ids)
+
+    return curs.fetchone()[0]
+
+
