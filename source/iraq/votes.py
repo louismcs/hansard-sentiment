@@ -1,13 +1,7 @@
 import json
 import requests
+import database
 
-from database import create_tables
-from database import insert_division
-from database import make_connection
-from database import close_connection
-from database import get_all_division_ids
-from database import insert_member
-from database import insert_vote
 from dates import date_range
 from dates import START_DATE
 from dates import END_DATE
@@ -78,15 +72,17 @@ def get_member_data(member_id, session):
 
 def get_voting_record():
     """ Creates the database and fills it """
-    create_tables()
+
+    corpus = database.Database()
+    corpus.create_tables()
 
     for day in date_range(START_DATE, END_DATE):
-        division_inserts(day)
+        division_inserts(corpus, day)
 
-    fill_member_and_vote_tables()
+    fill_member_and_vote_tables(corpus)
 
 
-def division_inserts(day):
+def division_inserts(corpus, day):
     """ Inserts all the divisions for a given day into the database """
     division_date = day.strftime('%Y-%m-%d')
     url = 'http://lda.data.parliament.uk/commonsdivisions.json?date=' \
@@ -98,20 +94,17 @@ def division_inserts(day):
         except json.decoder.JSONDecodeError:
             print('JSON ERROR. URL: {}'.format(url))
         divisions = obj['result']['items']
-        database = make_connection()
 
         for division in divisions:
             division_id = get_division_id(division['_about'])
             title = division['title']
-            insert_division(database['conn'], database['curs'], division_id, division_date, title)
-
-        close_connection(database['conn'])
+            corpus.insert_division(division_id, division_date, title)
 
 
-def fill_member_and_vote_tables():
+
+def fill_member_and_vote_tables(corpus):
     """ Fills the Member and Vote tables in the database """
-    database = make_connection()
-    rows = get_all_division_ids(database['curs'])
+    rows = corpus.get_all_division_ids()
     member_ids = []
     with requests.Session() as session:
         for row in rows:
@@ -128,7 +121,5 @@ def fill_member_and_vote_tables():
                 if member_id not in member_ids:
                     member_ids.append(member_id)
                     member_data = get_member_data(member_id, session)
-                    insert_member(database['conn'], database['curs'], member_id, member_data)
-                insert_vote(database['conn'], database['curs'], member_id, division_id, member_vote)
-
-    close_connection(database['conn'])
+                    corpus.insert_member(member_id, member_data)
+                corpus.insert_vote(member_id, division_id, member_vote)

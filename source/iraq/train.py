@@ -11,15 +11,8 @@ from numpy import array
 from sklearn import svm
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
+import database
 
-
-from database import get_all_members_from_term
-from database import get_aye_members_from_term
-from database import get_no_members_from_term
-from database import get_member_no_of_speeches
-from database import is_aye_vote
-from database import get_speech_texts
-from database import get_debates
 from trainhelper import generate_word_list
 from trainhelper import normalise
 from trainhelper import generate_classifier_data
@@ -48,34 +41,34 @@ def get_members_from_file(file_path):
     return ret
 
 
-def get_all_member_ids(db_path, debate_terms, division_id):
+def get_all_member_ids(corpus, debate_terms, division_id):
 
     debates = set()
     for term in debate_terms:
-        debates = debates.union(set(get_all_members_from_term(db_path, term, division_id)))
+        debates = debates.union(set(corpus.get_all_members_from_term(term, division_id)))
 
     return list(debates)
 
 
-def get_aye_member_ids(db_path, debate_terms, division_id):
+def get_aye_member_ids(corpus, debate_terms, division_id):
     
     debates = set()
     for term in debate_terms:
-        debates = debates.union(set(get_aye_members_from_term(db_path, term, division_id)))
+        debates = debates.union(set(corpus.get_aye_members_from_term(term, division_id)))
 
     return list(debates)
 
 
-def get_no_member_ids(db_path, debate_terms, division_id):
+def get_no_member_ids(corpus, debate_terms, division_id):
     
     debates = set()
     for term in debate_terms:
-        debates = debates.union(set(get_no_members_from_term(db_path, term, division_id)))
+        debates = debates.union(set(corpus.get_no_members_from_term(term, division_id)))
 
     return list(debates)
 
 
-def get_mp_folds(settings):
+def get_mp_folds(corpus, settings):
     """ Given the number of folds, returns that number of
         non-overlapping lists (of equal/nearly equal length) of
         ids of mps matching the given settings """
@@ -87,12 +80,12 @@ def get_mp_folds(settings):
         total_ayes[division_id] = 0
 
     for member_id in settings['training_mps']:
-        no_of_speeches = get_member_no_of_speeches(settings['db_path'], settings['debates'], member_id)
+        no_of_speeches = corpus.get_member_no_of_speeches(settings['debates'], member_id)
         speech_counts[member_id] = no_of_speeches
         speech_count_list.append(no_of_speeches)
         votes[member_id] = {}
         for division_id in settings['division_ids']:
-            vote = is_aye_vote(settings['db_path'], division_id, member_id)
+            vote = corpus.is_aye_vote(division_id, member_id)
             votes[member_id][division_id] = vote
             if vote:
                 total_ayes[division_id] += 1
@@ -154,13 +147,13 @@ def get_mp_folds(settings):
     return ret
 
 
-def get_speeches(db_path, member_list, debates):
+def get_speeches(corpus, member_list, debates):
     """ Returns all the speeches in the given database that match the given settings """
     speeches = {}
     for member in member_list:
         speeches[member['id']] = []
         for debate in debates:
-            speeches[member['id']] = speeches[member['id']] + get_speech_texts(db_path, member, debate)
+            speeches[member['id']] = speeches[member['id']] + corpus.get_speech_texts(member, debate)
 
     return speeches
 
@@ -199,8 +192,8 @@ def generate_question_bags(settings):
     return ret
 
 
-def parse_ems(settings, mp_data, train):
-    """ Parses a train ems file and creates the corresponding bags of words"""
+def parse_speeches(settings, mp_data, train):
+    """ Parses MPs' speeches and creates the corresponding bags of words"""
     if settings['entailment']:
         question_bags = generate_question_bags(settings)
 
@@ -269,7 +262,7 @@ def generate_train_data(settings, mp_list):
     """ Returns the features and samples in a form that can be used
          by a classifier, given the filenames for the data """
 
-    aye_features, no_features, sum_bag, _ = parse_ems(settings, mp_list, True)
+    aye_features, no_features, sum_bag, _ = parse_speeches(settings, mp_list, True)
     if settings['max_bag_size']:
         common_words = [word[0] for word in sum_bag.most_common(settings['bag_size'])]
     else:
@@ -287,7 +280,7 @@ def generate_test_data(common_words, settings, mp_list):
     """ Returns the features and samples in a form that can be used
          by a classifier, given the filenames for the data """
 
-    aye_features, no_features, _, members = parse_ems(settings, mp_list, False)
+    aye_features, no_features, _, members = parse_speeches(settings, mp_list, False)
 
     features, samples = generate_classifier_data(aye_features, no_features, common_words, settings['normalise'])
 
@@ -836,7 +829,6 @@ def run():
     """ Sets the settings and runs the program """
 
     settings = {
-        'db_path': 'Data/Corpus/database.db',
         'black_list': [],
         'white_list': [],
         'bag_size': 100,
@@ -858,13 +850,16 @@ def run():
         'cache': 1024
     }
 
-    settings['debates'] = get_debates(settings)
+
+    corpus = database.Database()
+
+    settings['debates'] = corpus.get_debates(settings)
 
     settings['testing_mps'] = get_members_from_file(settings['test_mp_file'])
 
     settings['training_mps'] = get_members_from_file(settings['train_mp_file'])
 
-    mp_folds = get_mp_folds(settings)
+    mp_folds = get_mp_folds(corpus, settings)
 
     print('Made splits')
 
@@ -875,7 +870,7 @@ def run():
     for member in settings['testing_mps']:
         votes = {}
         for division_id in settings['division_ids']:
-            votes[division_id] = is_aye_vote(settings['db_path'], division_id, member)
+            votes[division_id] = corpus.is_aye_vote(division_id, member)
         test_data.append({
             'id': member,
             'votes': votes
@@ -883,7 +878,7 @@ def run():
 
     member_data = train_data + test_data
 
-    settings['speeches'] = get_speeches(settings['db_path'], member_data, settings['debates'])
+    settings['speeches'] = get_speeches(corpus, member_data, settings['debates'])
 
     print('Got speeches')
 

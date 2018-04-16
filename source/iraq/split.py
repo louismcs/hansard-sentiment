@@ -1,53 +1,50 @@
+import database
+
 from random import shuffle
 from numpy import mean
 from numpy import sqrt
 from numpy import std
 
-from database import get_members_from_term
-from database import get_debates_from_term
-from database import get_member_no_of_speeches
-from database import is_aye_vote
 
 
-
-def get_member_ids(db_path, debate_terms, division_id):
+def get_member_ids(corpus, debate_terms, division_id):
     """ Given a list of terms, finds all the debates whose titles contain one or more of these terms and returns their ids """
 
     debates = set()
     for term in debate_terms:
-        debates = debates.union(set(get_members_from_term(db_path, term, division_id)))
+        debates = debates.union(set(corpus.get_members_from_term(term, division_id)))
 
     return debates
 
 
-def intersect_member_ids(db_path, debate_terms, division_ids):
+def intersect_member_ids(corpus, debate_terms, division_ids):
     """ Given a list of terms, finds all the debates whose titles contain one or more of these terms and returns their ids """
-    member_sets = [get_member_ids(db_path, debate_terms, division_id) for division_id in division_ids]
+    member_sets = [corpus.get_member_ids(debate_terms, division_id) for division_id in division_ids]
     return list(set.intersection(*member_sets))
 
 
-def get_debate_ids(db_path, debate_terms):
+def get_debate_ids(corpus, debate_terms):
     """ Returns a list of debate ids matching the given settings """
 
     debates = set()
     for term in debate_terms:
-        debates = debates.union(set(get_debates_from_term(db_path, term)))
+        debates = debates.union(set(corpus.get_debates_from_term(term)))
     return list(debates)
 
 
-def choose_test_data(db_path, debate_terms, division_ids):
-    member_ids = intersect_member_ids(db_path, debate_terms, division_ids)
+def choose_test_data(corpus, debate_terms, division_ids):
+    member_ids = intersect_member_ids(corpus, debate_terms, division_ids)
     test_size = round(0.1 * len(member_ids))
-    debate_ids = get_debate_ids(db_path, debate_terms)
+    debate_ids = get_debate_ids(corpus, debate_terms)
     aye_percents_in_range = False
     no_of_speeches_in_range = False
     speech_counts = {}
     aye_votes = {}
     for member_id in member_ids:
-        speech_counts[member_id] = get_member_no_of_speeches(db_path, debate_ids, member_id)
+        speech_counts[member_id] = corpus.get_member_no_of_speeches(debate_ids, member_id)
         aye_votes[member_id] = {}
         for division_id in division_ids:
-            aye_votes[member_id][division_id] = is_aye_vote(db_path, division_id, member_id)
+            aye_votes[member_id][division_id] = corpus.is_aye_vote(division_id, member_id)
     while not (aye_percents_in_range and no_of_speeches_in_range):
         shuffle(member_ids)
         test_ids = member_ids[:test_size]
@@ -113,7 +110,7 @@ def choose_test_data(db_path, debate_terms, division_ids):
 
     for test_id in test_ids:
         test_file.write('{}\n'.format(test_id))
-    
+
     train_file = open('train-stratified.txt', 'w')
 
     for train_id in train_ids:
@@ -121,8 +118,8 @@ def choose_test_data(db_path, debate_terms, division_ids):
 
 
 def split():
-    db_path = 'corpus.db'
+    corpus = database.Database()
     terms = ['iraq', 'terrorism', 'middle east',
              'defence policy', 'defence in the world', 'afghanistan']
     division_ids = [102564, 102565]
-    choose_test_data(db_path, terms, division_ids)
+    choose_test_data(corpus, terms, division_ids)

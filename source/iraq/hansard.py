@@ -4,12 +4,8 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import requests
 import Levenshtein
+import database
 
-from database import make_connection
-from database import generate_name_list
-from database import insert_speech
-from database import MatchException
-from database import insert_debate
 from dates import date_range
 from dates import START_DATE
 from dates import END_DATE
@@ -52,7 +48,7 @@ def match_first_and_family_name(no_titles, name_list, speaker):
     else:
         with open("blacklist.txt", "a") as myfile:
             myfile.write("{};{};{}\n".format(speaker, best_match[1], best_match[0]))
-        raise MatchException()
+        raise database.MatchException()
 
 
 def match_full_name(speaker, member_lists):
@@ -81,9 +77,8 @@ def match_full_name(speaker, member_lists):
 
 def get_speeches():
     """ Adds debates and their speeches to the database """
-    database = make_connection()
-
-    name_list = generate_name_list(database['curs'])
+    corpus = database.Database()
+    name_list = corpus.generate_name_list()
 
     match_list = {'Earl of Ancram' : '259',
                   'Dr Jenny Tonge' : '200',
@@ -129,7 +124,7 @@ def get_speeches():
     }
 
     for day in date_range(START_DATE, END_DATE):
-        add_day(day, member_lists, database)
+        add_day(corpus, day, member_lists)
 
 
 def get_paragraph_text(paragraph):
@@ -142,7 +137,7 @@ def get_paragraph_text(paragraph):
     return paragraph
 
 
-def add_quote(blockquote, url, member_lists, database):
+def add_quote(corpus, blockquote, url, member_lists):
     """Adds a quote (identified by its html element) to the database"""
     try:
         speaker = blockquote.cite.a['title']
@@ -154,27 +149,27 @@ def add_quote(blockquote, url, member_lists, database):
 
         try:
             member_id = match_full_name(speaker, member_lists)
-            insert_speech(database, url, member_id, quote)
-        except MatchException:
+            corpus.insert_speech(url, member_id, quote)
+        except database.MatchException:
             pass
 
     except TypeError:
         print('Cannot parse quote')
 
 
-def add_debate(url, day, title, member_lists, database):
+def add_debate(corpus, url, day, title, member_lists):
     """Adds the speeches from a debate (identified by its url) to the database"""
-    insert_debate(database, url, day, title)
+    corpus.insert_debate(url, day, title)
     print('Debate: {} - {}'.format(title, day.strftime("%Y/%b/%d")))
     page = urlopen(url)
     page_soup = BeautifulSoup(page, "html.parser")
     blockquotes = page_soup.find_all("blockquote")
 
     for blockquote in blockquotes:
-        add_quote(blockquote, url, member_lists, database)
+        corpus.add_quote(blockquote, url, member_lists)
 
 
-def add_day(day, member_lists, database):
+def add_day(corpus, day, member_lists):
     """Gets the speeches for a given day"""
     date_string = day.strftime("%Y/%b/%d").lower()
     url = 'http://hansard.millbanksystems.com/sittings/{}.js'.format(date_string)
@@ -187,9 +182,9 @@ def add_day(day, member_lists, database):
             for section in sections:
                 try:
                     sec = section['section']
-                    add_debate('http://hansard.millbanksystems.com/commons/{}/{}'
-                               .format(date_string, sec['slug']), day, sec['title'],
-                               member_lists, database)
+                    corpus.add_debate('http://hansard.millbanksystems.com/commons/{}/{}'
+                                      .format(date_string, sec['slug']), day, sec['title'],
+                                      member_lists)
                 except KeyError:
                     print('Not a standard section')
         except KeyError:
