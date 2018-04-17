@@ -1,0 +1,672 @@
+% Template for a Computer Science Tripos Part II project dissertation
+\documentclass[12pt,a4paper,twoside,openright]{report}
+\usepackage[pdfborder={0 0 0}]{hyperref}    % turns references into hyperlinks
+\usepackage[margin=25mm]{geometry}  % adjusts page layout
+\usepackage{graphicx}  % allows inclusion of PDF, PNG and JPG images
+\usepackage{verbatim}
+\usepackage{docmute}   % only needed to allow inclusion of proposal.tex
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{placeins}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{float}
+
+\raggedbottom                           % try to avoid widows and orphans
+\sloppy
+\clubpenalty1000%
+\widowpenalty1000%
+
+\renewcommand{\baselinestretch}{1.1}    % adjust line spacing to make
+                                        % more readable
+
+\begin{document}
+
+\bibliographystyle{plain}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title
+
+
+\pagestyle{empty}
+
+\rightline{\LARGE \textbf{Louis Max Cley Slater}}
+
+\vspace*{60mm}
+\begin{center}
+\Huge
+\textbf{Sentiment Analysis of Texts on the Iraq War} \\[5mm]
+Computer Science Tripos -- Part II \\[5mm]
+Pembroke College \\[5mm]
+\today  % today's date
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Proforma, table of contents and list of figures
+
+\pagestyle{plain}
+
+\chapter*{Proforma}
+Should be 1 page
+
+{\large
+\begin{tabular}{ll}
+Name:               & \bf                        \\
+College:            & \bf Pembroke College                     \\
+Project Title:      & \bf Sentiment Analysis of Texts on the Iraq War \\
+Examination:        & \bf Computer Science Tripos -- Part II, July 2018  \\
+Word Count:         & \bf Max 12,000  \\
+Project Originator: & Louis Max Cley Slater                    \\
+Supervisor:         & Dr Tamara Polajnar                    \\ 
+\end{tabular}
+}
+
+
+\section*{Original Aims of the Project}
+%Max 100 words
+
+Due to my interest in both natural language processing and politics and a lack of previous work done in the area, I decided that I wanted to perform sentiment analysis on British political texts. After extensive research, I found a study \cite{iraq_media_study} that manually assessed the biases of British newspaper articles on the Iraq war, so decided that I would use the dataset produced by the study. I aimed to develop a program to retrieve the texts of the newspaper articles specified in the study \cite{iraq_media_study} and implement a classifier using this data and a bag of words model.
+
+
+\section*{Work Completed}
+%Max 100 words
+ - Problem with University's licence for DowJones (and others?). Didn't cover Scraping data/API use? Be specific and add Licence agreement(s) to bibliography
+ - Switched to Hansard and voting datasets. Made the data retrieval stage lengthier. Cite datasets.
+ - Numbers about success of classifier
+ - Add anything else completed?
+
+
+\section*{Special Difficulties}
+%Max 100 words (most will simply say 'None')
+ - Mention the original dataset licence issues and change?
+ 
+\newpage
+\section*{Declaration}
+
+I, Louis Max Cley Slater of Pembroke College, being a candidate for Part II of the Computer Science Tripos, hereby declare that this dissertation and the work described in it are my own work, unaided except as may be specified below, and that the dissertation does not contain material that has already been used to any substantial extent for a comparable purpose.
+
+\bigskip
+\leftline{Signed}
+
+\medskip
+\leftline{Date}
+
+\setcounter{tocdepth}{4}
+\tableofcontents
+
+\listoffigures
+
+\newpage
+\section*{Acknowledgements}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\pagestyle{headings}
+
+\chapter{Introduction}
+\begin{comment}
+\newpage
+\section{Presentation and Professional Practice}
+
+This section is a note to me. Remove before submission.
+
+Worth 14\%
+
+The assessors will determine whether you have taken a professional and ethical approach in your work. In particular, they will check that you have used appropriate methods and tools, understood software licenses, deployed appropriate review and evaluation techniques and been aware of the social and ethical impact of your work. You must demonstrate a structured design approach, including high-level design planning, design-for-test, consideration of human factors and systematic evaluation including confidence metrics within your evaluation. You should explain how you would show conformance with appropriate legislation, such as that for intellectual property, data protection, human subjects and software licenses such as those for open source. Show that you understand the consequences of your project (or a more fully-formed variant of it) in terms of how it might affect commercial markets, contribute to society and/or the research community.
+
+Regarding presentation, assessors primarily require the dissertation to be literate and tidy. It is not necessary to spend hours using an advanced graphics design package but it is necessary to write with correct grammar, in a clear and focused expository style using properly constructed sentences.
+
+Strict adherence to the top-level arrangement described in Section 12 is regarded as part of the Presentation. Candidates who fail to put their names on the top right-hand corners of cover sheets, misunderstand the phrase “at most 100 words”, or omit the Proforma altogether, will lose marks for Presentation.
+
+Most of the marks are scored in the five chapters in the body of the dissertation.
+
+Assessors recognise that the precise partitioning prescribed by the five chapter headings will sometimes prove too serious a constraint. A writer might, for example, feel that it is essential to discuss some aspects of the Implementation in earlier chapters. Assessors will credit Implementation marks ahead of time in such circumstances. It is unnecessary to repeat the discussion in order to earn the marks.
+
+
+\newpage
+Introduction and preparation - 26\%
+
+The Introduction should explain the principal motivation for the project. Show how the work fits into the broad area of surrounding Computer Science and give a brief survey of previous related work. It should generally be unnecessary to quote at length from technical papers or textbooks. If a simple bibliographic reference is insufficient, consign any lengthy quotation to an appendix.
+\end{comment}
+
+
+\section{Motivation}
+
+While computational approaches are often applied to political texts, very few studies have ever specifically concerned a British corpus (a collection of written or spoken material stored on a computer and used to find out how language is used \cite{corpus_definition}). After reading various papers that used natural language processing techniques on political corpora, I noted the most common studies concerned sentiment analysis of short texts, such as newspaper headlines or Tweets. This motivated me to investigate the task of performing sentiment analysis on longer pieces of text, to make the project more unique still.
+\newline
+\newline
+The 2003 invasion of Iraq was an issue that cut across the political spectrum, which makes it an interesting topic for a sentiment analysis project, since someone's stance on the war cannot be easily determined from their views on other issues \cite{mp_votes_bbc}. Furthermore, the recent publication of the Iraq Inquiry (commonly known as the Chilcot Inquiry) \cite{chilcot2016report} and the ongoing situation in Iraq and Syria \cite{syria_iraq_air_strikes} means that such a project is particularly timely.  In addition to this, (as far as I'm aware) there haven't been any previous studies which have carried out computational sentiment analysis with a focus on war, which makes the project more unique still.
+
+
+\section{Problem Formulation} \label{intro-challenges}
+%Make more technical
+
+In this project, I look at how best to apply machine learning techniques to the carry out sentiment analysis on texts about the Iraq war. Since I can obtain labelled data relevant to the project without great difficulty (e.g. having to manually label it), I decided to consider this project as a supervised learning program. We can naturally simplify all stances on the Iraq war to be either pro-war or anti-war, thereby allowing the problem to be formulated as a binary classification task. One of the simplest implementations for a binary classifier is the na\"{i}ve Bayes classifier (described in \S\ref{prep-bayes}), so I use this as a baseline. For reasons outlined in \S\ref{prep-svm}, I use a support vector machine classifier as the default model.
+\newline
+\newline
+When performing sentiment analysis, the corpus used is the most important resource. In \S\ref{prep-changes}, I justify my choice of the Hansard \cite{hansard} as the primary corpus for the project. The Hansard is the set of transcripts from British parliamentary debates. As MPs vote on individual issues (including the invasion of Iraq), we can use an MP's voting record to determine their view on a topic and therefore automatically label the stance of any of their speeches on that topic. Since, manually labelling data is laborious, I label the speeches using voting records, despite the additional difficulty of matching up two datasets and the noise that this introduces to the data (discussed in \S\ref{prep-changes}). Using this dataset means that we can essentially view the classifier produced as a system to predict how MPs will vote on an issue, given what they have said about the issue in the House of Commons.
+
+
+\section{Related Work} \label{intro-related}
+
+While many studies into sentiment analysis have been based around political issues, since 2009 the majority of such research has concerned Tweets. The first study to use Twitter as its primary corpus was `Twitter power: Tweets as electronic word of mouth' \cite{first_twitter} and there have since been countless studies following suit. In 2010, Pak, Alexander and Paroubek, Patrick proposed that Twitter could be used to determine public opinion \cite{twitter_as_a_corpus}, which was proven true later that year when sentiment analysis of Twitter provided predictions that paralleled the results of traditional election polls for the German federal election \cite{predicting_elections_twitter}. This focus on Twitter is useful, but since most political decisions are made in Government and not on the internet, we should also use computational methods to learn more about how our MPs represent us in Parliament. Unfortunately, although it makes the project more interesting, analysing longer political texts presents more challenges than analysing Tweets, in part due to the lack of guidance from similar previous work.
+\newline
+\newline
+In the US, there have been a small number of papers detailing sentiment analysis on transcripts of Congress debates \cite{rep_dem_one, rep_dem_two}. The results of these studies indicate that determining an MP's stance on the Iraq war from their speeches in the House of Commons may be possible, however these papers use transcripts to determine a politician's political party, which is likely to be more clear-cut than their stance on a particular issue.
+\newline
+\newline
+The lack of relevant works to this project highlights its uniqueness, which is one of the principal motivations for the project.
+
+\section{Overview of the Project}
+In \hyperref[prep]{Chapter \ref{prep}}, I formally define the project, then outline the relevant models and algorithms before discussing decisions I made about how best to implement the project. \hyperref[impl]{Chapter \ref{impl}} details the development of the system, while \hyperref[eval]{Chapter \ref{eval}} assesses the success of the project, in part by comparing the performance of various classifier optimisations and viewing these results in the context of other similar work. \hyperref[conc]{Chapter \ref{conc}} summarises what the project accomplished and the implications of its results, commenting on the potential for further work related to the project.
+
+\chapter{Preparation} \label{prep}
+
+\begin{comment}
+Principally, this chapter should describe the work which was undertaken before code was written, hardware built or theories worked on. It should show how the project proposal was further refined and clarified, so that the Implementation stage could go smoothly rather than by trial and error.
+
+Throughout this chapter and indeed the whole dissertation, it is essential to demonstrate that a proper professional approach was employed.
+
+The nature of this chapter will vary greatly from one dissertation to another but, underlining the professional approach, this chapter will very likely include a section headed “Requirements Analysis” and incorporate other references to software engineering techniques.
+
+The chapter will cite any new programming languages and systems which had to be learnt and will mention complicated theories or algorithms which required understanding.
+
+It is essential to declare the Starting Point (see Section 7). This states any existing codebase or materials that your project builds on. The text here can commonly be identical to the text in your proposal, but it may enlarge on it or report variations. For instance, the true starting point may have turned out to be different from that declared in the proposal and such discrepancies must be explained.
+\end{comment}
+%Adapt this
+There were three main stages to the preparation of the project:
+\begin{enumerate}
+	\item Defining and planning the project. A project of this scale needs clear definition of its goals and a well defined plan designed to achieve these goals. Sections \S\ref{prep-requirements}, \S\ref{prep-changes} \& \S\ref{prep-start} detail this stage of the preparation.
+
+	\item Learning about the relevant concepts and methods. This was useful as it helped me to make informed decisions about implementation decisions. This required considerable work, as most of the skills and knowledge required to undertake the project are not taught in the Cambridge BA Computer Science course and the parts that are taught are Part II courses. The time scale of the Part II project meant that I had to learn the courses ahead of the lectures. Sections \S\ref{prep-supervised} through \& \S\ref{prep-bow} detail this stage of the preparation.
+	
+	\item Specifying the details of the implementation. Sections \S\ref{prep-sweng} \& \S\ref{prep-tools} detail this stage of the preparation.
+\end{enumerate}
+
+\section{Requirements Analysis} \label{prep-requirements}
+The primary goals of this data are to:
+\begin{itemize}
+	\item Construct a database that comprises British texts on the Iraq war
+	\item Develop a classifier that can determine the stance of the texts in the database.
+\end{itemize}
+
+I will be using the Hansard \cite{hansard} (discussed further in \S\ref{prep-changes}) as my the corpus from which to construct the database. This allows me to refine the goals above as follows:
+\FloatBarrier
+$  $\begin{table}[]
+	\label{table:tasks}
+	\centering
+	\begin{tabular}{@{}ll@{}}
+		\toprule
+		\textbf{Task}                                                          & \textbf{Section}          \\ \midrule
+		Scrape the relevant data from the Hansard                              & \S\ref{impl-scraping}   \\
+		Wrangling the textual data so it is in a more consistent form          & \S\ref{impl-wrangling}  \\
+	    Collate the data from the transcript with voting record data           & \S\ref{impl-collating}  \\
+	    Construct a database of the new dataset I have created            	   & \S\ref{impl-database}   \\
+		Develop a system that can predict the stance of a text on the Iraq war & \S\ref{impl-classifier} \\ \bottomrule
+	\end{tabular}
+	\caption{Breakdown of the project's core tasks}
+\end{table}
+\FloatBarrier
+The tasks in Table \ref{table:tasks} are in order of descending priority, due to their dependence on each other.
+\newline
+\newline
+With any software project, it is necessary to consistently consider both the project's requirements and how these will be evaluated. In \S\ref{prep-bayes} I discuss the Na\"{i}ve Bayes Classifier, which I use as a baseline for the classifier and in \S\ref{prep-eval} I consider further aspects of evaluation.
+
+\section{Changes from the Initial Proposal} \label{prep-changes}
+In the proposal (see Appendix \ref{sec:proposal}), I wrote about using the dataset produced by Robinson, Goddard, Brown and Taylor in which they ``evaluated media performance during the 2003 Iraq War'' \cite{iraq_media_study}. As part of their evaluation, they manually annotated the stance of 4,893 British newspaper articles on the Iraq war. They published the resulting dataset, but it didn't contain the body of the articles - only its headline, author, newspaper and publication date. I consequently investigated resources containing the text of the relevant articles and tried to cross-reference the data from these sources with the manually annotated stance. At the time, many newspapers published different stories online and in print, meaning that I could not rely on these. A few newspapers maintain electronic archives of their printed editions on the internet, however not enough newspapers had such archives. The final resource I looked into was Dow Jones Factiva, a ``global news database'' \cite{factiva}. Upon inspection, this database contained the vast majority of the articles I needed and it was possible for me to cross-reference the articles in it with the labels annotated by Robinson, P. and Goddard, P. and Brown, R. and Taylor, P.M.. I initially accessed the dataset through the University of Cambridge's subscription. I therefore (falsely) assumed that this subscription would be sufficient for use in my project, however I later discovered that an academic licence did not permit me to use the API or to carry out text-mining. I consequently contacted Dow Jones and was told that the licence I required would cost in excess of \$20,000.
+\newline
+\newline
+After exhausting all other options, I turned my attention to the House of Commons Hansard archives, which contains transcripts of debates between members of Parliament in the Commons Chamber \cite{hansard}. One of the benefits of this dataset is that the texts can be labelled using MPs' voting records.
+\newline
+\newline
+Due to the licensing problems I encountered with Dow Jones Factiva \cite{factiva}, I immediately looked into the licence required to scrape data from the Hansard and found that it is covered by the Open Parliament Licence \cite{open_parliament_licence}. Since the Hansard archives are available under this licence, I was permitted to:
+\begin{itemize}
+	\item ``copy, publish, distribute and transmit the information''
+	\item ``adapt the information''
+	\item ``exploit the information commercially and non-commercially, for example, by combining it with other information, or by including it in your own product or application''.
+\end{itemize}
+
+\section{Starting Point - DEADLINE: 11TH APRIL} \label{prep-start}
+For the reasons described in \S\ref{prep-changes}, the actual starting point for this project differs from what I stated in the proposal (see Appendix \ref{sec:proposal}). In \S\ref{intro-related}, I discussed previous research that is potentially useful to this project. The project builds on the Hansard \cite{hansard} and Parliamentary voting records to produce a dataset which combines the two. The project also uses various Python libraries, which are specified in \S\ref{prep-tools-libs}.
+\section{Introduction to Supervised Learning} \label{prep-supervised} \label{supervised-learning}
+
+A supervised learning problem the task of determining the label of a given input. This is split into two phases: Learning and predicting.
+\newline
+\newline
+In the learning phase, the system receives inputs of feature vectors and their associated labels. A feature vector of length $k$ is usually denoted by $\mathbf{x}$ where 
+\begin{equation}
+	\mathbf{x} = (x_1, x_2, ..., x_k) \quad \forall i \in \mathbb{Z}^+ . \forall x_i \in \mathbb{R}.
+\end{equation}
+A feature vector contains encodes the information necessary to predict a label. In the context of this project, there is a feature vector for each speech we consider, which contains information about the words in the speech. The label is usually denoted by $y$. The set of values that $y$ can take varies depending on the context of the supervised learning problem. For example, in a regression problem, $y \in \mathbb{R}$. This project concerns binary classification, since we simplify the problem so that we consider all speeches to be either pro-war or anti-war. Because of this, from now on, we will only consider binary classification problems, that is where $y \in \{-1, +1\}$.
+\newline
+\newline
+The supervised learning system creates a function $h$ that takes a feature vector as an input and outputs a label. That is
+\begin{equation}
+	h(\mathbf{x}) = y.
+\end{equation}
+This definition allows us to intuitively view each feature vector as a point in k-dimensional space. We consider each point to be either negative ($y = -1$) or positive ($y = +1$). In this analogy, $h$ is a function that determines whether a point is negative or positive, depending on where it is in the k-dimensional space. The more points that $h$ sees, the better its estimation of whether new unseen points are negative or positive.
+\newline
+\newline
+The figure below shows a visualisation of our intuition of feature vectors, where $k = 2$. In this diagram, the supervised learning system learns a function to distinguish the '-' and '+' points. Given a new, previously unseen point, this function would be able to estimate whether it is a '-' or a '+'.
+\section{Introduction to the Na\"{i}ve Bayes Classifier} \label{prep-bayes}
+
+This is one of the simplest classifiers to understand and implement. It uses the assumption that all features are independent of each other:
+\begin{equation}
+	p(x_i | x_j) = p(x_i) \quad \forall i, j \in \mathbb{Z}^+.
+\end{equation}
+We say that the classifier is 'na\"{i}ve' because of this assumption. Although the assumption is very rarely true, the classifier still provides good performance \cite{ml_book_murphy}.
+\newline
+\newline
+In addition to this assumption, the classifier uses Bayes Theorem:
+\begin{equation}
+	P(A | B) = \frac{P(B | A)P(A)}{P(B)}.
+\end{equation}
+The intuition behind the classifier is that given a set of features $\mathbf{x}$, we should assign it to the class that has the highest probability, given the set of features. Using the assumption of conditional independence and Bayes Theorem, we can compute this probability as follows:
+\begin{equation}
+\begin{aligned}
+p(C = y | \mathbf{x}) &= \frac{p(\mathbf{x} | C = y)p(C = y)}{p(\mathbf{x})} \\
+&= \frac{p(x_1, \ldots, x_k | C = y)p(C = y)}{p(\mathbf{x})} \\
+&= \frac{p(x_1, \ldots, x_k, C = y)}{p(\mathbf{x})} \\
+&= \frac{p(x_1 | x_2, \ldots, x_k, C = y)p(x_2, \ldots, x_k, C = y)}{p(\mathbf{x})} \\
+& \vdots \\
+&= \frac{p(x_1 | x_2, \ldots, x_k, C = y)p(x_2 | x_3 \ldots, x_k, C = y)\cdots p(x_k | C = y)}{p(\mathbf{x})} \\
+&= \frac{p(x_1 | C = y)p(x_2 | C = y) \cdots p(x_k | C = y)}{p(\mathbf{x})} \\
+&= \frac{\prod_{i = 1}^{k}p(x_i | C = y)}{p(\mathbf{x})}. \\
+\end{aligned}
+\end{equation}
+
+Clearly, this shows that we can compute y using:
+
+\begin{equation}
+\begin{aligned}
+y &= \underset{y}{\operatorname{argmax}}\bigg(\frac{\prod_{i = 1}^{k}p(x_i | C = y)}{p(\mathbf{x})}\bigg) \\
+&= \underset{y}{\operatorname{argmax}} \displaystyle \prod_{i = 1}^{k}p(x_i | C = y). \\
+\end{aligned}
+\end{equation}
+
+We can estimate each $p(x_i | C = y)$ trivially using the training data. Given that in this project I am only considering binary classifiers, where $y \in {-1, +1}$, we can write this as:
+
+\begin{equation}
+max \bigg( \displaystyle \prod_{i = 1}^{k}p(x_i | C = -1), \prod_{i = 1}^{k}p(x_i | C = +1) \bigg). \\
+\end{equation}
+
+Due to its simplicity and good performance, I will use the na\"{i}ve Bayes classifier as a baseline for my project.
+\section{Introduction to Support Vector Machines} \label{prep-svm}
+
+Support vector machines (SVMs) are widely used, state-of-the-art classifiers which were designed for binary classification (although they have since been modified to work for multi-class classification) \cite{ml_book}. Since I am viewing the task of determining the sentiment of speeches on the Iraq war as a binary classification problem, using a SVM is a natural choice.
+\newline
+\newline
+In contrast to the na\"{i}ve Bayes classifier, the SVM approach to classification is not inherently probabilistic. Instead, they are a form of maximum margin classifier. A maximum margin classifier computes a hyperplane of the form
+\begin{equation} \label{eq:hyperplane}
+	\mathbf{w} \cdot \mathbf{x} + b = 0.
+\end{equation}
+where $\mathbf{w}$ is a normal to the hyperplane. $\mathbf{w}$ and $b$ are determined by the maximisation (\ref{eq:maxdelta}) and $\mathbf{x}$ is a point on the hyperplane. This hyperplane separates the training data, so that for all positive examples
+\begin{equation}
+\mathbf{w} \cdot \mathbf{x} + b \ge 0
+\end{equation}
+and for all negative examples
+\begin{equation}
+\mathbf{w} \cdot \mathbf{x} + b < 0.
+\end{equation}
+The idea of the maximum margin classifier is that it maximises $\delta$, the distance between the hyperplane and the closest examples to it. That is, it computes
+\begin{equation} \label{eq:maxdelta}
+	\underset{\mathbf{w}, b}{\operatorname{argmax}}(min(\delta)).
+\end{equation}
+The figure below illustrates this problem in a 2D space (i.e. where $\mathbf{x} = (x_1, x_2)$)
+%insert figure
+\newline
+\newline
+To determine whether feature vector $\mathbf{x}_i$ should be positively or negatively labelled, we simply need to determine which side of the hyperplane it lies on. This gives us the decision function
+\begin{equation} \label{eq:initialdecision}
+	y_i =
+	\begin{cases}
+		+1, \quad \mathbf{w} \cdot \mathbf{u} + b \ge 0 \\
+		-1, \quad \text{otherwise}
+	\end{cases}
+\end{equation}
+where $\mathbf{u}$ is the feature vector being classified. The support vectors are defined as the training examples that lie closest to the hyperplane. From the equation of the hyperplane (\ref{eq:hyperplane}), we see that we have the freedom to scale $\mathbf{w}$ and $b$ by a constant factor without changing the hyperplane itself. We can therefore define this scaling by imposing the following constraint on all training examples for mathematical convenience:
+\begin{equation}
+	y_i(\mathbf{w} \cdot \mathbf{x}_i + b) - 1 \ge 0.
+\end{equation}
+For the support vectors, we then have
+\begin{align}
+	& y_i(\mathbf{w} \cdot \mathbf{x}_i + b) - 1 = 0 \label{eq:svconstraint}\\
+	\implies & \mathbf{w} \cdot \mathbf{x}_i = \frac{1}{y_i} - b. \label{eq:wdotx} \\
+	\implies & b = \frac{1}{y_i} - \mathbf{w} \cdot \mathbf{x}_i. \label{eq:b}
+\end{align}
+%Insert figure
+\newline
+\newline
+We now need to compute the width of the margin so we can then form an expression to maximise it. The figure above gives us some intuition as to how we can achieve this. Since $\mathbf{w}$ is perpendicular to the hyperplane, $\frac{\mathbf{w}}{||\mathbf{w}||}$ must be the unit normal to the hyperplane. We can then use a positively labelled support vector, $\mathbf{x}_+$ and a negatively labelled support vector, $\mathbf{x}_-$ to get an expression for the margin width:
+\begin{equation}
+\begin{aligned}
+	\text{Margin width} & = \frac{\mathbf{w}}{||\mathbf{w}||} \cdot (\mathbf{x}_+ - \mathbf{x}_-) \\
+	& = \frac{\mathbf{w} \cdot \mathbf{x}_+ - \mathbf{w} \cdot \mathbf{x}_-}{||\mathbf{w}||}
+\end{aligned}
+\end{equation}
+We can now substitute in the result from (\ref{eq:wdotx}) to give
+\begin{equation} \label{eq:width}
+\begin{aligned}
+\text{Margin width} & = \frac{\big(\frac{1}{y_+} - b\big) - \big(\frac{1}{y_-} - b\big)}{||\mathbf{w}||} \\
+& = \frac{\frac{1}{y_+} - \frac{1}{y_-}}{||\mathbf{w}||} \\
+& = \frac{1 + 1}{||\mathbf{w}||} \\
+& = \frac{2}{||\mathbf{w}||} \\
+\end{aligned}
+\end{equation}
+Our goal is to maximise the width given by (\ref{eq:width}). For mathematical convenience, we can instead solve the equivalent problem of minimising $\frac{1}{2}||\mathbf{w}||^2$. This optimisation is subject to the constraints in (\ref{eq:svconstraint}). In order to solve this constrained optimisation problem, we must use Lagrange multipliers
+\begin{equation}
+	\boldsymbol{\alpha} = (\alpha_1, \alpha_2, \ldots, \alpha_n)
+\end{equation}
+where $n$ is the number of training examples. This results in the Lagrange function
+\begin{equation} \label{eq:initialL}
+	L = \frac{1}{2}||\mathbf{w}||^2 - \sum_{i = 1}^{n} \alpha_i (y_i(\mathbf{w} \cdot \mathbf{x}_i + b) - 1). 
+\end{equation}
+Our task is now to solve the unconstrained maximisation problem
+\begin{equation} \label{eq:lagrangeoptimisation}
+	(\mathbf{w}_{opt}, b_{opt}) = \underset{\mathbf{w}, b}{\operatorname{argmax}}(L)
+\end{equation}
+Using the Karush-Kuhn-Tucker conditions, we can show that $\alpha_i = 0$ for all feature vectors that are not support vectors \cite{ml_book}. This results in fast computation and means that after training, we only need to store the support vectors. Therefore, from now on, we will sum over $\mathcal{S}$, the set of indices corresponding to the support vectors.
+\newline
+\newline
+In order to solve the optimisation problem defined in (\ref{eq:lagrangeoptimisation}), we must find the partial derivative of L with respect to both $\mathbf{w}$ and $b$, setting the resulting expressions to 0 (since we want to vary $\mathbf{w}$ and $b$ in order to find the maximum L).
+\begin{align}
+	\frac{\partial L}{\partial \mathbf{w}} & = \mathbf{w} - \sum_{i \in \mathcal{S}} \alpha_i y_i \mathbf{x}_i = 0 \\
+	\implies \mathbf{w} & = \sum_{i \in \mathcal{S}} \alpha_i y_i \mathbf{x}_i \label{eq:wsum} \\
+	\frac{\partial L}{\partial b} & = \sum_{i \in \mathcal{S}} \alpha_i y_i = 0 \label{eq:db}
+\end{align}
+We can now substitute (\ref{eq:wsum}) into (\ref{eq:initialL}) to obtain a new expression for $L$ (and simplify using (\ref{eq:db})) as follows:
+\begin{equation} \label{eq:separableL}
+\begin{aligned}
+	L & = \frac{1}{2}(\sum_{i \in \mathcal{S}} \alpha_i y_i \mathbf{x}_i)(\sum_{j \in \mathcal{S}} \alpha_j y_j \mathbf{x}_j) - \sum_{i \in \mathcal{S}} \alpha_i y_i(\sum_{j \in \mathcal{S}} \alpha_j y_j \mathbf{x}_j) \cdot \mathbf{x}_i - b\sum_{i \in \mathcal{S}} \alpha_i y_i + \sum_{i \in \mathcal{S}} \alpha_i \\
+	& = \frac{1}{2}(\sum_{i \in \mathcal{S}} \alpha_i y_i \mathbf{x}_i)(\sum_{j \in \mathcal{S}} \alpha_j y_j \mathbf{x}_j) - (\sum_{i \in \mathcal{S}} \alpha_i y_i \mathbf{x}_i)(\sum_{j \in \mathcal{S}} \alpha_j y_j \mathbf{x}_j) + \sum_{i \in \mathcal{S}} \alpha_i \\
+	& = \sum_{i \in \mathcal{S}} \alpha_i - \frac{1}{2}(\sum_{i \in \mathcal{S}} \alpha_i y_i \mathbf{x}_i)(\sum_{j \in \mathcal{S}} \alpha_j y_j \mathbf{x}_j) \\
+	& = \sum_{i \in \mathcal{S}} \alpha_i - \frac{1}{2}\sum_{i \in \mathcal{S}} \sum_{j \in \mathcal{S}} \alpha_i \alpha_j y_i y_j (\mathbf{x}_i \cdot \mathbf{x}_j). \\
+\end{aligned}
+\end{equation}
+We now need to find the values $\boldsymbol{\alpha}$ which maximise L:
+\begin{equation} \label{eq:maximisation}
+	\boldsymbol{\alpha}_{opt} = \underset{\boldsymbol{\alpha}}{\operatorname{argmax}}(L).
+\end{equation}
+I won't go into the details of how to find these values, but this can be done numerically. Further to this, it can be shown that the space of $L$ is convex, so we will not find a local maximum. This is a significant advantage of using SVMs over neural networks.
+\newline
+\newline
+We can then find $\mathbf{w}_{opt}$ by substituting $\boldsymbol{\alpha}_{opt}$ into (\ref{eq:wsum}) and using the support vectors and their labels. From this, we can find $b_{opt}$ using (\ref{eq:b}) and substituting in $\mathbf{w}_{opt}$ along with any support vector and its label. We can substitute our values for $\boldsymbol{\alpha}_{opt}$ and $b_{opt}$ into the initial decision rule to obtain a new decision rule:
+\begin{equation} \label{eq:separabledecision}
+	y_i =
+	\begin{cases}
+		+1, \quad \displaystyle \sum_{i \in \mathcal{S}} y_i(\boldsymbol{\alpha}_{opt})_i (\mathbf{x}_i \cdot \mathbf{u}) + b \ge 0 \\
+		-1, \quad \text{otherwise}.
+	\end{cases}
+\end{equation}
+Thus far, we have been working under the assumption that our data is linearly separable. In practice, this is very rarely the case and for this project due to the inherent noise in our data (described in \S \ref{intro-challenges}), this assumption is very unlikely to hold.The figure below illustrates a simple example for which the data are not linearly separable.
+%Insert figure
+\newline
+\newline
+In order to fix this problem, we can use a transformation, $\phi$, to transform our feature vectors into a new space in which our data is more easily separable. Applying this transformation to (\ref{eq:separableL}) gives us a new $L$:
+\begin{equation} \label{eq:phiL}
+	L = \sum_{i \in \mathcal{S}} \alpha_i - \frac{1}{2}\sum_{i \in \mathcal{S}} \sum_{j \in \mathcal{S}} \alpha_i \alpha_j y_i y_j (\phi (\mathbf{x}_i) \cdot \phi (\mathbf{x}_j)).
+\end{equation}
+We maximise this as before, finding a new $\boldsymbol{\alpha}_{opt}$ from (\ref{eq:maximisation}) and then using those values to find $b_{opt}$. We can then use these values of $\boldsymbol{\alpha}_{opt}$ and $b_{opt}$ along with the transformation $\phi$ to obtain another decision rule:
+\begin{equation} \label{eq:phidecision}
+	y_i =
+	\begin{cases}
+		+1, \quad \displaystyle \sum_{i \in \mathcal{S}} y_i(\boldsymbol{\alpha}_{opt})_i (\phi (\mathbf{x}_i) \cdot \phi (\mathbf{u})) + b \ge 0 \\
+		-1, \quad \text{otherwise}.
+	\end{cases}
+\end{equation}
+We are yet to define $\phi$, but if we consider the contexts in which it is used, we see that it is always in the form $\phi (\mathbf{x}) \cdot \phi (\mathbf{x}')$. Therefore, rather than define $\phi$ itself, we define a kernel function
+\begin{equation}
+	k(\mathbf{x}, \mathbf{x}') = \phi (\mathbf{x}) \cdot \phi (\mathbf{x}').
+\end{equation}
+From this, we can rewrite (\ref{eq:phiL}) and (\ref{eq:phidecision}) as:
+\begin{equation}
+	L = \sum_{i \in \mathcal{S}} \alpha_i - \frac{1}{2}\sum_{i \in \mathcal{S}} \sum_{j \in \mathcal{S}} \alpha_i \alpha_j y_i y_j k(\mathbf{x}_i, \mathbf{x}_j) \\
+\end{equation}
+\begin{equation}
+	y_i =
+	\begin{cases}
+		+1, \quad \displaystyle \sum_{i \in \mathcal{S}} y_i(\boldsymbol{\alpha}_{opt})_i k(\mathbf{x}_i, \mathbf{u}) + b \ge 0 \\
+		-1, \quad \text{otherwise}.
+	\end{cases}
+\end{equation}
+The choice of kernel function can have a significant effect on the performance of a SVM. In order to ensure good results, I will train the SVM using different kernel functions, so the classifier learns which kernel function will work best for the data. The three kernel functions I will consider are:
+\begin{align}
+	k(\mathbf{x}, \mathbf{x}') & = \mathbf{x} \cdot \mathbf{x}'& \label{eq:linearkernel} \\
+	k(\mathbf{x}, \mathbf{x}') & = (\gamma (\mathbf{x} \cdot \mathbf{x}') + r)^d \quad & \gamma \in \mathbb{R}_{> 0} . r \in \mathbb{R}_{\ge 0} . d \in \mathbb{N}_{> 0} \label{eq:polykernel} \\
+	k(\mathbf{x}, \mathbf{x}') & = e^{-\gamma ||\mathbf{x} - \mathbf{x}'||^2} \quad & \gamma \in \mathbb{R}_{> 0} \label{eq:rbfkernel}
+\end{align}
+From now on, I will refer to (\ref{eq:linearkernel}), (\ref{eq:polykernel}) and (\ref{eq:rbfkernel}) as the linear kernel, the polynomial kernel and the radial basis function (rbf) kernel respectively. Using the linear kernel is equivalent to our SVM before we introduced the transformation $\phi$. This shows that even with kernel functions, our data may not be linearly separable. It can be shown that linear and polynomial kernels do not necessarily transform the data so that into a space for which it is linearly separable, but the rbf kernel can always map the feature vectors to a space where they are linearly separable. This means that for the linear and polynomial kernels, we may not be able to produce a classifier with the given constraints and for the rbf kernel the SVM is very susceptible to overfitting. Both of these problems can be solved by introducing soft-margins to our SVM. This means that we will allow the SVM to incorrectly classify some of the training examples. In order to do this, we introduce a parameter $C$ which trades off correct classification of training examples with a greater margin width. A greater margin width results in a smoother function, so means that the SVM is less likely to overfit. The higher the value of $C$, the more training examples the SVM will fit correctly. $C$ is a hyperparameter - that is a parameter whose value is fixed before the classifier is trained. All of the hyperparameters for each of the kernels we are considering are shown in Table \ref{table:hyperparameters}. The hyperparameter choice significantly effects the performance of the SVM, so we need an algorithm for choosing them. This is discussed further in both \S\ref{cross-validation} \& \S\ref{impl-classifier}.
+\FloatBarrier
+\begin{table}[]
+	\centering
+	\label{table:hyperparameters}
+	\begin{tabular}{ll}
+		\textbf{Kernel}       & \textbf{Hyperparameters} \\ \hline
+		Linear                & $C$                      \\
+		Polynomial            & $C$, $\gamma$, $r$, $d$  \\
+		Radial basis function & $C$, $\gamma$,             
+	\end{tabular}
+	\caption{The hyperparameters of various kernels}
+\end{table}
+\FloatBarrier
+\section{Introduction to Evaluating Supervised Learning Systems} \label{prep-eval}
+\subsection{Train/Test Split} \label{train-test-split}
+In \S\ref{supervised-learning}, we saw how a supervised learning system is trained on one set of data (the training set), then this trained model is used to predict the labels of previously unseen data (the testing set). In order to evaluate a system, we require the actual data labels, so we can assess the accuracy of the predictions. Having training examples in the testing set results will not provide a useful measure of the system's performance, as it would unfairly reward overfitting. In order to overcome this, we must split our labelled data before we start developing a model. Using 90\% for training and 10\% for testing is the most common way to split the labelled data.
+\subsection{Cross Validation} \label{cross-validation}
+It is useful to split the training set into $k$ disjoint folds. Doing this means that we can iterate the process of training and evaluating without using the data set aside for testing. This is done by training on $k-1$ of the folds, then evaluating the system on the fold left out. This is repeated $k$ times, so each fold is used for evaluation exactly once. Averaging over all the folds each fold gives a reliable evaluation metric. We can use this method to determine the system's hyperparameters and any other settings that need to be determined before training. This is called cross-validation. To do this, we repeat the method described for different combinations of hyperparameters and settings and select the combination whose average evaluation metric is greatest.
+\subsection{Evaluation Metrics} \label{evaluation-metrics}
+Thus far, we have only spoken abstractly about an evaluation metric. There are various options and choice of the measure should be context-specific. The basis of the definitions used in most metrics are defined in the Table \ref{table:true-positives}.
+\FloatBarrier
+\begin{table}[]
+	\centering
+	\label{table:true-positives}
+	\begin{tabular}{llll}
+		&                                                                    & \multicolumn{2}{c}{Prediction} \\
+		& \multicolumn{1}{l|}{}                                              & \textbf{Positive}  & \textbf{Negative}  \\ \cline{2-4} 
+		\multirow{2}{*}{Actual Value}&\multicolumn{1}{l|}{\textbf{Positive}} & True Positive      & False Negative     \\
+		& \multicolumn{1}{l|}{\textbf{Negative}}                             & False Positive     & True Negative     
+	\end{tabular}
+	\caption{Defining true positives, true negatives, false positives and false negatives}
+\end{table}
+\FloatBarrier
+From this, we can now define the following quantities:
+\begin{align}
+	TP & = \text{Number of True Positives} \\
+	FN & = \text{Number of False Negatives} \\
+	FP & = \text{Number of False Positives} \\
+	TN & = \text{Number of True Negatives}
+\end{align}
+Accuracy is the simplest evaluation metric. We define this as:
+\begin{equation}
+	\text{Accuracy} = \frac{TP + TN}{TP + FN + FP + TN}
+\end{equation}
+If we have an unbalanced dataset (which is the case in this project), then accuracy is not a good evaluation metric. To illustrate this, consider the case where 1\% of our data is positive and 99\% of our data is negative. If we had a classifier that always predicted that an example was negative, its accuracy would be 99\%. Since accuracy is not a useful measure for unbalanced datasets, such as the dataset I am using in this project, I will not consider it any further.
+\newline
+\newline
+We now define two further measures:
+\begin{align}
+	\text{Precision} & = \frac{TP}{TP + FP} \\
+	\text{Recall} & = \frac{TP}{TP + FN}
+\end{align}
+A good evaluation metric for an unbalanced dataset will incorporate some trade-off between precision and recall. Such a metric may give greater weighting to precision for a precision-critical task or greater weighting to recall for a recall-critical task. Since this project is neither precision-critical nor recall-critical, we can use the $F_1$ score as the evaluation metric, since the $F_1$ score is defined as the harmonic mean of precision and recall:
+\begin{equation}
+	F_1 = \frac{2 \times \text{precision} \times \text{recall}}{\text{precision} + \text{recall}}.
+\end{equation}
+\section{Introduction to the Bag-of-Words Model} \label{prep-bow}
+
+In mathematics, a bag is a synonym for a multiset - an abstract data type which is like a set, but differs in that it can contain duplicates. In this project, I will represent MPs' speeches using a bag-of-words model, meaning that the representation ignores the order of words. Despite its simplicity, the bag-of-words model is used successfully in a range of sentiment classification applications, as it can effectively capture the discourse of a text \cite{nlp_book}.
+\newline
+\newline
+To illustrate a bag-of-words model using an example, I will use an quote from a House of Commons debate on 18th March 2003:
+\begin{center}
+	\textit{``The best way to avoid war is to work through the United Nations.''}
+	\newline
+	 - Bill Tynan (Labour Party)
+\end{center}
+In a simple bag-of-words implementation, where case and punctuation are ignored, this sentence would be stored as:
+\begin{align*}
+	\{\text{the}&: 2,\\ \text{to}&: 2,\\ \text{best}&: 1,\\ \text{way}&: 1,\\ \text{avoid}&: 1,\\ \text{war}&: 1,\\ \text{is}&: 1,\\ \text{work}&: 1,\\ \text{through}&: 1,\\ \text{united}&: 1,\\ \text{nations}&: 1\}.
+\end{align*}
+It is important to note that the order of the elements above is not relevant.
+
+\section{Software Engineering Techniques} \label{prep-sweng}
+	
+Before implementing the first classifier, I couldn't be sure that it would be possible to develop a system to classify MP's speeches due to the lack of other similar work. Due to this, it was important to get to this point as quickly as possible and then change the project requirements at that point if the data couldn't be classified. This strategy lent itself to agile software development \cite{agile}, so this is what I used. I considered each of the tasks in Table \ref{table:tasks} as my first five sprints (in the same order as the table), later defining further sprints as project extensions.
+\newline
+\newline
+Throughout development, I used a linter to ensure that I maintained a high standard of code, with consistent documentation. I also used revision control and unit tests (see \S\ref{eval-unit}) for good practice. I designed programs to be as modular as possible, which helped with testing and debugging.
+\newline
+\newline
+Development of machine learning systems requires further good practices to be adopted, to avoid hard-coding rules that result in overfitting. To this end, as soon as I had constructed the database, I split the data into a training set and a testing set. Throughout the implementation, I solely used the training set, carrying out cross-validation across it to test code then using the testing set for evaluation. Further to this, before classifying MPs' speeches, I implemented a classifier for spam emails (see \S\ref{eval-spam}) and then adapted this classifier for the purposes of this project.
+
+
+\section{Choice of Tools} \label{prep-tools}
+
+\subsection{Programming Language}
+
+I decided to develop the project in Python for various reasons:
+\begin{itemize}
+	\item There are many good natural language processing and supervised learning libraries available for Python.
+	\item Python is well-suited to agile development.
+	\item Python has a lot of community support available.
+	\item I have previously used Python for large software projects (working in industry).
+\end{itemize}
+I used Python 3.6 since it was the most recent stable version of Python when I started implementation.
+
+\subsection{Database}
+
+Due to the structure of the data, it made sense to use a relational database. After considering various options, I opted to use SQLite due to its low set-up overheads (which is useful for agile development), its stability and its compatibility with Python. As the data I was storing was not sensitive, I could safely ignore the security issues of using SQLite.
+
+\subsection{Libraries} \label{prep-tools-libs}
+
+I used BeautifulSoup to parse the Hansard's html and the .ems files from the spam email dataset. Although lxml is a faster parser \cite{parsing}, BeautifulSoup copes better with `broken' html. Before implementation, I found various inconsistencies with the Hansard's html so BeautifulSoup was a better choice (especially since there were no significant time constraints on parsing). The Natural Language Toolkit is a widely used library with multiple functions, so I used this for various things. Similarly, I used functions from scikit-learn when implementing the classifier. In order to perform fast mathematical computations I used both NumPy and SciPy. In order to perform fast HTTP requests, I used the Requests library. In addition to the libraries mentioned, I also used different modules from the Python standard library.
+
+\subsection{Development Environment}
+
+I predominantly developed the project using my own laptop running the Windows 10 operating system. I used Visual Studio Code as the source code editor, with Python and PyLint extensions. One advantage of using Visual Studio Code is the easy integration with git, which I used for revision control of both the Python source code and this dissertation's \LaTeX \space source code. Since I used git for revision control, I used GitHub to backup the source code. I also synced all of my dissertation files to Google Drive and periodically backed them up to an external disk.
+
+\subsection{Table of Software Used}
+\begin{table}[H]
+	\centering
+	\label{table:software}
+	\begin{tabular}{ll}
+		\textbf{Software}        & \textbf{Version} \\ \hline
+		BeautifulSoup            & 4.6.0            \\
+		git                      & 2.8.1.windows.1  \\
+		Natural Language Toolkit & 3.2.5            \\
+		NumPy                    & 1.13.3           \\
+		PyLint                   & 1.7.4            \\
+		Python                   & 3.6.3            \\
+		Requests                 & 2.18.4           \\
+		Scikit-Learn             & 0.0              \\
+		SciPy                    & 1.0.0            \\
+		SQLite                   & 3.10.1           \\
+		Visual Studio Code       & 1.20.1           \\
+		Windows 10               & Home             \\
+	\end{tabular}
+	\caption{The versions of the software used in this project}
+\end{table}
+
+\section{Summary - DEADLINE: 13TH APRIL}
+
+In this chapter, I have defined the project and the steps I took before starting its development. These steps involved planning the project and how its success will be measured, thereby allowing smoother implementation and evaluation.
+
+\chapter{Implementation} \label{impl}
+
+\begin{comment}
+Worth 40\%
+
+This chapter should describe what was actually produced: the programs which were written, the hardware which was built or the theory which was developed. Any design strategies that looked ahead to the testing stage might profitably be referred to (the professional approach again).
+
+Descriptions of programs may include fragments of high-level code but large chunks of code are usually best left to appendices or omitted altogether. Analogous advice applies to circuit diagrams.
+
+Draw attention to the parts of the work which are not your own. Making effective use of powerful tools and pre-existing code is often laudable, and will count to your credit if properly reported.
+
+It should not be necessary to give a day-by-day account of the progress of the work but major milestones may sometimes be highlighted with advantage.
+\end{comment}
+
+\section{Overview}
+
+
+\section{Data Acquisition}
+
+\subsection{Scraping Data} \label{impl-scraping}
+\subsection{Wrangling Data} \label{impl-wrangling}
+\subsection{Collating Data} \label{impl-collating}
+\subsection{Database - DEADLINE: 16TH APRIL} \label{impl-database}
+
+
+\section{Classifier} \label{impl-classifier}
+\subsection{Constructing Features}
+\subsection{Optimisations}
+\section{Summary - DEADLINE: 18TH APRIL}
+
+\chapter{Evaluation Code - DEADLINE: 23RD APRIL}
+
+\chapter{Evaluation} \label{eval}
+
+\begin{comment}
+Evaluation and conclusions worth 20\%
+
+This is where Assessors will be looking for signs of success and for evidence of thorough and systematic evaluation as discussed in Section 8.3. Sample output, tables of timings and photographs of workstation screens, oscilloscope traces or circuit boards may be included. A graph that does not indicate confidence intervals will generally leave a professional scientist with a negative impression.
+
+As with code, voluminous examples of sample output are usually best left to appendices or omitted altogether.
+
+There are some obvious questions which this chapter will address. How many of the original goals were achieved? Were they proved to have been achieved? Did the program, hardware, or theory really work?
+
+Assessors are well aware that large programs will very likely include some residual bugs. It should always be possible to demonstrate that a program works in simple cases and it is instructive to demonstrate how close it is to working in a really ambitious case.
+
+\end{comment}
+
+\section{Unit Testing} \label{eval-unit}
+
+
+\section{Internal Evaluation}
+\subsection{Manual Checks}
+\subsection{Comparison of Optimisations}
+\subsection{Baseline Comparison - DEADLINE: 25TH APRIL}
+
+\section{External Evaluation}
+
+\subsection{Spam Email Dataset} \label{eval-spam}
+\subsection{Comparisons With Related Work}
+\section{Evaluation of Project Goals}
+
+
+\section{Summary - DEADLINE: 27TH APRIL}
+
+
+\chapter{Conclusions} \label{conc}
+
+\section{Achievements}
+
+\section{Lessons Learned}
+
+\section{Future Work - DEADLINE: 28TH APRIL}
+
+\begin{comment}
+This chapter is likely to be very short and it may well refer back to the Introduction. It might properly explain how you would have planned the project if starting again with the benefit of hindsight.
+\end{comment}
+
+\chapter{Diagrams - DEADLINE: 30TH APRIL}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the bibliography
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliography{refs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the appendices
+\appendix
+
+\chapter{Project Proposal}
+\label{sec:proposal}
+Assessors like to see some sample code or example circuit diagrams, and appendices are the sensible places to include such items. Accordingly, software and hardware projects should incorporate appropriate appendices. Note that the 12,000 word limit does not include material in the appendices, but only in extremely unusual circumstances may appendices exceed 10-15 pages - if you feel that such unusual circumstances might apply to you you should ask your Director of Studies and Supervisor to apply to the Chairman of Examiners. It is quite in order to have no appendices. Appendices should appear between the bibliography and the project proposal.
+\input{proposal}
+
+\end{document}

@@ -1,0 +1,20 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: diss.aux
+The style file: plain.bst
+Database file #1: refs.bib
+Warning--entry type for "corpus_definition" isn't style-file defined
+--line 11 of file refs.bib
+Warning--entry type for "syria_iraq_air_strikes" isn't style-file defined
+--line 24 of file refs.bib
+Warning--entry type for "mp_votes_bbc" isn't style-file defined
+--line 30 of file refs.bib
+Warning--entry type for "hansard" isn't style-file defined
+--line 36 of file refs.bib
+Warning--entry type for "factiva" isn't style-file defined
+--line 42 of file refs.bib
+Warning--entry type for "parsing" isn't style-file defined
+--line 182 of file refs.bib
+Warning--empty journal in rep_dem_one
+Warning--empty year in first_twitter
+Warning--empty publisher in nlp_book
+Warning--can't use both volume and number fields in twitter_as_a_corpus
+(There were 10 warnings)
