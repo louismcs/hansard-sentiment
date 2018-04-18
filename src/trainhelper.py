@@ -11,6 +11,8 @@ from nltk.corpus import stopwords
 from numpy import linalg
 from numpy import log10
 from numpy import logspace
+from numpy import matmul
+from numpy.linalg import svd
 
 
 def remove_punctuation(body):
@@ -169,6 +171,18 @@ def compute_rank(sigma):
         val = sigma[i]
 
     return i - 1
+
+
+def reduce_features(complete_train_features, complete_test_features):
+    """ Performs the same principle component analysis on given train and test features """
+
+    _, sigma, v_transpose = svd(complete_train_features, full_matrices=True, compute_uv=True)
+
+    rank = compute_rank(sigma)
+
+    truncated_v = v_transpose[:rank].transpose()
+
+    return matmul(complete_train_features, truncated_v), matmul(complete_test_features, truncated_v)
 
 
 def generate_linear_param_sets(linear_param_values):

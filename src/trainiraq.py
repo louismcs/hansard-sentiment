@@ -2,35 +2,22 @@
 
 import collections
 import pickle
-
 from random import shuffle
-from numpy import mean
-from numpy import std
-from numpy import sqrt
-from numpy import array_split
-from numpy import array
+
+from numpy import array, array_split, mean, sqrt, std
 from sklearn import svm
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import f1_score
+from sklearn.metrics import accuracy_score, f1_score
 
 import database
-
-from trainhelper import generate_word_list
-from trainhelper import normalise
-from trainhelper import generate_classifier_data
-from trainhelper import generate_linear_param_sets
-from trainhelper import generate_lower_log_params
-from trainhelper import generate_higher_log_params
-from trainhelper import generate_rbf_param_sets
-from trainhelper import generate_poly_param_sets
-from trainhelper import generate_lower_params
-from trainhelper import generate_higher_params
-from trainhelper import generate_linear_values
-from trainhelper import generate_poly_values
-from trainhelper import generate_rbf_values
-from trainhelper import generate_refined_linear_values
-from trainhelper import generate_refined_poly_values
-from trainhelper import generate_refined_rbf_values
+from trainhelper import (generate_classifier_data, generate_higher_log_params,
+                         generate_higher_params, generate_linear_param_sets,
+                         generate_linear_values, generate_lower_log_params,
+                         generate_lower_params, generate_poly_param_sets,
+                         generate_poly_values, generate_rbf_param_sets,
+                         generate_rbf_values, generate_refined_linear_values,
+                         generate_refined_poly_values,
+                         generate_refined_rbf_values, generate_word_list,
+                         reduce_features, normalise)
 
 
 def get_members_from_file(file_path):
@@ -342,6 +329,10 @@ def compute_linear_fold_f1s(settings, data, linear_param_values):
 
     complete_test_features = array(get_complete_bags(test_features, settings['entailment']))
 
+    if settings['svd']:
+        complete_train_features, complete_test_features = reduce_features(complete_train_features,
+                                                                          complete_test_features)
+
     ret = []
 
     for param_values in linear_param_values:
@@ -377,6 +368,10 @@ def compute_rbf_fold_f1s(settings, data, rbf_param_values):
 
     complete_test_features = array(get_complete_bags(test_features, settings['entailment']))
 
+    if settings['svd']:
+        complete_train_features, complete_test_features = reduce_features(complete_train_features,
+                                                                          complete_test_features)
+
     ret = []
 
     for param_values in rbf_param_values:
@@ -409,6 +404,10 @@ def compute_poly_fold_f1s(settings, data, poly_param_values):
     complete_train_features = array(get_complete_bags(train_features, settings['entailment']))
 
     complete_test_features = array(get_complete_bags(test_features, settings['entailment']))
+
+    if settings['svd']:
+        complete_train_features, complete_test_features = reduce_features(complete_train_features,
+                                                                          complete_test_features)
 
     ret = []
 
@@ -455,23 +454,9 @@ def compute_f1(settings, data):
     complete_train_features = array(get_complete_bags(train_features, settings['entailment']))
     complete_test_features = array(get_complete_bags(test_features, settings['entailment']))
 
-    '''
-
-    print('features saved')
-
-    _, sigma, v_transpose = svd(complete_train_features, full_matrices=True, compute_uv=True)
-
-    rank = compute_rank(sigma)
-
-    print('Rank: {}'.format(rank))
-
-    truncated_v = v_transpose[:rank].transpose()
-
-    reduced_train_features = matmul(complete_train_features, truncated_v)
-
-    reduced_test_features = matmul(complete_test_features, truncated_v)
-
-    print('Computed reduced matrices') '''
+    if settings['svd']:
+        complete_train_features, complete_test_features = reduce_features(complete_train_features,
+                                                                          complete_test_features)
 
     classifier.fit(complete_train_features, train_samples)
     test_predictions = classifier.predict(complete_test_features)
@@ -503,6 +488,10 @@ def compute_member_f1s(settings, data):
 
     complete_train_features = get_complete_bags(train_features, settings['entailment'])
     complete_test_features = get_complete_bags(test_features, settings['entailment'])
+
+    if settings['svd']:
+        complete_train_features, complete_test_features = reduce_features(complete_train_features,
+                                                                          complete_test_features)
 
     classifier.fit(complete_train_features, train_samples)
 
@@ -893,13 +882,14 @@ def learn_settings(settings, mp_folds):
 
     print('Hyper parameters refined')
     print(current_f1s)
-    print('Average F1: {} ± {}'.format(mean(current_f1s), std(current_f1s)))
+    print('Average CV F1: {} ± {}'.format(mean(current_f1s), std(current_f1s)))
 
 
 def run():
     """ Sets the settings and runs the program """
 
     settings = {
+        'use_test_data': False,
         'black_list': [],
         'white_list': [],
         'bag_size': 100,
@@ -915,6 +905,7 @@ def run():
         'no_of_folds': 10,
         'entailment': True,
         'normalise': False,
+        'svd': False,
         'division_ids': [102564, 102565],
         'test_mp_file': 'test_data_combined.txt',
         'train_mp_file': 'train_data_combined.txt',
@@ -962,10 +953,9 @@ def run():
     print('Group numbers: {}'.format(settings['group_numbers']))
     print()
 
-
-    data = {
-        'train': train_data,
-        'test': test_data
-    }
-
-    compute_member_f1s(settings, data)
+    if settings['use_test_data']:
+        data = {
+            'train': train_data,
+            'test': test_data
+        }
+        compute_member_f1s(settings, data)

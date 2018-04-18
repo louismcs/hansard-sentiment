@@ -22,7 +22,8 @@ def get_member_ids(corpus, debate_terms, division_id):
 def intersect_member_ids(corpus, debate_terms, division_ids):
     """ Given a list of terms, finds all the debates whose titles
         contain one or more of these terms and returns their ids """
-    member_sets = [corpus.get_member_ids(debate_terms, division_id) for division_id in division_ids]
+    member_sets = [get_member_ids(corpus, debate_terms, division_id)
+                   for division_id in division_ids]
     return list(set.intersection(*member_sets))
 
 
@@ -185,3 +186,5 @@ def split():
     division_ids = [102564, 102565]
     with database.Database() as corpus:
         choose_test_data(corpus, terms, division_ids)
+
+split()
