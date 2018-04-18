@@ -1,16 +1,21 @@
 """ A collection of functions that are useful to classifying
     data in both the Iraq corpus and the spam email corpus """
 
+
 import math
 import re
 
-from nltk import PorterStemmer, ngrams
+from nltk import PorterStemmer
+from nltk import ngrams
 from nltk.corpus import stopwords
-from numpy import linalg, log10, logspace
+from numpy import linalg
+from numpy import log10
+from numpy import logspace
 
 
 def remove_punctuation(body):
     """ Removes punctuation from a given string """
+
     body = body.replace("\n", " ")
     body = re.sub(r"[^\w\d\s#'-]", '', body)
     body = body.replace(" '", " ")
@@ -22,6 +27,7 @@ def remove_punctuation(body):
 
 def remove_stopwords(word_list, black_list, white_list):
     """ Returns a list of words (with stop words removed), given a word list """
+
     stop = set(stopwords.words('english'))
     return [word for word in word_list
             if (word in white_list) or ((word not in stop) and (word not in black_list))]
@@ -29,12 +35,14 @@ def remove_stopwords(word_list, black_list, white_list):
 
 def stem_words(word_list):
     """ Uses PorterStemmer to stem words in word_list argument """
+
     stemmer = PorterStemmer()
     return [stemmer.stem(word) for word in word_list]
 
 
 def replace_number(word):
     """ Given a string, returns '&NUM' if it's a number and the input string otherwise """
+
     if word.isdigit():
         return '&NUM'
 
@@ -43,11 +51,13 @@ def replace_number(word):
 
 def group_numbers(word_list):
     """ Given a word list, returns the same word list with all numbers replaced with '&NUM' """
+
     return [replace_number(word) for word in word_list]
 
 
 def merge(n_gram):
     """ Given an n_gram as a list, converts it to a string and returns it """
+
     ret = ''
     for word in n_gram:
         ret += '{} '.format(word)
@@ -57,6 +67,7 @@ def merge(n_gram):
 
 def get_n_grams(word_list, gram_size):
     """ Given a word list and some gram size, returns a list of all n grams for n <= gram_size """
+
     if gram_size == 1:
         ret = word_list
     else:
@@ -68,6 +79,7 @@ def get_n_grams(word_list, gram_size):
 
 def generate_word_list(body, settings):
     """ Returns a list of words, given a message tag """
+
     body = remove_punctuation(body)
     body = body.lower()
 
@@ -87,6 +99,7 @@ def generate_word_list(body, settings):
 
 def normalise(feature):
     """ Given a feature, returns its l2 norm """
+
     norm = linalg.norm(feature)
     if norm == 0:
         ret = feature
@@ -98,6 +111,7 @@ def normalise(feature):
 
 def normalise_features(features):
     """ Given a list of features, returns the l2 norms of the same features """
+
     for feature in features:
         feature['speech_bag'] = normalise(feature['speech_bag'])
 
@@ -107,6 +121,7 @@ def normalise_features(features):
 def condense_bag(feature, words):
     """ Given a feature, returns a reduced feature which only
         has elements corresponding to a given set of words """
+
     return [feature[word] for word in words]
 
 
@@ -126,8 +141,10 @@ def generate_classifier_data(aye_features, no_features, common_words, normalise_
 
     features = aye_features + no_features
     features = condense_bags(features, common_words)
+
     if normalise_data:
         features = normalise_features(features)
+
     samples = []
 
     for _ in range(len(aye_features)):
@@ -146,6 +163,7 @@ def compute_rank(sigma):
 
     i = 0
     val = sigma[i]
+
     while val > min_val:
         i += 1
         val = sigma[i]
@@ -155,7 +173,9 @@ def compute_rank(sigma):
 
 def generate_linear_param_sets(linear_param_values):
     """ Generates the hyperparameters for a linear kernel """
+
     linear_param_sets = []
+
     for c_value in linear_param_values['cs']:
         linear_param_sets.append({
             'c': c_value
@@ -168,6 +188,7 @@ def generate_rbf_param_sets(rbf_param_values):
     """ Generates the hyperparameters for an rbf kernel """
 
     rbf_param_sets = []
+
     for c_value in rbf_param_values['cs']:
         for gamma_value in rbf_param_values['gammas']:
             rbf_param_sets.append({
@@ -180,7 +201,9 @@ def generate_rbf_param_sets(rbf_param_values):
 
 def generate_poly_param_sets(poly_param_values):
     """ Generates the hyperparameters for a poly kernel """
+
     poly_param_sets = []
+
     for c_value in poly_param_values['cs']:
         for gamma_value in poly_param_values['gammas']:
             for d_value in poly_param_values['ds']:
@@ -197,23 +220,27 @@ def generate_poly_param_sets(poly_param_values):
 
 def generate_lower_log_params(max_param, no_of_params, log_diff):
     """ Generates a given number of parameters lower than a given max parameter, on a log scale """
+
     return logspace(log10(max_param) - (no_of_params - 1) * log10(log_diff), log10(max_param),
                     no_of_params)
 
 
 def generate_higher_log_params(min_param, no_of_params, log_diff):
     """ Generates a given number of parameters higher than a given min parameter, on a log scale """
+
     return logspace(log10(min_param), log10(min_param) + (no_of_params - 1) * log10(log_diff),
                     no_of_params)
 
 
 def generate_lower_params(max_param, no_of_params, diff):
     """ Generates a given number of parameters lower than a given max parameter """
+
     return [(diff * i) - (diff*(no_of_params - 1) - max_param) for i in range(no_of_params)]
 
 
 def generate_higher_params(min_param, no_of_params, diff):
     """ Generates a given number of parameters higher than a given min parameter """
+
     return [(diff * i) + min_param for i in range(no_of_params)]
 
 
@@ -243,6 +270,7 @@ def generate_linear_values(no_of_cs):
 
 def generate_rbf_values(no_of_cs, no_of_gammas):
     """ Generates rbf hyperparameters """
+
     c_values = logspace(-3, 1, no_of_cs)
     gamma_values = logspace(-3, 1, no_of_gammas)
 
@@ -254,8 +282,10 @@ def generate_rbf_values(no_of_cs, no_of_gammas):
 
 def generate_poly_values(no_of_cs, no_of_gammas, no_of_ds, no_of_rs):
     """ Generates poly hyperparameters """
+
     c_values = logspace(-3, 1, no_of_cs)
     gamma_values = logspace(-3, 3, no_of_gammas)
+
     d_values = [i for i in range(2, 2 + no_of_ds)]
     r_values = [i for i in range(0, no_of_rs)]
 
@@ -269,6 +299,7 @@ def generate_poly_values(no_of_cs, no_of_gammas, no_of_ds, no_of_rs):
 
 def generate_refined_linear_values(linear_params, no_of_cs):
     """ Generate more fine-grained linear hyperparameters """
+
     c_values = logspace(log10(linear_params['c']) - 1, log10(linear_params['c']) + 1, no_of_cs)
 
     return {
@@ -292,6 +323,7 @@ def generate_refined_rbf_values(rbf_params, no_of_cs, no_of_gammas):
 
 def generate_refined_poly_values(poly_params, no_of_cs, no_of_gammas, no_of_ds, no_of_rs):
     """ Generate more fine-grained poly hyperparameters """
+
     c_values = logspace(log10(poly_params['c']) - 1, log10(poly_params['c']) + 1, no_of_cs)
 
     gamma_values = logspace(log10(poly_params['gamma']) - 1, log10(poly_params['gamma']) + 1,

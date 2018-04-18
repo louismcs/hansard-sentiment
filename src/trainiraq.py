@@ -1,16 +1,18 @@
+""" Functions to train and test a classifier on  MPs' speeches on the Iraq war """
+
 import collections
 import pickle
 
-
+from random import shuffle
 from numpy import mean
 from numpy import std
 from numpy import sqrt
-from random import shuffle
 from numpy import array_split
 from numpy import array
 from sklearn import svm
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
+
 import database
 
 from trainhelper import generate_word_list
@@ -31,7 +33,6 @@ from trainhelper import generate_refined_poly_values
 from trainhelper import generate_refined_rbf_values
 
 
-
 def get_members_from_file(file_path):
     """ Returns a list of ids of MPs to be reserved for testing given the file path """
 
@@ -42,6 +43,9 @@ def get_members_from_file(file_path):
 
 
 def get_all_member_ids(corpus, debate_terms, division_id):
+    """ Returns a list of all the member ids corresponding to members who voted
+        in the given division and spoke in at least one debate which matches at
+        least one of the given debate terms, according to the given database"""
 
     debates = set()
     for term in debate_terms:
@@ -51,7 +55,10 @@ def get_all_member_ids(corpus, debate_terms, division_id):
 
 
 def get_aye_member_ids(corpus, debate_terms, division_id):
-    
+    """ Returns a list of all the member ids corresponding to members who voted 'aye'
+        in the given division and spoke in at least one debate which matches at
+        least one of the given debate terms, according to the given database"""
+
     debates = set()
     for term in debate_terms:
         debates = debates.union(set(corpus.get_aye_members_from_term(term, division_id)))
@@ -60,7 +67,10 @@ def get_aye_member_ids(corpus, debate_terms, division_id):
 
 
 def get_no_member_ids(corpus, debate_terms, division_id):
-    
+    """ Returns a list of all the member ids corresponding to members who voted 'no'
+        in the given division and spoke in at least one debate which matches at
+        least one of the given debate terms, according to the given database"""
+
     debates = set()
     for term in debate_terms:
         debates = debates.union(set(corpus.get_no_members_from_term(term, division_id)))
@@ -153,12 +163,15 @@ def get_speeches(corpus, member_list, debates):
     for member in member_list:
         speeches[member['id']] = []
         for debate in debates:
-            speeches[member['id']] = speeches[member['id']] + corpus.get_speech_texts(member, debate)
+            speeches[member['id']] = speeches[member['id']] + corpus.get_speech_texts(member,
+                                                                                      debate)
 
     return speeches
 
 
 def fetch_speeches(speeches, mp_data):
+    """ Given a list of information about mps, returns all of
+        the speeches made by these mps in the given speeches"""
 
     ret = []
 
@@ -169,7 +182,7 @@ def fetch_speeches(speeches, mp_data):
 
 
 def generate_question_bags(settings):
-
+    """ Returns bags of words for the motions specified in the given settings"""
     sum_bag = collections.Counter()
     bags = {}
     for division_id in settings['division_ids']:
@@ -271,7 +284,8 @@ def generate_train_data(settings, mp_list):
             if sum_bag[term] > 3:
                 common_words.append(term)
 
-    features, samples = generate_classifier_data(aye_features, no_features, common_words, settings['normalise'])
+    features, samples = generate_classifier_data(aye_features, no_features, common_words,
+                                                 settings['normalise'])
 
     return features, samples, common_words
 
@@ -282,12 +296,16 @@ def generate_test_data(common_words, settings, mp_list):
 
     aye_features, no_features, _, members = parse_speeches(settings, mp_list, False)
 
-    features, samples = generate_classifier_data(aye_features, no_features, common_words, settings['normalise'])
+    features, samples = generate_classifier_data(aye_features, no_features, common_words,
+                                                 settings['normalise'])
 
     return features, samples, members
 
 
 def count_ayes(speeches):
+    """ Given a list of speeches and the predictions of their
+        stances, returns the number of aye predictions """
+
     ret = 0
     for speech in speeches:
         if speech['prediction'] == 1:
@@ -297,15 +315,23 @@ def count_ayes(speeches):
 
 
 def get_complete_bags(features, entailment):
+    """ Given the features and a boolean which determines whether or not
+        entailment is being applied, returns the bags of words to be used  """
+
     if entailment:
         ret = [feature['speech_bag'] + feature['question_bag'] for feature in features]
     else:
         ret = [feature['speech_bag'] for feature in features]
-    
+
     return ret
 
 
 def compute_linear_fold_f1s(settings, data, linear_param_values):
+    """ Given the settings, the testing set, the training set and a list of sets of
+        hyperparameters, trains an SVM classifier with a linear kernel for each of
+        the sets of hyperparameters on the training data and returns the F1 scores
+        for each of the sets """
+
     print('Doing linear fold')
 
     train_features, train_samples, common_words = generate_train_data(settings, data['train'])
@@ -330,12 +356,18 @@ def compute_linear_fold_f1s(settings, data, linear_param_values):
 
         ret.append(score)
 
-        print('{} / {} F1: {}. C = {}'.format(len(ret), len(linear_param_values), score, param_values['c']))
+        print('{} / {} F1: {}. C = {}'.format(len(ret), len(linear_param_values), score,
+                                              param_values['c']))
 
     return ret
 
 
 def compute_rbf_fold_f1s(settings, data, rbf_param_values):
+    """ Given the settings, the testing set, the training set and a list of sets of
+        hyperparameters, trains an SVM classifier with an rbf kernel for each of
+        the sets of hyperparameters on the training data and returns the F1 scores
+        for each of the sets """
+
     print('Doing rbf fold')
     train_features, train_samples, common_words = generate_train_data(settings, data['train'])
 
@@ -348,7 +380,8 @@ def compute_rbf_fold_f1s(settings, data, rbf_param_values):
     ret = []
 
     for param_values in rbf_param_values:
-        classifier = svm.SVC(C=param_values['c'], kernel='rbf', gamma=param_values['gamma'], cache_size=settings['cache'])
+        classifier = svm.SVC(C=param_values['c'], kernel='rbf', gamma=param_values['gamma'],
+                             cache_size=settings['cache'])
 
         classifier.fit(complete_train_features, train_samples)
 
@@ -356,13 +389,18 @@ def compute_rbf_fold_f1s(settings, data, rbf_param_values):
 
         score = f1_score(test_samples, test_predictions)
         ret.append(score)
-        
+
         print('{} / {} F1: {}'.format(len(ret), len(rbf_param_values), score))
 
     return ret
 
 
 def compute_poly_fold_f1s(settings, data, poly_param_values):
+    """ Given the settings, the testing set, the training set and a list of sets of
+        hyperparameters, trains an SVM classifier with a poly kernel for each of
+        the sets of hyperparameters on the training data and returns the F1 scores
+        for each of the sets """
+
     print('Doing poly fold')
     train_features, train_samples, common_words = generate_train_data(settings, data['train'])
 
@@ -375,14 +413,16 @@ def compute_poly_fold_f1s(settings, data, poly_param_values):
     ret = []
 
     for param_values in poly_param_values:
-        classifier = svm.SVC(C=param_values['c'], kernel='poly', degree=param_values['d'], gamma=param_values['d'], coef0=param_values['r'], cache_size=settings['cache'])
+        classifier = svm.SVC(C=param_values['c'], kernel='poly', degree=param_values['d'],
+                             gamma=param_values['d'], coef0=param_values['r'],
+                             cache_size=settings['cache'])
 
         classifier.fit(complete_train_features, train_samples)
 
         test_predictions = classifier.predict(complete_test_features)
         score = f1_score(test_samples, test_predictions)
         ret.append(score)
-        
+
         print('{} / {} F1: {}'.format(len(ret), len(poly_param_values), score))
 
     return ret
@@ -398,16 +438,19 @@ def compute_f1(settings, data):
     if settings['kernel'] == 'linear':
         classifier = svm.SVC(C=settings['linear_c'], kernel='linear', cache_size=settings['cache'])
     elif settings['kernel'] == 'rbf':
-        classifier = svm.SVC(C=settings['rbf_c'], kernel='rbf', gamma=settings['rbf_gamma'], cache_size=settings['cache'])
+        classifier = svm.SVC(C=settings['rbf_c'], kernel='rbf', gamma=settings['rbf_gamma'],
+                             cache_size=settings['cache'])
     else:
         #Assert kernel is poly
-        classifier = svm.SVC(C=settings['poly_c'], kernel='poly', degree=settings['poly_d'], gamma=settings['poly_gamma'], coef0=settings['poly_r'], cache_size=settings['cache'])
+        classifier = svm.SVC(C=settings['poly_c'], kernel='poly', degree=settings['poly_d'],
+                             gamma=settings['poly_gamma'], coef0=settings['poly_r'],
+                             cache_size=settings['cache'])
 
     ''' train_features is a list of word bags
         train_samples is a list containing only 1s and -1s
             (corresponding to the class ie an MP's vote) '''
 
-    
+
 
     complete_train_features = array(get_complete_bags(train_features, settings['entailment']))
     complete_test_features = array(get_complete_bags(test_features, settings['entailment']))
@@ -446,15 +489,18 @@ def compute_member_f1s(settings, data):
     if settings['kernel'] == 'linear':
         classifier = svm.SVC(C=settings['linear_c'], kernel='linear', cache_size=settings['cache'])
     elif settings['kernel'] == 'rbf':
-        classifier = svm.SVC(C=settings['rbf_c'], kernel='rbf', gamma=settings['rbf_gamma'], cache_size=settings['cache'])
+        classifier = svm.SVC(C=settings['rbf_c'], kernel='rbf', gamma=settings['rbf_gamma'],
+                             cache_size=settings['cache'])
     else:
         #Assert kernel is poly
-        classifier = svm.SVC(C=settings['poly_c'], kernel='poly', degree=settings['poly_d'], gamma=settings['poly_gamma'], coef0=settings['poly_r'], cache_size=settings['cache'])
+        classifier = svm.SVC(C=settings['poly_c'], kernel='poly', degree=settings['poly_d'],
+                             gamma=settings['poly_gamma'], coef0=settings['poly_r'],
+                             cache_size=settings['cache'])
 
     ''' train_features is a list of word bags
         train_samples is a list containing only 1s and -1s
             (corresponding to the class ie an MP's vote) '''
-    
+
     complete_train_features = get_complete_bags(train_features, settings['entailment'])
     complete_test_features = get_complete_bags(test_features, settings['entailment'])
 
@@ -481,9 +527,13 @@ def compute_member_f1s(settings, data):
     member_predictions = []
 
     for member_id in settings['testing_mps']:
-        grouped_speeches[member_id]['aye_fraction'] = count_ayes(grouped_speeches[member_id]['speeches']) / len(grouped_speeches[member_id]['speeches'])
-        grouped_speeches[member_id]['overall_prediction'] = 1 if grouped_speeches[member_id]['aye_fraction'] > 0.5 else -1
-        member_votes.append(1 if grouped_speeches[member_id]['votes'][settings['test_division']] else -1)
+        grouped_speeches[member_id]['aye_fraction'] = (
+            count_ayes(grouped_speeches[member_id]['speeches']) /
+            len(grouped_speeches[member_id]['speeches']))
+        grouped_speeches[member_id]['overall_prediction'] = (
+            1 if grouped_speeches[member_id]['aye_fraction'] > 0.5 else -1)
+        member_votes.append(1 if grouped_speeches[member_id]['votes'][settings['test_division']]
+                            else -1)
         member_predictions.append(grouped_speeches[member_id]['overall_prediction'])
 
     print('Accuracy by MP: {}%'.format(100 * accuracy_score(member_votes, member_predictions)))
@@ -496,13 +546,18 @@ def compute_member_f1s(settings, data):
 
 
 def find_linear_params(settings, mp_folds, linear_param_values):
+    """ Given some settings, a set of cross-validation folds and a list of sets
+        of linear kernel hyperparameters, performs an exhaustive search over
+        the hyperparameters to determine the optimal hyperparameters """
+
     params_found = False
     while not params_found:
         print('Linear loop')
         params_found = True
         linear_param_sets = generate_linear_param_sets(linear_param_values)
 
-        f1_matrix = array([compute_linear_fold_f1s(settings, fold, linear_param_sets) for fold in mp_folds]).transpose()
+        f1_matrix = array([compute_linear_fold_f1s(settings, fold, linear_param_sets)
+                           for fold in mp_folds]).transpose()
 
         max_f1_mean = -1
 
@@ -533,13 +588,18 @@ def find_linear_params(settings, mp_folds, linear_param_values):
 
 
 def find_rbf_params(settings, mp_folds, rbf_param_values):
+    """ Given some settings, a set of cross-validation folds and a list of sets
+        of rbf kernel hyperparameters, performs an exhaustive search over
+        the hyperparameters to determine the optimal hyperparameters """
+
     params_found = False
     while not params_found:
         print('Rbf loop')
         params_found = True
         rbf_param_sets = generate_rbf_param_sets(rbf_param_values)
 
-        f1_matrix = array([compute_rbf_fold_f1s(settings, fold, rbf_param_sets) for fold in mp_folds]).transpose()
+        f1_matrix = array([compute_rbf_fold_f1s(settings, fold, rbf_param_sets)
+                           for fold in mp_folds]).transpose()
 
         max_f1_mean = -1
 
@@ -573,24 +633,31 @@ def find_rbf_params(settings, mp_folds, rbf_param_values):
 
                 if max_rbf_param_set['gamma'] == min_gamma:
                     gamma_log_diff = rbf_param_values['gammas'][1] / rbf_param_values['gammas'][0]
-                    rbf_param_values['gammas'] = generate_lower_log_params(min_gamma, 5, gamma_log_diff)
+                    rbf_param_values['gammas'] = generate_lower_log_params(min_gamma, 5,
+                                                                           gamma_log_diff)
                     params_found = False
                 elif max_rbf_param_set['gamma'] == max_gamma:
                     gamma_log_diff = rbf_param_values['gammas'][1] / rbf_param_values['gammas'][0]
-                    rbf_param_values['gammas'] = generate_higher_log_params(max_gamma, 5, gamma_log_diff)
+                    rbf_param_values['gammas'] = generate_higher_log_params(max_gamma, 5,
+                                                                            gamma_log_diff)
                     params_found = False
 
     return max_f1s, max_rbf_param_set
 
 
 def find_poly_params(settings, mp_folds, poly_param_values):
+    """ Given some settings, a set of cross-validation folds and a list of sets
+        of poly kernel hyperparameters, performs an exhaustive search over
+        the hyperparameters to determine the optimal hyperparameters """
+
     params_found = False
     while not params_found:
         print('Poly loop')
         params_found = True
         poly_param_sets = generate_poly_param_sets(poly_param_values)
 
-        f1_matrix = array([compute_poly_fold_f1s(settings, fold, poly_param_sets) for fold in mp_folds]).transpose()
+        f1_matrix = array([compute_poly_fold_f1s(settings, fold, poly_param_sets)
+                           for fold in mp_folds]).transpose()
 
         max_f1_mean = -1
 
@@ -624,11 +691,13 @@ def find_poly_params(settings, mp_folds, poly_param_values):
 
                 if max_poly_param_set['gamma'] == min_gamma:
                     gamma_log_diff = poly_param_values['gammas'][1] / poly_param_values['gammas'][0]
-                    poly_param_values['gammas'] = generate_lower_log_params(min_gamma, 5, gamma_log_diff)
+                    poly_param_values['gammas'] = generate_lower_log_params(min_gamma, 5,
+                                                                            gamma_log_diff)
                     params_found = False
                 elif max_poly_param_set['gamma'] == max_gamma:
                     gamma_log_diff = poly_param_values['gammas'][1] / poly_param_values['gammas'][0]
-                    poly_param_values['gammas'] = generate_higher_log_params(max_gamma, 5, gamma_log_diff)
+                    poly_param_values['gammas'] = generate_higher_log_params(max_gamma, 5,
+                                                                             gamma_log_diff)
                     params_found = False
 
             if len(poly_param_values['ds']) > 1:
@@ -656,7 +725,7 @@ def find_poly_params(settings, mp_folds, poly_param_values):
 
 
 def change_n_gram(settings, increment, current_f1s, mp_folds):
-
+    """ Determines the optimal n-gram value for the classifier """
 
     significant_change = settings['n_gram'] + increment in range(1, 10)
 
@@ -680,6 +749,7 @@ def change_n_gram(settings, increment, current_f1s, mp_folds):
 
 
 def choose_boolean_setting(settings, setting, current_f1s, mp_folds):
+    """ Determines the optimal value of a given boolean setting for the classifier """
 
     settings[setting] = True
     new_f1s = [compute_f1(settings, mp_fold) for mp_fold in mp_folds]
@@ -696,7 +766,7 @@ def choose_boolean_setting(settings, setting, current_f1s, mp_folds):
 
 
 def refine_linear_params(settings, mp_folds):
-
+    """ Finds the optimal set of linear kernel hyperparameters in a finely grained search """
     linear_param_values = generate_linear_values(5)
 
     _, linear_params = find_linear_params(settings, mp_folds, linear_param_values)
@@ -707,6 +777,7 @@ def refine_linear_params(settings, mp_folds):
 
 
 def refine_rbf_params(settings, mp_folds):
+    """ Finds the optimal set of rbf kernel hyperparameters in a finely grained search """
 
     rbf_param_values = generate_rbf_values(5, 7)
 
@@ -718,7 +789,7 @@ def refine_rbf_params(settings, mp_folds):
 
 
 def refine_poly_params(settings, mp_folds):
-
+    """ Finds the optimal set of poly kernel hyperparameters in a finely grained search """
     poly_param_values = generate_poly_values(5, 7, 3, 1)
 
     _, poly_params = find_poly_params(settings, mp_folds, poly_param_values)
@@ -729,7 +800,7 @@ def refine_poly_params(settings, mp_folds):
 
 
 def learn_settings(settings, mp_folds):
-
+    """ Determines the optimal set of settings and hyperparameters for the classifier """
     linear_param_values = generate_linear_values(5)
 
     linear_f1s, linear_params = find_linear_params(settings, mp_folds, linear_param_values)
