@@ -15,6 +15,11 @@ from numpy import matmul
 from numpy.linalg import svd
 
 
+def remove_tags(body):
+    """ Removes any xml tags from a given xml body """
+    return re.sub(r"<(.)*?>", "", body)
+
+
 def remove_punctuation(body):
     """ Removes punctuation from a given string """
 

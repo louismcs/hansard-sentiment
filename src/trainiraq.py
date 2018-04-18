@@ -214,7 +214,7 @@ def parse_speeches(settings, mp_data, train):
         for word in word_list:
             bag[word] += 1
             sum_bag[word] += 1
-        if ['entailment']:
+        if settings['entailment']:
             if train:
                 for division_id in settings['division_ids']:
                     if speech['votes'][division_id]:
@@ -959,3 +959,6 @@ def run():
             'test': test_data
         }
         compute_member_f1s(settings, data)
+
+
+run()
