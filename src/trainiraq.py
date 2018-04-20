@@ -557,7 +557,7 @@ def find_linear_params(settings, mp_folds, linear_param_values):
                 max_linear_param_set = linear_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
-            elif f1_mean == max_f1_mean:
+            """ elif f1_mean == max_f1_mean:
                 multiple_max_means = True
 
         if len(linear_param_values['cs']) > 1 and not multiple_max_means:
@@ -571,7 +571,7 @@ def find_linear_params(settings, mp_folds, linear_param_values):
             elif max_linear_param_set['c'] == max_c:
                 c_log_diff = linear_param_values['cs'][1] / linear_param_values['cs'][0]
                 linear_param_values['cs'] = generate_higher_log_params(max_c, 5, c_log_diff)
-                params_found = False
+                params_found = False """
 
     return max_f1s, max_linear_param_set
 
@@ -599,7 +599,7 @@ def find_rbf_params(settings, mp_folds, rbf_param_values):
                 max_rbf_param_set = rbf_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
-            elif f1_mean == max_f1_mean:
+            """ elif f1_mean == max_f1_mean:
                 multiple_max_means = True
 
         if not multiple_max_means:
@@ -629,7 +629,7 @@ def find_rbf_params(settings, mp_folds, rbf_param_values):
                     gamma_log_diff = rbf_param_values['gammas'][1] / rbf_param_values['gammas'][0]
                     rbf_param_values['gammas'] = generate_higher_log_params(max_gamma, 5,
                                                                             gamma_log_diff)
-                    params_found = False
+                    params_found = False """
 
     return max_f1s, max_rbf_param_set
 
@@ -657,7 +657,7 @@ def find_poly_params(settings, mp_folds, poly_param_values):
                 max_poly_param_set = poly_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
-            elif f1_mean == max_f1_mean:
+            """ elif f1_mean == max_f1_mean:
                 multiple_max_means = True
 
         if not multiple_max_means:
@@ -732,7 +732,7 @@ def change_n_gram(settings, increment, current_f1s, mp_folds):
                 significant_change = False
         else:
             significant_change = False
-            settings['n_gram'] -= increment
+            settings['n_gram'] -= increment """
 
     return current_f1s
 
@@ -779,7 +779,7 @@ def refine_rbf_params(settings, mp_folds):
 
 def refine_poly_params(settings, mp_folds):
     """ Finds the optimal set of poly kernel hyperparameters in a finely grained search """
-    poly_param_values = generate_poly_values(5, 7, 3, 1)
+    poly_param_values = generate_poly_values(4, 5, 1, 1)
 
     _, poly_params = find_poly_params(settings, mp_folds, poly_param_values)
 
@@ -806,7 +806,7 @@ def learn_settings(settings, mp_folds):
 
     print('RBF mean: {}'.format(rbf_mean))
 
-    poly_param_values = generate_poly_values(5, 7, 1, 1)
+    poly_param_values = generate_poly_values(4, 5, 1, 1)
 
     poly_f1s, poly_params = find_poly_params(settings, mp_folds, poly_param_values)
 
@@ -907,8 +907,8 @@ def run():
         'normalise': False,
         'svd': False,
         'division_ids': [102564, 102565],
-        'test_mp_file': 'test_data_combined.txt',
-        'train_mp_file': 'train_data_combined.txt',
+        'test_mp_file': 'test-stratified.txt',
+        'train_mp_file': 'train-stratified.txt',
         'cache': 1024
     }
 
@@ -938,9 +938,9 @@ def run():
                 'votes': votes
             })
 
-    member_data = train_data + test_data
+        member_data = train_data + test_data
 
-    settings['speeches'] = get_speeches(corpus, member_data, settings['debates'])
+        settings['speeches'] = get_speeches(corpus, member_data, settings['debates'])
 
     print('Got speeches')
 

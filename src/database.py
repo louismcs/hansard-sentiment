@@ -19,7 +19,7 @@ class Database:
 
 
     def __enter__(self):
-        self.conn = sqlite3.connect('/Data/Iraq/corpus.db')
+        self.conn = sqlite3.connect('Data/Iraq/corpus.db')
         self.curs = self.conn.cursor()
         return self
 
