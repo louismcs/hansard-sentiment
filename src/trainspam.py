@@ -3,14 +3,14 @@
 import collections
 import pickle
 
+from random import shuffle
+
 from bs4 import BeautifulSoup
 from numpy import array, array_split, mean, std
 from sklearn import svm
 from sklearn.metrics import accuracy_score, f1_score
 
-from trainhelper import (generate_higher_log_params, generate_higher_params,
-                         generate_linear_param_sets, generate_linear_values,
-                         generate_lower_log_params, generate_lower_params,
+from trainhelper import (generate_linear_param_sets, generate_linear_values,
                          generate_poly_param_sets, generate_poly_values,
                          generate_rbf_param_sets, generate_rbf_values,
                          generate_refined_linear_values, generate_refined_rbf_values,
@@ -21,7 +21,7 @@ from trainhelper import (generate_higher_log_params, generate_higher_params,
 
 
 def generate_word_list(body, settings):
-    """ Returns a list of words, given a message tag """
+    """ Returns a list of words given an email body """
     body = remove_tags(body)
     body = remove_punctuation(body)
     body = body.lower()
@@ -38,24 +38,10 @@ def generate_word_list(body, settings):
 
 
 def get_messages(file):
-    """ Returns the BeautifulSoup of all messages in the given .ems file """
+    """ Returns the body of all messages in the given .ems file """
     handler = open(file).read()
     soup = BeautifulSoup(handler, "lxml-xml")
     return [str(message.MESSAGE_BODY) for message in soup.find_all("MESSAGE")]
-
-
-def parse_train_ems(file, settings, sum_bag):
-    """ Parses a train ems file and creates the corresponding bags of words"""
-    messages = get_messages(file)
-    bags = []
-    for message in messages:
-        word_list = generate_word_list(str(message.MESSAGE_BODY), settings)
-        bag = collections.Counter()
-        for word in word_list:
-            bag[word] += 1
-            sum_bag[word] += 1
-        bags.append(bag)
-    return bags, sum_bag
 
 
 def generate_bags(messages, settings, sum_bag):
@@ -73,17 +59,6 @@ def generate_bags(messages, settings, sum_bag):
 
     return bags, sum_bag
 
-def parse_test_ems(file, settings):
-    """ Parses a test ems file and creates the corresponding bags of words"""
-    messages = get_messages(file)
-    bags = []
-    for message in messages:
-        word_list = generate_word_list(str(message.MESSAGE_BODY), settings)
-        bag = collections.Counter()
-        for word in word_list:
-            bag[word] += 1
-        bags.append(bag)
-    return bags
 
 
 def condense_bags(bags, words):
@@ -150,6 +125,8 @@ def generate_test_data(test_data, settings, common_words):
 
 def make_folds(messages, no_of_folds):
     """ Given a list of messages, splits them into a given number of disjoint lists of messages """
+
+    shuffle(messages)
 
     test_folds = [list(element) for element in array_split(messages, no_of_folds)]
 
@@ -227,9 +204,8 @@ def compute_linear_fold_f1s(settings, spam_message_fold, gen_message_fold, linea
     for param_values in linear_param_sets:
         classifier = svm.SVC(C=param_values['c'], kernel='linear', cache_size=settings['cache'])
 
-        print('Before')
         classifier.fit(train_features, train_samples)
-        print('After')
+
         test_predictions = classifier.predict(test_features)
 
         score = f1_score(test_samples, test_predictions)
@@ -354,14 +330,14 @@ def find_linear_params(settings, spam_message_folds, gen_message_folds, linear_p
         for i, param_f1s in enumerate(f1_matrix):
             f1_mean = mean(param_f1s)
             if f1_mean > max_f1_mean:
-                multiple_max_means = False
+                """ multiple_max_means = False """
                 max_linear_param_set = linear_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
-            elif f1_mean == max_f1_mean:
-                multiple_max_means = True
+            """ elif f1_mean == max_f1_mean:
+                multiple_max_means = True """
 
-        if len(linear_param_values['cs']) > 1 and not multiple_max_means:
+        """ if len(linear_param_values['cs']) > 1 and not multiple_max_means:
             min_c = linear_param_values['cs'][0]
             max_c = linear_param_values['cs'][len(linear_param_values['cs']) - 1]
 
@@ -372,7 +348,7 @@ def find_linear_params(settings, spam_message_folds, gen_message_folds, linear_p
             elif max_linear_param_set['c'] == max_c:
                 c_log_diff = linear_param_values['cs'][1] / linear_param_values['cs'][0]
                 linear_param_values['cs'] = generate_higher_log_params(max_c, 5, c_log_diff)
-                params_found = False
+                params_found = False """
 
     return max_f1s, max_linear_param_set
 
@@ -397,14 +373,14 @@ def find_rbf_params(settings, spam_message_folds, gen_message_folds, rbf_param_v
         for i, param_f1s in enumerate(f1_matrix):
             f1_mean = mean(param_f1s)
             if f1_mean > max_f1_mean:
-                multiple_max_means = False
+                """ multiple_max_means = False """
                 max_rbf_param_set = rbf_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
-            elif f1_mean == max_f1_mean:
-                multiple_max_means = True
+            """ elif f1_mean == max_f1_mean:
+                multiple_max_means = True """
 
-        if not multiple_max_means:
+        """ if not multiple_max_means:
             if len(rbf_param_values['cs']) > 1:
                 min_c = rbf_param_values['cs'][0]
                 max_c = rbf_param_values['cs'][len(rbf_param_values['cs']) - 1]
@@ -431,7 +407,7 @@ def find_rbf_params(settings, spam_message_folds, gen_message_folds, rbf_param_v
                     gamma_log_diff = rbf_param_values['gammas'][1] / rbf_param_values['gammas'][0]
                     rbf_param_values['gammas'] = generate_higher_log_params(max_gamma, 5,
                                                                             gamma_log_diff)
-                    params_found = False
+                    params_found = False """
 
     return max_f1s, max_rbf_param_set
 
@@ -457,14 +433,14 @@ def find_poly_params(settings, spam_message_folds, gen_message_folds, poly_param
         for i, param_f1s in enumerate(f1_matrix):
             f1_mean = mean(param_f1s)
             if f1_mean > max_f1_mean:
-                multiple_max_means = False
+                """ multiple_max_means = False """
                 max_poly_param_set = poly_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
-            elif f1_mean == max_f1_mean:
-                multiple_max_means = True
+            """ elif f1_mean == max_f1_mean:
+                multiple_max_means = True """
 
-        if not multiple_max_means:
+        """ if not multiple_max_means:
             if len(poly_param_values['cs']) > 1:
                 min_c = poly_param_values['cs'][0]
                 max_c = poly_param_values['cs'][len(poly_param_values['cs']) - 1]
@@ -512,7 +488,7 @@ def find_poly_params(settings, spam_message_folds, gen_message_folds, poly_param
                 if max_poly_param_set['r'] == max_r:
                     r_diff = poly_param_values['rs'][1] - poly_param_values['rs'][0]
                     poly_param_values['rs'] = generate_higher_params(max_r, 3, r_diff)
-                    params_found = False
+                    params_found = False """
 
     return max_f1s, max_poly_param_set
 
@@ -585,7 +561,7 @@ def refine_rbf_params(settings, spam_message_folds, gen_message_folds):
 
 def refine_poly_params(settings, spam_message_folds, gen_message_folds):
     """ Finds the optimal set of poly kernel hyperparameters in a finely grained search """
-    poly_param_values = generate_poly_values(5, 7, 3, 1)
+    poly_param_values = generate_poly_values(4, 5, 1, 1)
 
     _, poly_params = find_poly_params(settings, spam_message_folds, gen_message_folds,
                                       poly_param_values)
@@ -615,7 +591,7 @@ def learn_settings(settings, spam_message_folds, gen_message_folds):
 
     print('RBF mean: {}'.format(rbf_mean))
 
-    poly_param_values = generate_poly_values(5, 7, 1, 1)
+    poly_param_values = generate_poly_values(4, 5, 1, 1)
 
     poly_f1s, poly_params = find_poly_params(settings, spam_message_folds, gen_message_folds,
                                              poly_param_values)
@@ -714,7 +690,7 @@ def run():
     """ Sets the settings and runs the program  """
 
     settings = {
-        'use_test_data': False,
+        'use_test_data': True,
         'black_list': [],
         'white_list': [],
         'bag_size': 100,
@@ -749,6 +725,7 @@ def run():
                 'gen': gen_test_messages
             }
         }
+        settings['max_bag_size'] = False
         compute_f1(settings, data)
 
 run()

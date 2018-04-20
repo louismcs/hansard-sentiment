@@ -77,6 +77,7 @@ def match_full_name(speaker, member_lists):
 
     return mp_id
 
+
 def get_speeches():
     """ Adds debates and their speeches to the database """
     with database.Database() as corpus:

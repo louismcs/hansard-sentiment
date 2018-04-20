@@ -302,8 +302,8 @@ def generate_rbf_values(no_of_cs, no_of_gammas):
 def generate_poly_values(no_of_cs, no_of_gammas, no_of_ds, no_of_rs):
     """ Generates poly hyperparameters """
 
-    c_values = logspace(-3, 1, no_of_cs)
-    gamma_values = logspace(-3, 3, no_of_gammas)
+    c_values = logspace(-3, 0, no_of_cs)
+    gamma_values = logspace(-1, 3, no_of_gammas)
 
     d_values = [i for i in range(2, 2 + no_of_ds)]
     r_values = [i for i in range(0, no_of_rs)]
@@ -358,3 +358,9 @@ def generate_refined_poly_values(poly_params, no_of_cs, no_of_gammas, no_of_ds, 
         'ds': d_values,
         'rs': r_values
     }
+""" 
+SETS = generate_poly_param_sets(generate_poly_values(4, 5, 1, 1))
+
+for count, values in enumerate(SETS):
+    print('{}: c: {}. gamma: {}. d: {}. r: {}.'.format(count, values['c'], values['gamma'], values['d'], values['r']))
+ """

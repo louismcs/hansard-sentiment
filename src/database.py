@@ -99,7 +99,7 @@ class Database:
 
 
     def insert_division(self, division_id, division_date, title):
-        """ Inserts a debate into the database given its data """
+        """ Inserts a division into the database given its data """
         try:
             self.curs.execute("INSERT INTO DIVISION (ID, DATE, TITLE) VALUES (?, ?, ?)",
                               (division_id, division_date, title))
@@ -182,7 +182,8 @@ class Database:
 
 
     def get_all_members_from_term(self, term, division_id):
-        """ Returns a list of debate ids where the given term is in the debate title """
+        """ Returns a list of member ids corresponding to members who voted in a
+            given division and spoke in a debate matching a given term """
 
         self.curs.execute('''SELECT DISTINCT MEMBER_ID FROM SPEECH
                             WHERE DEBATE_URL IN (SELECT URL FROM DEBATE
@@ -199,7 +200,8 @@ class Database:
 
 
     def get_aye_members_from_term(self, term, division_id):
-        """ Returns a list of debate ids where the given term is in the debate title """
+        """ Returns a list of member ids corresponding to members who voted aye
+            in a given division and spoke in a debate matching a given term """
 
         self.curs.execute('''SELECT DISTINCT MEMBER_ID FROM SPEECH
                             WHERE DEBATE_URL IN (SELECT URL FROM DEBATE
@@ -216,7 +218,8 @@ class Database:
 
 
     def get_no_members_from_term(self, term, division_id):
-        """ Returns a list of debate ids where the given term is in the debate title """
+        """ Returns a list of member ids corresponding to members who voted no
+            in a given division and spoke in a debate matching a given term """
 
         self.curs.execute('''SELECT DISTINCT MEMBER_ID FROM SPEECH
                             WHERE DEBATE_URL IN (SELECT URL FROM DEBATE
@@ -267,7 +270,8 @@ class Database:
 
 
     def get_members_from_term(self, term, division_id):
-        """ Returns a list of debate ids where the given term is in the debate title """
+        """ Returns a list of member ids corresponding to members who voted in a
+            given division and spoke in a debate matching a given term """
 
         self.curs.execute('''SELECT DISTINCT MEMBER_ID FROM SPEECH
                             WHERE DEBATE_URL IN (SELECT URL FROM DEBATE
@@ -285,6 +289,7 @@ class Database:
 
     def get_number_of_speeches(self, debate_ids, member_ids):
         """ Returns the total number of speeches in the given debates by the given members """
+
         statement = ''' SELECT COUNT(*) FROM SPEECH WHERE DEBATE_URL IN ({debates})
                         AND MEMBER_ID IN ({members}) '''.format(
                             debates=','.join(['?']*len(debate_ids)),

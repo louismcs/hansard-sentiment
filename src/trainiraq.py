@@ -260,7 +260,7 @@ def parse_speeches(settings, mp_data, train):
 
 def generate_train_data(settings, mp_list):
     """ Returns the features and samples in a form that can be used
-         by a classifier, given the filenames for the data """
+        by a classifier, given the filenames for the data """
 
     aye_features, no_features, sum_bag, _ = parse_speeches(settings, mp_list, True)
     if settings['max_bag_size']:
@@ -279,7 +279,7 @@ def generate_train_data(settings, mp_list):
 
 def generate_test_data(common_words, settings, mp_list):
     """ Returns the features and samples in a form that can be used
-         by a classifier, given the filenames for the data """
+        by a classifier, given the filenames for the data """
 
     aye_features, no_features, _, members = parse_speeches(settings, mp_list, False)
 
@@ -428,7 +428,7 @@ def compute_poly_fold_f1s(settings, data, poly_param_values):
 
 
 def compute_f1(settings, data):
-    """ Runs one loop of the cross-validation """
+    """ Computes the F1 score for given data according to the given settings """
 
     train_features, train_samples, common_words = generate_train_data(settings, data['train'])
 

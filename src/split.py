@@ -9,8 +9,8 @@ import database
 
 
 def get_member_ids(corpus, debate_terms, division_id):
-    """ Given a list of terms, finds all the debates whose titles
-        contain one or more of these terms and returns their ids """
+    """ Returns a list of member ids corresponding to members who voted in a given
+        division and spoke in a debate matching at least one of a list of given terms """
 
     debates = set()
     for term in debate_terms:
@@ -20,8 +20,8 @@ def get_member_ids(corpus, debate_terms, division_id):
 
 
 def intersect_member_ids(corpus, debate_terms, division_ids):
-    """ Given a list of terms, finds all the debates whose titles
-        contain one or more of these terms and returns their ids """
+    """ Returns a list of member ids corresponding to members who voted in all given
+        divisions and spoke in a debate matching at least one of a list of given terms """
     member_sets = [get_member_ids(corpus, debate_terms, division_id)
                    for division_id in division_ids]
     return list(set.intersection(*member_sets))
