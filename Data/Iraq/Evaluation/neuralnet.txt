@@ -1,0 +1,4 @@
+Accuracy by MP: 75.0%
+F1 by MP: 0.8205128205128205
+Accuracy by speech: 59.36254980079681%
+F1 by speech: 0.711864406779661

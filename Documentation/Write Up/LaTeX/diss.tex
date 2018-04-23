@@ -291,7 +291,7 @@ y &= \underset{y}{\operatorname{argmax}}\bigg(\frac{\prod_{i = 1}^{k}p(x_i | C =
 We can estimate each $p(x_i | C = y)$ trivially using the training data. Given that in this project I am only considering binary classifiers, where $y \in {-1, +1}$, we can write this as:
 
 \begin{equation}
-max \bigg( \displaystyle \prod_{i = 1}^{k}p(x_i | C = -1), \prod_{i = 1}^{k}p(x_i | C = +1) \bigg). \\
+\text{max} \bigg( \displaystyle \prod_{i = 1}^{k}p(x_i | C = -1), \prod_{i = 1}^{k}p(x_i | C = +1) \bigg). \\
 \end{equation}
 
 Due to its simplicity and good performance, I will use the na\"{i}ve Bayes classifier as a baseline for my project.

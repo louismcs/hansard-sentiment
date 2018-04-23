@@ -330,7 +330,7 @@ def find_linear_params(settings, spam_message_folds, gen_message_folds, linear_p
         for i, param_f1s in enumerate(f1_matrix):
             f1_mean = mean(param_f1s)
             if f1_mean > max_f1_mean:
-                """ multiple_max_means = False """
+                #multiple_max_means = False
                 max_linear_param_set = linear_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
@@ -373,7 +373,7 @@ def find_rbf_params(settings, spam_message_folds, gen_message_folds, rbf_param_v
         for i, param_f1s in enumerate(f1_matrix):
             f1_mean = mean(param_f1s)
             if f1_mean > max_f1_mean:
-                """ multiple_max_means = False """
+                #multiple_max_means = False
                 max_rbf_param_set = rbf_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
@@ -433,7 +433,7 @@ def find_poly_params(settings, spam_message_folds, gen_message_folds, poly_param
         for i, param_f1s in enumerate(f1_matrix):
             f1_mean = mean(param_f1s)
             if f1_mean > max_f1_mean:
-                """ multiple_max_means = False """
+                #multiple_max_means = False
                 max_poly_param_set = poly_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
@@ -561,7 +561,7 @@ def refine_rbf_params(settings, spam_message_folds, gen_message_folds):
 
 def refine_poly_params(settings, spam_message_folds, gen_message_folds):
     """ Finds the optimal set of poly kernel hyperparameters in a finely grained search """
-    poly_param_values = generate_poly_values(4, 5, 1, 1)
+    poly_param_values = generate_poly_values(4, 1, 1, 1)
 
     _, poly_params = find_poly_params(settings, spam_message_folds, gen_message_folds,
                                       poly_param_values)
@@ -591,7 +591,7 @@ def learn_settings(settings, spam_message_folds, gen_message_folds):
 
     print('RBF mean: {}'.format(rbf_mean))
 
-    poly_param_values = generate_poly_values(4, 5, 1, 1)
+    poly_param_values = generate_poly_values(4, 1, 1, 1)
 
     poly_f1s, poly_params = find_poly_params(settings, spam_message_folds, gen_message_folds,
                                              poly_param_values)
