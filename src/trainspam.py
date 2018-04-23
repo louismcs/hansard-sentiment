@@ -6,7 +6,7 @@ import pickle
 from random import shuffle
 
 from bs4 import BeautifulSoup
-from numpy import array, array_split, mean, std
+from numpy import array, mean, std
 from sklearn import svm
 from sklearn.metrics import accuracy_score, f1_score
 
@@ -123,12 +123,25 @@ def generate_test_data(test_data, settings, common_words):
     return features, samples
 
 
+def split_array(messages, no_of_folds):
+    """ Splits the given messages list into a given number of roughly equal disjoint lists """
+
+    split_size = round(len(messages) / no_of_folds)
+    folds = []
+    index = 0
+    for _ in range(no_of_folds - 1):
+        folds.append(messages[index : index + split_size])
+        index += split_size
+    folds.append(messages[index:])
+    return folds
+
+
 def make_folds(messages, no_of_folds):
     """ Given a list of messages, splits them into a given number of disjoint lists of messages """
 
     shuffle(messages)
 
-    test_folds = [list(element) for element in array_split(messages, no_of_folds)]
+    test_folds = split_array(messages, no_of_folds)
 
     ret = []
     for test_fold in test_folds:
