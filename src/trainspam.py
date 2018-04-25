@@ -162,8 +162,9 @@ def compute_f1(settings, data):
     train_features, train_samples, common_words = generate_train_data(data['train'], settings)
 
     test_features, test_samples = generate_test_data(data['test'], settings, common_words)
-
-    if settings['kernel'] == 'linear':
+    if settings['default_svm']:
+        classifier = svm.SVC(cache_size=settings['cache'])
+    elif settings['kernel'] == 'linear':
         classifier = svm.SVC(C=settings['linear_c'], kernel='linear', cache_size=settings['cache'])
     elif settings['kernel'] == 'rbf':
         classifier = svm.SVC(C=settings['rbf_c'], kernel='rbf', gamma=settings['rbf_gamma'],
@@ -586,6 +587,39 @@ def refine_poly_params(settings, spam_message_folds, gen_message_folds):
 
 def learn_settings(settings, spam_message_folds, gen_message_folds):
     """ Determines the optimal set of settings and hyperparameters for the classifier """
+
+    folds = []
+
+    for i, spam_fold in enumerate(spam_message_folds):
+        folds.append({
+            'train': {
+                'gen': gen_message_folds[i]['train'],
+                'spam': spam_fold['train']
+            },
+            'test': {
+                'gen': gen_message_folds[i]['test'],
+                'spam': spam_fold['test']
+            }
+        })
+
+    current_f1s = [compute_f1(settings, fold) for fold in folds]
+
+    current_f1s = choose_boolean_setting(settings, 'normalise', current_f1s, folds)
+
+    current_f1s = choose_boolean_setting(settings, 'remove_stopwords', current_f1s, folds)
+
+    current_f1s = choose_boolean_setting(settings, 'stem_words', current_f1s, folds)
+
+    print('Boolean settings learned')
+    print(current_f1s)
+
+    current_f1s = change_n_gram(settings, 1, current_f1s, folds)
+
+    print('N gram learned')
+    print(current_f1s)
+
+    settings['default_svm'] = False
+
     linear_param_values = generate_linear_values(5)
 
     linear_f1s, linear_params = find_linear_params(settings, spam_message_folds, gen_message_folds,
@@ -642,34 +676,7 @@ def learn_settings(settings, spam_message_folds, gen_message_folds):
     print('Hyper parameters learned')
     print(current_f1s)
 
-    folds = []
-
-    for i, spam_fold in enumerate(spam_message_folds):
-        folds.append({
-            'train': {
-                'gen': gen_message_folds[i]['train'],
-                'spam': spam_fold['train']
-            },
-            'test': {
-                'gen': gen_message_folds[i]['test'],
-                'spam': spam_fold['test']
-            }
-        })
-
-    current_f1s = choose_boolean_setting(settings, 'normalise', current_f1s, folds)
-
-    current_f1s = choose_boolean_setting(settings, 'remove_stopwords', current_f1s, folds)
-
-    current_f1s = choose_boolean_setting(settings, 'stem_words', current_f1s, folds)
-
-
-    print('Boolean settings learned')
-    print(current_f1s)
-
-    current_f1s = change_n_gram(settings, 1, current_f1s, folds)
-
-    print('N gram learned')
-    print(current_f1s)
+    pickle.dump(settings, open('unrefined_settings.p', 'wb'))
 
     if settings['kernel'] == 'linear':
         current_f1s, linear_params = refine_linear_params(settings, spam_message_folds,
@@ -690,9 +697,9 @@ def learn_settings(settings, spam_message_folds, gen_message_folds):
         settings['poly_d'] = poly_params['d']
         settings['poly_r'] = poly_params['r']
 
-    settings['max_bag_size'] = False
+    settings['bag_size'] = 2000
 
-    pickle.dump(settings, open('settings.p', 'wb'))
+    pickle.dump(settings, open('refined_settings.p', 'wb'))
 
     print('Hyper parameters refined')
     print(current_f1s)
@@ -714,7 +721,8 @@ def run():
         'no_of_folds': 10,
         'normalise': False,
         'svd': False,
-        'cache': 1024
+        'cache': 1024,
+        'default_svm': True
     }
 
     spam_train_messages = get_messages('Data/Spam/train_SPAM.ems')

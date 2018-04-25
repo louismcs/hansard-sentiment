@@ -29,27 +29,25 @@
 \BOOKMARK [2][-]{subsection.3.2.1}{Scraping Data}{section.3.2}% 29
 \BOOKMARK [2][-]{subsection.3.2.2}{Wrangling Data}{section.3.2}% 30
 \BOOKMARK [2][-]{subsection.3.2.3}{Collating Data}{section.3.2}% 31
-\BOOKMARK [2][-]{subsection.3.2.4}{Database - DEADLINE: 16TH APRIL}{section.3.2}% 32
+\BOOKMARK [2][-]{subsection.3.2.4}{Database - DEADLINE: 25TH APRIL}{section.3.2}% 32
 \BOOKMARK [1][-]{section.3.3}{Classifier}{chapter.3}% 33
 \BOOKMARK [2][-]{subsection.3.3.1}{Constructing Features}{section.3.3}% 34
 \BOOKMARK [2][-]{subsection.3.3.2}{Optimisations}{section.3.3}% 35
-\BOOKMARK [1][-]{section.3.4}{Summary - DEADLINE: 18TH APRIL}{chapter.3}% 36
-\BOOKMARK [0][-]{chapter.4}{Evaluation Code - DEADLINE: 23RD APRIL}{}% 37
-\BOOKMARK [0][-]{chapter.5}{Evaluation}{}% 38
-\BOOKMARK [1][-]{section.5.1}{Unit Testing}{chapter.5}% 39
-\BOOKMARK [1][-]{section.5.2}{Internal Evaluation}{chapter.5}% 40
-\BOOKMARK [2][-]{subsection.5.2.1}{Manual Checks}{section.5.2}% 41
-\BOOKMARK [2][-]{subsection.5.2.2}{Comparison of Optimisations}{section.5.2}% 42
-\BOOKMARK [2][-]{subsection.5.2.3}{Baseline Comparison - DEADLINE: 25TH APRIL}{section.5.2}% 43
-\BOOKMARK [1][-]{section.5.3}{External Evaluation}{chapter.5}% 44
-\BOOKMARK [2][-]{subsection.5.3.1}{Spam Email Dataset}{section.5.3}% 45
-\BOOKMARK [2][-]{subsection.5.3.2}{Comparisons With Related Work}{section.5.3}% 46
-\BOOKMARK [1][-]{section.5.4}{Evaluation of Project Goals}{chapter.5}% 47
-\BOOKMARK [1][-]{section.5.5}{Summary - DEADLINE: 27TH APRIL}{chapter.5}% 48
-\BOOKMARK [0][-]{chapter.6}{Conclusions}{}% 49
-\BOOKMARK [1][-]{section.6.1}{Achievements}{chapter.6}% 50
-\BOOKMARK [1][-]{section.6.2}{Lessons Learned}{chapter.6}% 51
-\BOOKMARK [1][-]{section.6.3}{Future Work - DEADLINE: 28TH APRIL}{chapter.6}% 52
-\BOOKMARK [0][-]{chapter.7}{Diagrams - DEADLINE: 30TH APRIL}{}% 53
-\BOOKMARK [0][-]{chapter.7}{Bibliography}{}% 54
-\BOOKMARK [0][-]{appendix.A}{Project Proposal}{}% 55
+\BOOKMARK [1][-]{section.3.4}{Summary - DEADLINE: 27TH APRIL}{chapter.3}% 36
+\BOOKMARK [0][-]{chapter.4}{Evaluation}{}% 37
+\BOOKMARK [1][-]{section.4.1}{Unit Testing}{chapter.4}% 38
+\BOOKMARK [1][-]{section.4.2}{Internal Evaluation}{chapter.4}% 39
+\BOOKMARK [2][-]{subsection.4.2.1}{Manual Checks}{section.4.2}% 40
+\BOOKMARK [2][-]{subsection.4.2.2}{Comparison of Optimisations}{section.4.2}% 41
+\BOOKMARK [2][-]{subsection.4.2.3}{Baseline Comparison - DEADLINE: 30TH APRIL}{section.4.2}% 42
+\BOOKMARK [1][-]{section.4.3}{External Evaluation}{chapter.4}% 43
+\BOOKMARK [2][-]{subsection.4.3.1}{Spam Email Dataset}{section.4.3}% 44
+\BOOKMARK [2][-]{subsection.4.3.2}{Comparisons With Related Work}{section.4.3}% 45
+\BOOKMARK [1][-]{section.4.4}{Evaluation of Project Goals}{chapter.4}% 46
+\BOOKMARK [1][-]{section.4.5}{Summary - DEADLINE: 2ND MAY}{chapter.4}% 47
+\BOOKMARK [0][-]{chapter.5}{Conclusions}{}% 48
+\BOOKMARK [1][-]{section.5.1}{Achievements}{chapter.5}% 49
+\BOOKMARK [1][-]{section.5.2}{Lessons Learned}{chapter.5}% 50
+\BOOKMARK [1][-]{section.5.3}{Future Work - DEADLINE: 4TH MAY}{chapter.5}% 51
+\BOOKMARK [0][-]{section.5.3}{Bibliography}{}% 52
+\BOOKMARK [0][-]{appendix.A}{Project Proposal}{}% 53
