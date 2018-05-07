@@ -31,6 +31,10 @@ John Chilcot et~al.
 Cambridge Dictionary.
 \newblock Corpus dictionary definition.
 
+\bibitem{pythonfaqs}
+Python~Software Foundation.
+\newblock Design and history faq.
+
 \bibitem{open_parliament_licence}
 UK~Government.
 \newblock Open parliament licence v3.0.
@@ -89,6 +93,22 @@ P.~Robinson, P.~Goddard, R.~Brown, and P.M. Taylor.
 Kareem Shaheen.
 \newblock Us-led coalition says its strikes have killed 800 iraqi and syrian
   civilians.
+
+\bibitem{sqlitetypes}
+SQLite.
+\newblock Datatypes in sqlite version 3.
+
+\bibitem{sqlitezeroconfig}
+SQLite.
+\newblock Sqlite is a zero-configuration database.
+
+\bibitem{sqliteserverless}
+SQLite.
+\newblock Sqlite is serverless.
+
+\bibitem{sqlitelicence}
+SQLite.
+\newblock Sqlite licence.
 
 \bibitem{predicting_elections_twitter}
 Andranik Tumasjan, Timm~Oliver Sprenger, Philipp~G Sandner, and Isabell~M

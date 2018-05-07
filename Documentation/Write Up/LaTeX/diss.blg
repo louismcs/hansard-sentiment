@@ -13,8 +13,18 @@ Warning--entry type for "factiva" isn't style-file defined
 --line 42 of file refs.bib
 Warning--entry type for "parsing" isn't style-file defined
 --line 182 of file refs.bib
+Warning--entry type for "pythonfaqs" isn't style-file defined
+--line 189 of file refs.bib
+Warning--entry type for "sqlitezeroconfig" isn't style-file defined
+--line 196 of file refs.bib
+Warning--entry type for "sqliteserverless" isn't style-file defined
+--line 203 of file refs.bib
+Warning--entry type for "sqlitelicence" isn't style-file defined
+--line 210 of file refs.bib
+Warning--entry type for "sqlitetypes" isn't style-file defined
+--line 217 of file refs.bib
 Warning--empty journal in rep_dem_one
 Warning--empty year in first_twitter
 Warning--empty publisher in nlp_book
 Warning--can't use both volume and number fields in twitter_as_a_corpus
-(There were 10 warnings)
+(There were 15 warnings)

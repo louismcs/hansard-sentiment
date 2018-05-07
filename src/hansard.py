@@ -189,9 +189,9 @@ def add_day(corpus, day, member_lists):
                                .format(date_string, sec['slug']), day, sec['title'],
                                member_lists)
                 except KeyError:
-                    print('Not a standard section')
+                    pass
         except KeyError:
-            print('Not standard sections')
+            pass
 
     except ValueError:
         print('No data for {}'.format(date_string))

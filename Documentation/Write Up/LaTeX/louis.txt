@@ -1,0 +1,400 @@
+
+
+1 0 obj
+<< /S /GoTo /D (chapter.1) >>
+endobj
+4 0 obj
+(Introduction)
+endobj
+5 0 obj
+<< /S /GoTo /D (section.1.1) >>
+endobj
+8 0 obj
+(Motivation)
+endobj
+9 0 obj
+<< /S /GoTo /D (section.1.2) >>
+endobj
+12 0 obj
+(Problem Formulation)
+endobj
+13 0 obj
+<< /S /GoTo /D (section.1.3) >>
+endobj
+16 0 obj
+(Related Work)
+endobj
+17 0 obj
+<< /S /GoTo /D (section.1.4) >>
+endobj
+20 0 obj
+(Overview of the Project)
+endobj
+21 0 obj
+<< /S /GoTo /D (chapter.2) >>
+endobj
+24 0 obj
+(Preparation)
+endobj
+25 0 obj
+<< /S /GoTo /D (section.2.1) >>
+endobj
+28 0 obj
+(Requirements Analysis)
+endobj
+29 0 obj
+<< /S /GoTo /D (section.2.2) >>
+endobj
+32 0 obj
+(Changes from the Initial Proposal)
+endobj
+33 0 obj
+<< /S /GoTo /D (section.2.3) >>
+endobj
+36 0 obj
+(Starting Point - DEADLINE: 11TH APRIL)
+endobj
+37 0 obj
+<< /S /GoTo /D (section.2.4) >>
+endobj
+40 0 obj
+(Introduction to Supervised Learning)
+endobj
+41 0 obj
+<< /S /GoTo /D (section.2.5) >>
+endobj
+44 0 obj
+(Introduction to the Na57ve Bayes Classifier)
+endobj
+45 0 obj
+<< /S /GoTo /D (section.2.6) >>
+endobj
+48 0 obj
+(Introduction to Support Vector Machines)
+endobj
+49 0 obj
+<< /S /GoTo /D (section.2.7) >>
+endobj
+52 0 obj
+(Introduction to Evaluating Supervised Learning Systems)
+endobj
+53 0 obj
+<< /S /GoTo /D (subsection.2.7.1) >>
+endobj
+56 0 obj
+(Train/Test Split)
+endobj
+57 0 obj
+<< /S /GoTo /D (subsection.2.7.2) >>
+endobj
+60 0 obj
+(Cross Validation)
+endobj
+61 0 obj
+<< /S /GoTo /D (subsection.2.7.3) >>
+endobj
+64 0 obj
+(Evaluation Metrics)
+endobj
+65 0 obj
+<< /S /GoTo /D (section.2.8) >>
+endobj
+68 0 obj
+(Introduction to the Bag-of-Words Model)
+endobj
+69 0 obj
+<< /S /GoTo /D (section.2.9) >>
+endobj
+72 0 obj
+(Software Engineering Techniques)
+endobj
+73 0 obj
+<< /S /GoTo /D (section.2.10) >>
+endobj
+76 0 obj
+(Choice of Tools)
+endobj
+77 0 obj
+<< /S /GoTo /D (subsection.2.10.1) >>
+endobj
+80 0 obj
+(Programming Language)
+endobj
+81 0 obj
+<< /S /GoTo /D (subsection.2.10.2) >>
+endobj
+84 0 obj
+(Database)
+endobj
+85 0 obj
+<< /S /GoTo /D (subsection.2.10.3) >>
+endobj
+88 0 obj
+(Libraries)
+endobj
+89 0 obj
+<< /S /GoTo /D (subsection.2.10.4) >>
+endobj
+92 0 obj
+(Development Environment)
+endobj
+93 0 obj
+<< /S /GoTo /D (subsection.2.10.5) >>
+endobj
+96 0 obj
+(Table of Software Used)
+endobj
+97 0 obj
+<< /S /GoTo /D (section.2.11) >>
+endobj
+100 0 obj
+(Summary - DEADLINE: 13TH APRIL)
+endobj
+101 0 obj
+<< /S /GoTo /D (chapter.3) >>
+endobj
+104 0 obj
+(Implementation)
+endobj
+105 0 obj
+<< /S /GoTo /D (section.3.1) >>
+endobj
+108 0 obj
+(System Overview)
+endobj
+109 0 obj
+<< /S /GoTo /D (section.3.2) >>
+endobj
+112 0 obj
+(Data Acquisition)
+endobj
+113 0 obj
+<< /S /GoTo /D (subsection.3.2.1) >>
+endobj
+116 0 obj
+(Scraping Data)
+endobj
+117 0 obj
+<< /S /GoTo /D (subsection.3.2.2) >>
+endobj
+120 0 obj
+(Wrangling Data)
+endobj
+121 0 obj
+<< /S /GoTo /D (subsection.3.2.3) >>
+endobj
+124 0 obj
+(Labelling Data)
+endobj
+125 0 obj
+<< /S /GoTo /D (subsection.3.2.4) >>
+endobj
+128 0 obj
+(Database - DEADLINE: 2ND MAY)
+endobj
+129 0 obj
+<< /S /GoTo /D (section.3.3) >>
+endobj
+132 0 obj
+(Classifier)
+endobj
+133 0 obj
+<< /S /GoTo /D (subsection.3.3.1) >>
+endobj
+136 0 obj
+(Constructing Features)
+endobj
+137 0 obj
+<< /S /GoTo /D (subsection.3.3.2) >>
+endobj
+140 0 obj
+(Optimisations)
+endobj
+141 0 obj
+<< /S /GoTo /D (section.3.4) >>
+endobj
+144 0 obj
+(Summary - DEADLINE: 4TH MAY)
+endobj
+145 0 obj
+<< /S /GoTo /D (chapter.4) >>
+endobj
+148 0 obj
+(Evaluation)
+endobj
+149 0 obj
+<< /S /GoTo /D (section.4.1) >>
+endobj
+152 0 obj
+(Unit Testing)
+endobj
+153 0 obj
+<< /S /GoTo /D (section.4.2) >>
+endobj
+156 0 obj
+(Internal Evaluation)
+endobj
+157 0 obj
+<< /S /GoTo /D (subsection.4.2.1) >>
+endobj
+160 0 obj
+(Manual Checks)
+endobj
+161 0 obj
+<< /S /GoTo /D (subsection.4.2.2) >>
+endobj
+164 0 obj
+(Comparison of Optimisations)
+endobj
+165 0 obj
+<< /S /GoTo /D (subsection.4.2.3) >>
+endobj
+168 0 obj
+(Baseline Comparison - DEADLINE: 7TH MAY)
+endobj
+169 0 obj
+<< /S /GoTo /D (section.4.3) >>
+endobj
+172 0 obj
+(External Evaluation)
+endobj
+173 0 obj
+<< /S /GoTo /D (subsection.4.3.1) >>
+endobj
+176 0 obj
+(Spam Email Dataset)
+endobj
+177 0 obj
+<< /S /GoTo /D (subsection.4.3.2) >>
+endobj
+180 0 obj
+(Comparisons With Related Work)
+endobj
+181 0 obj
+<< /S /GoTo /D (section.4.4) >>
+endobj
+184 0 obj
+(Evaluation of Project Goals)
+endobj
+185 0 obj
+<< /S /GoTo /D (section.4.5) >>
+endobj
+188 0 obj
+(Summary - DEADLINE: 9TH MAY)
+endobj
+189 0 obj
+<< /S /GoTo /D (chapter.5) >>
+endobj
+192 0 obj
+(Conclusions)
+endobj
+193 0 obj
+<< /S /GoTo /D (section.5.1) >>
+endobj
+196 0 obj
+(Achievements)
+endobj
+197 0 obj
+<< /S /GoTo /D (section.5.2) >>
+endobj
+200 0 obj
+(Lessons Learned)
+endobj
+201 0 obj
+<< /S /GoTo /D (section.5.3) >>
+endobj
+204 0 obj
+(Future Work - DEADLINE: 11TH MAY)
+endobj
+205 0 obj
+<< /S /GoTo /D (section.5.3) >>
+endobj
+207 0 obj
+(Bibliography)
+endobj
+208 0 obj
+<< /S /GoTo /D (appendix.A) >>
+endobj
+211 0 obj
+(Project Proposal)
+endobj
+212 0 obj
+<< /S /GoTo /D [213 0 R /Fit] >>
+endobj
+215 0 obj
+<<
+/Length 322       
+/Filter /FlateDecode
+>>
+stream
+xÚeQMOÃ0½ïWä˜HÔ‹Ó&iŽ014Äµš¯Ë‹Ú_©ÚÔeç[ñV<þ3 õln1ª'
+d
+c¡ÁIKúßˆyWÆ‚„o›²¾žÈ9ãaÑðB¸ŒûK7
+a÷éc†ÚæŽ
+ao«£H”ááDÃ‚gÑÏÊ¶£n5¬¬†y
+6Å‰Ç°ìñûÞ†¯¡#âB "A^× O÷)Ó‘
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+øí,qßWë³çoÒ"Hó¸ª+¬oƒ*‰ë²ÊªŒ³ªÖmð)ü'ÆÛÑô2ú²¾yþFñ²(RäO‚EQÄU.˜uµç®YZ†›h‘V¡ÂM
+¦íåVW“ÇY^’š4‹‹¬
+¢ŠEºd]ïe¯^ 3^"–q•–p9vÚòÙ¤¤ãbY›e"T=þnÌø5ÊR2¨*¼’SÆ,¼’G·B¢E‘‡©fbŸÖzêždÅJhÁ¤·'.Ù=Xmq—‡ã- Ëp-óP›,3§3üÚÈ¿yõ9¥yº¯¿É^rÒãð³/Ç ?OÊðm«F«¡qF‘Fï1áè<ø‡Ï(æÒ8'¯á#ÂësÞÝÌÝ¯ÒDÔO·ücTÃ=¦åÀ_Žó¥u8=Å‹wòß(Òó

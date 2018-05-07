@@ -11,7 +11,12 @@
 \usepackage{multirow}
 \usepackage{booktabs}
 \usepackage{float}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{mdframed}
 
+\definecolor{light-gray}{gray}{0.95}
 \raggedbottom                           % try to avoid widows and orphans
 \sloppy
 \clubpenalty1000%
@@ -19,6 +24,12 @@
 
 \renewcommand{\baselinestretch}{1.1}    % adjust line spacing to make
                                         % more readable
+
+\newcommand{\mylisting}[4]{\lstinputlisting[language=#1, basicstyle=\scriptsize, caption={#3}, label={lst:#4}, upquote=true, captionpos=b, float, floatplacement=H, backgroundcolor=\color{light-gray}, showstringspaces=false]{listings/#4.#2}}
+
+\newcommand{\pylisting}[2]{\mylisting{Python}{py}{#1}{#2}}
+
+\newcommand{\htmllisting}[2]{\mylisting{HTML}{html}{#1}{#2}}
 
 \begin{document}
 
@@ -203,8 +214,8 @@ $  $\begin{table}[]
 		\toprule
 		\textbf{Task}                                                          & \textbf{Section}          \\ \midrule
 		Scrape the relevant data from the Hansard                              & \S\ref{impl-scraping}   \\
-		Wrangling the textual data so it is in a more consistent form          & \S\ref{impl-wrangling}  \\
-	    Collate the data from the transcript with voting record data           & \S\ref{impl-collating}  \\
+		Wrangle the textual data so it is in a more consistent form          & \S\ref{impl-wrangling}  \\
+	    Collate the data from the transcript with voting record data           & \S\ref{impl-labelling}  \\
 	    Construct a database of the new dataset I have created            	   & \S\ref{impl-database}   \\
 		Develop a system that can predict the stance of a text on the Iraq war & \S\ref{impl-classifier} \\ \bottomrule
 	\end{tabular}
@@ -518,7 +529,7 @@ It is important to note that the order of the elements above is not relevant.
 Before implementing the first classifier, I couldn't be sure that it would be possible to develop a system to classify MP's speeches due to the lack of other similar work. Due to this, it was important to get to this point as quickly as possible and then change the project requirements at that point if the data couldn't be classified. This strategy lent itself to agile software development \cite{agile}, so this is what I used. I considered each of the tasks in Table \ref{table:tasks} as my first five sprints (in the same order as the table), later defining further sprints as project extensions.
 \newline
 \newline
-Throughout development, I used a linter to ensure that I maintained a high standard of code, with consistent documentation. I also used revision control and unit tests (see \S\ref{eval-unit}) for good practice. I designed programs to be as modular as possible, which helped with testing and debugging.
+Throughout development, I used a linter to ensure that I maintained a high standard of code, with consistent documentation and also used revision control. I designed programs to be as modular as possible, which helped with testing and debugging.
 \newline
 \newline
 Development of machine learning systems requires further good practices to be adopted, to avoid hard-coding rules that result in overfitting. To this end, as soon as I had constructed the database, I split the data into a training set and a testing set. Throughout the implementation, I solely used the training set, carrying out cross-validation across it to test code then using the testing set for evaluation. Further to this, before classifying MPs' speeches, I implemented a classifier for spam emails (see \S\ref{eval-spam}) and then adapted this classifier for the purposes of this project.
@@ -537,9 +548,9 @@ I decided to develop the project in Python for various reasons:
 \end{itemize}
 I used Python 3.6 since it was the most recent stable version of Python when I started implementation.
 
-\subsection{Database}
+\subsection{Database} \label{prep-database}
 
-Due to the structure of the data, it made sense to use a relational database. After considering various options, I opted to use SQLite due to its low set-up overheads (which is useful for agile development), its stability and its compatibility with Python. As the data I was storing was not sensitive, I could safely ignore the security issues of using SQLite.
+Due to the structure of the data, it made sense to use a relational database. After considering various options, I opted to use SQLite due to its low set-up overheads (which is useful for agile development), its stability and its compatibility with Python.
 
 \subsection{Libraries} \label{prep-tools-libs}
 
@@ -589,21 +600,99 @@ Draw attention to the parts of the work which are not your own. Making effective
 It should not be necessary to give a day-by-day account of the progress of the work but major milestones may sometimes be highlighted with advantage.
 \end{comment}
 
-\section{Overview}
+
+This chapter discusses the implementation of the various components of the project. Section \S\ref{impl-overview} provides an overview to the system's implementation. Section \S\ref{impl-acquisition} gives details about compiling the project's dataset and section \S\ref{impl-classifier} discusses the implementation of the classifier.
 
 
-\section{Data Acquisition}
+\section{System Overview} \label{impl-overview}
 
+Through the requirements analysis in the preparation section (\S\ref{prep-requirements}), I established the project's core tasks and their dependences (see Table \ref{table:tasks}). From this, I was able to simply create a project timetable, broken down into sprints. Each of the project's core tasks was the milestone reached by a sprint. After completing the essential components of the project, I improved the classifier by implementing a series of extensions. The list below gives each of the sprints I carried out (including the extensions):
+
+\begin{enumerate}
+	\item Scrape the relevant data from the Hansard.
+	\item Wrangle the textual data so it is in a more consistent form.
+	\item Collate the data from the transcript with voting record data.
+	\item Construct a database of the new dataset I have created.
+	\item Parse the spam email dataset.
+	\item Develop an SVM classifier to detect spam email.
+	\item Develop a na\"{i}ve Bayes classifier to predict the stance of MPs' speeches.
+	\item Use the spam email classifier as a basis to develop an SVM classifier to predict the stance of MPs' speeches on the Iraq war.
+	\item Extension: Implement stop word removal, stemming, n-grams and number grouping.
+	\item Extension: Implement an algorithm to allow the SVM classifiers to learn the best combination of settings and hyperparameters.
+	\item Extension: Optimise the SVM classifiers by carrying out singular value decomposition on the feature vectors.
+\end{enumerate}
+
+As this project is very data intensive, I defined how data would flow before commencing implementation. Figure \ref{fig:dataflow} shows the movement of data between modules and data sources (including local files). Data moves in the direction of the arrows. This diagram shows the project's dependency on the Hansard, data.parliament.uk and the spam email dataset. I therefore ensured that I had a backed-up copies of the data from these sources at the earliest possible stage in the project, to mitigate any issues if the servers hosting these datasets went down at any point throughout the project.
+\newline
+\begin{figure}
+	\includegraphics[width=\linewidth]{figs/dataflow3.png}
+	\caption{Data flow in the project.}
+	\label{fig:dataflow}
+\end{figure}
+
+Deciding upon this data flow, then allowed me to develop a finer project structure. Figure \ref{fig:dependencies} shows the internal dependencies of the modules in the project. An arrow from A to B indicates that A is dependent on B. Note that I designed the system in a way that avoids any cyclic dependencies and maximises code-sharing between modules.
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{figs/internaldependencies.png}
+	\caption{Internal dependencies within the project.}
+	\label{fig:dependencies}
+\end{figure}
+
+\section{Data Acquisition} \label{impl-acquisition}
 \subsection{Scraping Data} \label{impl-scraping}
-\subsection{Wrangling Data} \label{impl-wrangling}
-\subsection{Collating Data} \label{impl-collating}
-\subsection{Database - DEADLINE: 25TH APRIL} \label{impl-database}
 
+This sections discusses how I got acquired the relevant data. The difficulty of this sprint of the project was that the transcript data that I required was not available in an API, so I had to scrape the data from the Hansard's inconsistently (and often incorrectly) structured web pages. This meant that I had to develop defensive code that handled lots of corner cases. As discussed in \S\ref{prep-tools-libs}, I opted to use BeautifulSoup to parse the .html files.
+\newline
+In order to scrape the House of Commons transcripts was to develop a program that could traverse the archives to find the pages containing relevant debates. In order to do this, I iterated over all dates in the range I was considering \footnote{11/09/2001 to 18/03/2003 (inclusive)} and on each of these days, parsed the Hansard's webpage for that day and used this to find links to any relevant debates on that day. Figure \ref{fig:incorrecthansard} is one of many examples of incorrectly structured data in the Hansard - it suggests that all the debates on that day were prayers. Due to the Hansard's deficiencies, I had to exhaustively search through each House of Commons sitting, which significantly increased the running time of this part of the program. Listing \ref{lst:add_day} gives the high level code used to traverse the Hansard archives. Note that the Hansard's inconsistencies required me to program defensively (by using extensive exception-handling).
+\newline
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{figs/incorrecthansard.png}
+	\caption{A screenshot of incorrect structure in the Hansard.}
+	\label{fig:incorrecthansard}
+\end{figure}
+
+\pylisting{High-level code used to scrape all the debates from a given day.}{add_day}
+
+\subsection{Wrangling Data} \label{impl-wrangling}
+When parsing the debates and quotes, I faced similar difficulties to parsing the Hansard's pages for each day, meaning that I again had to extensively use exception-handling. To illustrate some of the difficulties of using the Hansard to generate text that is suitable for classification, I have given provided Figure \ref{fig:hansardquote} which is a screenshot of a quote in the Hansard, along with Listing \ref{lst:quote}, which is the corresponding HTML paragraph tag. I have trimmed the HTML slightly, so it is easier to read. After reading through the HTML for a representative sample of debates in the Hansard, I wrote some functions to extract the relevant text from the Hansard's HTML, including the method given in Listing \ref{lst:quote}, which uses a series of regular expressions to make textual replacements.
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{figs/idsquote.png}
+	\caption{A screenshot of a quote in the Hansard.}
+	\label{fig:hansardquote}
+\end{figure}
+
+\htmllisting{HTML paragraph tag of the quote in Figure \ref{fig:hansardquote}.}{quote}
+
+\pylisting{Python code using regular expressions to clean the text from a paragraph tag.}{get_paragraph_text}
+\subsection{Labelling Data} \label{impl-labelling}
+
+One of my primary reasons for using the Hansard as the corpus for this project was the fact that I could label the data automatically, using MPs' voting records. It was relatively trivial to retrieve voting data - I used the House of Commons Divisions API from data.parliament.uk. The main difficulty in labelling the data was matching the voting data with the transcript data. This issue was due to the fact that MPs' names varied greatly over time. For example, some MPs adopted married names during their time as an MP and some had titles that were intermittently used to refer to them. Michael Kerr is a good illustration of the multitude of names used by an individual - he is referred to as 13th Marquess of Lothian in the House of Commons Divisions API, the Earl of Ancram in the Hansard and is also known as Baron Kerr of Monteviot. Michael Kerr is one of 36 MPs whose name differed significantly enough between the two data sets that I couldn't algorithmically match their speeches with their voting record. These MPs were mostly unmatchable, due to maiden names, but I manually entered rules to handle these MPs. I matched the other 619 MPs using the function given in Listing \ref{lst:match_full_name}. This method tries to match the given speaker with one of the MPs in the data.parliament.uk dataset, by removing any honorary titles from the speaker's name (since the data.parliament.uk dataset doesn't give these titles), then finding the most similar \footnote{Similarity is calculated using the Levenshtein distance, which is defined as the distance is the number of deletions, insertions, or substitutions required to convert one string into another.} name in the voting record dataset. If this name is deemed to be sufficiently similar, the speaker is matched. If it isn't, a similar function is called, which uses different data in the data.parliament.uk dataset to match the speaker. If this function cannot find a good match either, it raises a `MatchException', which is unhandled by the code in Listing \ref{lst:match_full_name}, meaning that match\_full\_name() also raises this exception. The code that handled these exceptions created a file of any unmatched MPs, which I subsequently manually looked up to find alternative names for the MPs. In order to minimise run-time, I keep a match list, so that once a match is found for a given MP, the same match can be found in constant time, since I used a Python dictionary (which is implemented using a hash table \cite{pythonfaqs}).
+
+\pylisting{Function that matches an MP's name in the Hansard }{match_full_name}
+
+\subsection{Database - DEADLINE: 2ND MAY} \label{impl-database}
+
+Since the database would only be used locally (so there would only ever be one copy) and I planned on accessing it serially, I could easily ensure that my database would satisfy the ACID properties (Atomicity, Consistency, Isolation \& Durability) by using a relational database. As described in \S\ref{prep-database}, I opted to use SQLite due to its low overheads - it is referred to as a zero-configuration database \cite{sqlitezeroconfig}. The benefits of this are two-fold; it reduces development time and running time, since there is no separate server process and therefore no overhead from message passing to and from the database \cite{sqliteserverless}. Further to this, the authors of SQLite released the code under a licence that allows anyone to ``copy, modify, publish, use, compile, sell, or distribute'' SQLite \cite{sqlitelicence}, which is clearly sufficient for my needs in this project.
+\\\\
+When designing the database schema, I ensured that the database would be fully normalised (in third normal form), which meant that the data would preserve referential integrity and minimise the potential for data duplication. Figure \ref{fig:erdiagram} shows the entity-relationship diagram for the database schema I adopted. Note that due to the limited type system in SQLite \cite{sqlitetypes}, all fields are of type `TEXT'. This is not a problem, because SQLite has built-in functions to handle data as if they were of different types - for example, the DEBATE and DIVISION entities had DATE attributes, which were represented as text in the database file, I could handle them easily as if they were of a type `DATE'.
+\\\\
+\begin{figure}
+	\includegraphics[width=\linewidth]{figs/erd.png}
+	\caption{The entity-relationship (ER) diagram of the system's database.}
+	\label{fig:erdiagram}
+\end{figure}
+When working with the database, it was useful to be able to manually check the data and therefore the functioning of any program using the database. To do this, I used DB Browser for SQLite, which is a lightweight GUI interface that allowed me to browse the data. This was particularly useful for `evaluating' the data acquisition, since there is no formal way for me to automatically check the data in the database. This meant that manually sampling the data using DB Browser for SQLite and cross-referencing the data with that in the original data sources was the best feasible way for me to evaluate the data acquisition.
+\\\\
+To maintain good software engineering practices, I only accessed the database through the database class (as shown in Figure \ref{fig:dataflow}). Through doing this and keeping the class's member variables private, I only allowed access to the database through the class's public methods, thereby enforcing encapsulation and information hiding. This meant that I had to implement any database queries I used as functions in the database class. Listing \ref{lst:get_aye_members_from_term} is an example of my implementation of a database query.
+\\\\
+\pylisting{Function that performs a query on the database to get the ids of all the MPs who voted `aye' in a given vote and spoke in a debate whose title contains a given term.}{get_aye_members_from_term}
 
 \section{Classifier} \label{impl-classifier}
 \subsection{Constructing Features}
 \subsection{Optimisations}
-\section{Summary - DEADLINE: 27TH APRIL}
+\section{Summary - DEADLINE: 4TH MAY}
 
 
 \chapter{Evaluation} \label{eval}
@@ -621,13 +710,11 @@ Assessors are well aware that large programs will very likely include some resid
 
 \end{comment}
 
-\section{Unit Testing} \label{eval-unit}
-
 
 \section{Internal Evaluation}
 \subsection{Manual Checks}
 \subsection{Comparison of Optimisations}
-\subsection{Baseline Comparison - DEADLINE: 30TH APRIL}
+\subsection{Baseline Comparison - DEADLINE: 7TH MAY}
 
 \section{External Evaluation}
 
@@ -636,7 +723,7 @@ Assessors are well aware that large programs will very likely include some resid
 \section{Evaluation of Project Goals}
 
 
-\section{Summary - DEADLINE: 2ND MAY}
+\section{Summary - DEADLINE: 9TH MAY}
 
 
 \chapter{Conclusions} \label{conc}
@@ -645,7 +732,7 @@ Assessors are well aware that large programs will very likely include some resid
 
 \section{Lessons Learned}
 
-\section{Future Work - DEADLINE: 4TH MAY}
+\section{Future Work - DEADLINE: 11TH MAY}
 
 \begin{comment}
 This chapter is likely to be very short and it may well refer back to the Introduction. It might properly explain how you would have planned the project if starting again with the benefit of hindsight.

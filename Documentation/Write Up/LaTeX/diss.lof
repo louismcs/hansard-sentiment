@@ -1,6 +1,11 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Data flow in the project.}}{28}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Internal dependencies within the project.}}{29}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces A screenshot of incorrect structure in the Hansard.}}{29}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces A screenshot of a quote in the Hansard.}}{30}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces The entity-relationship (ER) diagram of the system's database.}}{34}{figure.3.5}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
