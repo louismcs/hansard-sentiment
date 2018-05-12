@@ -104,6 +104,7 @@ I, Louis Max Cley Slater of Pembroke College, being a candidate for Part II of t
 \leftline{Date}
 
 \setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
 \tableofcontents
 
 \listoffigures
@@ -459,7 +460,7 @@ From now on, I will refer to (\ref{eq:linearkernel}), (\ref{eq:polykernel}) and 
 		\textbf{Kernel}       & \textbf{Hyperparameters} \\ \hline
 		Linear                & $C$                      \\
 		Polynomial            & $C$, $\gamma$, $r$, $d$  \\
-		Radial basis function & $C$, $\gamma$,             
+		Radial basis function & $C$, $\gamma$             
 	\end{tabular}
 	\caption{The hyperparameters of various kernels}
 \end{table}
@@ -468,7 +469,7 @@ From now on, I will refer to (\ref{eq:linearkernel}), (\ref{eq:polykernel}) and 
 \subsection{Train/Test Split} \label{train-test-split}
 In \S\ref{supervised-learning}, we saw how a supervised learning system is trained on one set of data (the training set), then this trained model is used to predict the labels of previously unseen data (the testing set). In order to evaluate a system, we require the actual data labels, so we can assess the accuracy of the predictions. Having training examples in the testing set results will not provide a useful measure of the system's performance, as it would unfairly reward overfitting. In order to overcome this, we must split our labelled data before we start developing a model. Using 90\% for training and 10\% for testing is the most common way to split the labelled data.
 \subsection{Cross Validation} \label{cross-validation}
-It is useful to split the training set into $k$ disjoint folds. Doing this means that we can iterate the process of training and evaluating without using the data set aside for testing. This is done by training on $k-1$ of the folds, then evaluating the system on the fold left out. This is repeated $k$ times, so each fold is used for evaluation exactly once. Averaging over all the folds each fold gives a reliable evaluation metric. We can use this method to determine the system's hyperparameters and any other settings that need to be determined before training. This is called cross-validation. To do this, we repeat the method described for different combinations of hyperparameters and settings and select the combination whose average evaluation metric is greatest.
+It is useful to split the training set into $k$ disjoint folds. Doing this means that we can iterate the process of training and evaluating without using the data set aside for testing. This is done by training on $k-1$ of the folds, then evaluating the system on the fold left out. This is repeated $k$ times, so each fold is used for evaluation exactly once. Averaging over all the folds each fold gives a reliable evaluation metric. We can use this method to determine the system's hyperparameters and any other settings that need to be determined before training. This is called cross-validation. To do this, we repeat the method described for different combinations of hyperparameters and settings and select the combination whose average evaluation metric is greatest. In this project, I use stratified cross-validation - for this scheme, when splitting the data into folds, I ensure that each fold has a roughly even split of positive and negative examples.
 \subsection{Evaluation Metrics} \label{evaluation-metrics}
 Thus far, we have only spoken abstractly about an evaluation metric. There are various options and choice of the measure should be context-specific. The basis of the definitions used in most metrics are defined in the Table \ref{table:true-positives}.
 \FloatBarrier
@@ -601,10 +602,10 @@ It should not be necessary to give a day-by-day account of the progress of the w
 \end{comment}
 
 
-This chapter discusses the implementation of the various components of the project. Section \S\ref{impl-overview} provides an overview to the system's implementation. Section \S\ref{impl-acquisition} gives details about compiling the project's dataset and section \S\ref{impl-classifier} discusses the implementation of the classifier.
+This chapter discusses the implementation of the various components of the project. Section \S\ref{impl-architecture} provides an overview to the system's implementation. Section \S\ref{impl-structures} talks about some of the design decisions related to specific data structures. Section \S\ref{impl-acquisition} gives details about compiling the project's dataset and section \S\ref{impl-classifier} discusses the implementation of the classifier.
 
 
-\section{System Overview} \label{impl-overview}
+\section{System Architecture} \label{impl-architecture}
 
 Through the requirements analysis in the preparation section (\S\ref{prep-requirements}), I established the project's core tasks and their dependences (see Table \ref{table:tasks}). From this, I was able to simply create a project timetable, broken down into sprints. Each of the project's core tasks was the milestone reached by a sprint. After completing the essential components of the project, I improved the classifier by implementing a series of extensions. The list below gives each of the sprints I carried out (including the extensions):
 
@@ -638,12 +639,35 @@ Deciding upon this data flow, then allowed me to develop a finer project structu
 	\label{fig:dependencies}
 \end{figure}
 
+\section{Data Structures} \label{impl-structures}
+
+The size of the project means that I used a large variety of different data structures. In this section, I discuss the choice and use of a few of these data structures.
+
+\subsection{NumPy Arrays}
+
+I used various parts of the NumPy library throughout the project. For example, I frequently used NumPy arrays in situations where a simple Python list would have sufficed. For this project, NumPy arrays had various advantages over Python lists:
+\begin{itemize}
+	\item Operations on them are faster - they were specifically designed to with performance in mind, which Python was not \cite{numpyspeed}.
+	\item They are more space efficient - their low-level implementation means that they use contiguous blocks of memory, rather than a series of pointers \cite{numpymanual}.
+	\item They support matrix operations with no additional work.
+\end{itemize}
+
+The benefits of the first two points were particularly clear given the large amount of data I was processing. Since the features were the largest data structures I used for numerical computations, they made the advantages of using NumPy arrays clearest. Listing \ref{lst:reduce_features} gives a snippet of code which demonstrates my use of NumPy arrays.
+
+\subsection{Sets}
+
+The set data structure is built-in to Python and is implemented using a hash table \cite{pythonsetdocs}, meaning that lookup operations are performed in constant time. This in turn speeds up the implementation of other set functions, such as union, particularly for data which significantly overlap. For this reason, I used the Python set data type wherever it would improve the efficiency of a function.
+
+\subsection{Counters} 
+
+The Counter class is part of the collections module, which is part of the Python standard library, meaning that there is ample support available for its use. The data structure is optimised for counting hashable objects \cite{pythoncollectionsdocs}, meaning that it is essentially a multi-set designed to count the number of each element, which makes it perfect for representing a bag of words, making it useful throughout this project. As discussed in section \S\ref{impl-reduction}, it was necessary to reduce the size of the features used for classification, which could easily be done in $\mathcal{O}(k)$ time (where $k$ is the number of dimensions on the reduced features) using Counter's most\_common() method.
+
 \section{Data Acquisition} \label{impl-acquisition}
 \subsection{Scraping Data} \label{impl-scraping}
 
 This sections discusses how I got acquired the relevant data. The difficulty of this sprint of the project was that the transcript data that I required was not available in an API, so I had to scrape the data from the Hansard's inconsistently (and often incorrectly) structured web pages. This meant that I had to develop defensive code that handled lots of corner cases. As discussed in \S\ref{prep-tools-libs}, I opted to use BeautifulSoup to parse the .html files.
 \newline
-In order to scrape the House of Commons transcripts was to develop a program that could traverse the archives to find the pages containing relevant debates. In order to do this, I iterated over all dates in the range I was considering \footnote{11/09/2001 to 18/03/2003 (inclusive)} and on each of these days, parsed the Hansard's webpage for that day and used this to find links to any relevant debates on that day. Figure \ref{fig:incorrecthansard} is one of many examples of incorrectly structured data in the Hansard - it suggests that all the debates on that day were prayers. Due to the Hansard's deficiencies, I had to exhaustively search through each House of Commons sitting, which significantly increased the running time of this part of the program. Listing \ref{lst:add_day} gives the high level code used to traverse the Hansard archives. Note that the Hansard's inconsistencies required me to program defensively (by using extensive exception-handling).
+In order to scrape the House of Commons transcripts was to develop a program that could traverse the archives to find the pages containing relevant debates. In order to do this, I iterated over all dates in the range I was considering\footnote{11/09/2001 to 18/03/2003 (inclusive)} and on each of these days, parsed the Hansard's webpage for that day and used this to find links to any relevant debates on that day. Figure \ref{fig:incorrecthansard} is one of many examples of incorrectly structured data in the Hansard - it suggests that all the debates on that day were prayers. Due to the Hansard's deficiencies, I had to exhaustively search through each House of Commons sitting, which significantly increased the running time of this part of the program. Listing \ref{lst:add_day} gives the high level code used to traverse the Hansard archives. Note that the Hansard's inconsistencies required me to program defensively (by using extensive exception-handling).
 \newline
 
 \begin{figure}
@@ -668,7 +692,7 @@ When parsing the debates and quotes, I faced similar difficulties to parsing the
 \pylisting{Python code using regular expressions to clean the text from a paragraph tag.}{get_paragraph_text}
 \subsection{Labelling Data} \label{impl-labelling}
 
-One of my primary reasons for using the Hansard as the corpus for this project was the fact that I could label the data automatically, using MPs' voting records. It was relatively trivial to retrieve voting data - I used the House of Commons Divisions API from data.parliament.uk. The main difficulty in labelling the data was matching the voting data with the transcript data. This issue was due to the fact that MPs' names varied greatly over time. For example, some MPs adopted married names during their time as an MP and some had titles that were intermittently used to refer to them. Michael Kerr is a good illustration of the multitude of names used by an individual - he is referred to as 13th Marquess of Lothian in the House of Commons Divisions API, the Earl of Ancram in the Hansard and is also known as Baron Kerr of Monteviot. Michael Kerr is one of 36 MPs whose name differed significantly enough between the two data sets that I couldn't algorithmically match their speeches with their voting record. These MPs were mostly unmatchable, due to maiden names, but I manually entered rules to handle these MPs. I matched the other 619 MPs using the function given in Listing \ref{lst:match_full_name}. This method tries to match the given speaker with one of the MPs in the data.parliament.uk dataset, by removing any honorary titles from the speaker's name (since the data.parliament.uk dataset doesn't give these titles), then finding the most similar \footnote{Similarity is calculated using the Levenshtein distance, which is defined as the distance is the number of deletions, insertions, or substitutions required to convert one string into another.} name in the voting record dataset. If this name is deemed to be sufficiently similar, the speaker is matched. If it isn't, a similar function is called, which uses different data in the data.parliament.uk dataset to match the speaker. If this function cannot find a good match either, it raises a `MatchException', which is unhandled by the code in Listing \ref{lst:match_full_name}, meaning that match\_full\_name() also raises this exception. The code that handled these exceptions created a file of any unmatched MPs, which I subsequently manually looked up to find alternative names for the MPs. In order to minimise run-time, I keep a match list, so that once a match is found for a given MP, the same match can be found in constant time, since I used a Python dictionary (which is implemented using a hash table \cite{pythonfaqs}).
+One of my primary reasons for using the Hansard as the corpus for this project was the fact that I could label the data automatically, using MPs' voting records. This in turn meant that the project could be use supervised learning rather than unsupervised learning or semi-supervised learning. It was relatively trivial to retrieve voting data - I used the House of Commons Divisions API from data.parliament.uk. The main difficulty in labelling the data was matching the voting data with the transcript data. This issue was due to the fact that MPs' names varied greatly over time. For example, some MPs adopted married names during their time as an MP and some had titles that were intermittently used to refer to them. Michael Kerr is a good illustration of the multitude of names used by an individual - he is referred to as 13th Marquess of Lothian in the House of Commons Divisions API, the Earl of Ancram in the Hansard and is also known as Baron Kerr of Monteviot. Michael Kerr is one of 36 MPs whose name differed significantly enough between the two data sets that I couldn't algorithmically match their speeches with their voting record. These MPs were mostly unmatchable, due to maiden names, but I manually entered rules to handle these MPs. I matched the other 619 MPs using the function given in Listing \ref{lst:match_full_name}. This method tries to match the given speaker with one of the MPs in the data.parliament.uk dataset, by removing any honorary titles from the speaker's name (since the data.parliament.uk dataset doesn't give these titles), then finding the most similar \footnote{Similarity is calculated using the Levenshtein distance, which is defined as the distance is the number of deletions, insertions, or substitutions required to convert one string into another.} name in the voting record dataset. If this name is deemed to be sufficiently similar, the speaker is matched. If it isn't, a similar function is called, which uses different data in the data.parliament.uk dataset to match the speaker. If this function cannot find a good match either, it raises a `MatchException', which is unhandled by the code in Listing \ref{lst:match_full_name}, meaning that match\_full\_name() also raises this exception. The code that handled these exceptions created a file of any unmatched MPs, which I subsequently manually looked up to find alternative names for the MPs. In order to minimise run-time, I keep a match list, so that once a match is found for a given MP, the same match can be found in constant time, since I used a Python dictionary (which is implemented using a hash table \cite{pythonfaqs}).
 
 \pylisting{Function that matches an MP's name in the Hansard }{match_full_name}
 
@@ -690,10 +714,62 @@ To maintain good software engineering practices, I only accessed the database th
 \pylisting{Function that performs a query on the database to get the ids of all the MPs who voted `aye' in a given vote and spoke in a debate whose title contains a given term.}{get_aye_members_from_term}
 
 \section{Classifier} \label{impl-classifier}
-\subsection{Constructing Features}
+
+\subsection{Avoiding Overfitting}
+
+I took appropriate measures in order to ensure that my classifier wasn't overfitting. Firstly, before implementing a program to determine the stance of MPs' speeches, I wrote a classify to determine whether a given email is spam. I developed this classifier using a bag of words representation and a support vector machine, as this is how I planned to write the project's main classifier. Since the two tasks are essentially the same, I could use adapt the spam email classifier, so it determined the sentiment of MPs' speeches. Using this development procedure meant that I avoided making the classifier overly specific. It also provided a further way to evaluate the project, as I discuss in section \S\ref{eval-spam}. In addition to this, during development I only ever used the training data, comparing different implementations using averages of F1 scores across cross-validation folds. This meant that there was no scope for developing a classifier that was specifically tailored to produce good results on the testing set.
+
+\subsection{Scikit-learn}
+
+I opted to use the Scikit-learn library to implement the classifier, as it provided a good implementation for both a support vector machine and a na\"{i}ve Bayes classifier and both have significant documentation \cite{svmdocs, nbcdocs} and community support. Scikit-learn is built on other libraries which significantly improves its performance. For example, it makes use of Cython, which is supports C code within Python programs \cite{cythondocs}. In their evaluation of machine learning libraries in Python, F. Pedregosa et al. showed that the Scikit-learn support vector machine was the faster than any other implementation they tested \cite{skspeed}. A further benefit of Scikit-learn is that it has a na\"{i}ve Bayes classifier, which used similar syntax to the support vector machine, meaning that it was easy to establish a baseline F1 score.
+
 \subsection{Optimisations}
+
+\subsubsection{Stemming}
+
+Stemming is the process of reducing a word to its stem, using a collection of rules that adapt or remove a word's suffix \cite{porter1980algorithm}. Stemming algorithms use heuristics to find a word's stem, which is far quicker than lemmatisation, which performs full morphological analysis to find a word's lemma. Stemming is often used in natural language processing, as it is probable that words with the same stem will have similar semantics. In the bag of words representation used in this project, stemming means that semantically similar words are counted in the same feature for texts. For example, it is clear that a speech which frequently mentions `disarming' is likely to have similar meaning to a speech that has lots of occurrences of the word `disarms' and that within a speech, these two words have similar connotations. It therefore makes sense to consider mapping these words to the same value in a bag of words representation. Due to this, I added the option of stemming to the program.
+
+\subsubsection{Stop Word Removal}
+
+Stop words (such as `the', `a' and `it') are frequently used words which carry less meaning than other words in a text. In many sentiment analysis applications, stop words will not provide any information about the sentiment of a text, however there are also cases where it is useful to consider stop words in classification - for example, a lack prepositions is often associated with less formal texts. I implemented stop word removal using the list of English stop words provided by the Natural Language Toolkit (NLTK). Further to this, I added functionality to whitelist words on the stop word list and add other words to the list. Listing \ref{lst:remove_stopwords} shows the simple function I implemented to remove stop words from a given list of words.
+
+\pylisting{A function which removes the stop words and words on from a given list of words.}{remove_stopwords}
+
+\subsubsection{N-grams}
+
+The major limitation of the bag-of-words model is that it doesn't represent the order of words. For this reason, many bag of words implementations use n-grams instead of just individual words. An n-gram is a sequence of n words, ordered as they are in the text they were sampled from. Using n-grams enriches the representation of a text; if we know the 2-gram `British troops' is in a given text, it tells us more than just the fact that the words `British' and `troops' are both in the text, since such a text will not necessarily mention British troops. Due to these potential gains, I implemented functionality to extract n-grams from MPs' speeches.
+
+\subsubsection{Learning Settings and Hyperparameters}
+
+Once I implemented stemming, stop word removal and n-grams as well as number-grouping and L2 normalisation, I devised a way for the program to automatically determine whether or not these potential optimisations should be applied. To facilitate this, I used a settings dictionary to determine the control flow of the program, as demonstrated in Listing \ref{lst:generate_word_list}. I then used stratified cross-validation to determine the best value for each of the settings. In order to speed-up the training, I limited database accesses by retrieving and storing all the necessary data at the beginning, then getting stored data in each iteration of the cross-validation.
+\\\\
+\pylisting{A function which uses given settings to produce a word list of a given text.}{generate_word_list}
+
+I used the same stratified cross-validation scheme to determine the hyperparameters. The difference in choosing hyperparameters is that they are highly dependent on each other, so sequentially determining the value each hyperparameter would not work, as it did for choosing settings. Because of this, I decided to implement a variant on a grid search, which exhaustively considers every combination hyperparameters within a range for each parameter. Rather than using a simple grid-search, I devised a three-phase search broken into the following sections:
+\begin{enumerate}
+	\item Perform a standard exhaustive grid-search.
+	\item If there is one set of optimal hyperparameters and the value of one of the parameters is at the extreme of the initial range for that parameter, extend the search space to include more extreme values of the parameter. Iterate this step until the optimal set of hyperparameters does not lie on the boundary of the range of any of the hyperparameters.
+	\item Perform a grid search with a finer granularity around the current optimal combination of hyperparameters.
+\end{enumerate}
+Figure \ref{fig:gridsearch} gives a graphic illustration of how this algorithm works. The search in the diagram is over ranges for two parameters (for example, $C$ and $\gamma$ in an rbf kernel), where each row is a particular value for one parameter and each column is a particular value for the other. The three grids represent the of hyperparameters considered at each of the three consecutive stages of the algorithm. The shaded squares indicate the optimal combination of hyperparameters in each phase. Since the best hyperparameters in the first step of the algorithm are in the furthest right column, we extend the search space to the right, as shown in the second grid. This algorithm extends to an arbitrary number of dimensions and in practice, I used log-scales where they were most appropriate.
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.4]{figs/gridsearch.jpg}
+	\end{center}
+	\caption{Diagrams illustrating how the hyperparameter search is conducted.}
+	\label{fig:gridsearch}
+\end{figure}
+
+\subsubsection{Dimensionality Reduction} \label{impl-reduction}
+
+The running time of an SVM classifier increases with the size of the features. It therefore makes sense to use dimensionality reduction techniques to improve the efficiency of classification. In this project, I used principle component analysis (PCA), as it is a relatively efficient method and there is good library support for it. Initially, I used the Scikit-learn implementation of PCA \cite{sklearnpca}, however after testing it I found that I could perform the feature reduction more efficiently using the NumPy singular value decomposition function \cite{numpysvd} and using the resulting matrices to perform reduce the size of the features (which is how PCA is carried out \cite{svd}). Listing \ref{lst:reduce_features} gives my Python code for this dimensionality reduction. As discussed in \ref{eval-optimisations}, even the NumPy implementation was too slow to be practical in the project and good results could by reducing the size of the features by limiting the number of words considered.
+
+\pylisting{A function using NumPy array operations to perform singular value decomposition on two sets of given features}{reduce_features}
+
 \section{Summary - DEADLINE: 4TH MAY}
 
+In this chapter I described the overall system architecture and discussed the work I undertook to implement the project's components. Throughout the preparation and implementation, I made decisions to facilitate the evaluation, which is detailed further in the next chapter.
 
 \chapter{Evaluation} \label{eval}
 
@@ -713,7 +789,7 @@ Assessors are well aware that large programs will very likely include some resid
 
 \section{Internal Evaluation}
 \subsection{Manual Checks}
-\subsection{Comparison of Optimisations}
+\subsection{Comparison of Optimisations} \label{eval-optimisations}
 \subsection{Baseline Comparison - DEADLINE: 7TH MAY}
 
 \section{External Evaluation}

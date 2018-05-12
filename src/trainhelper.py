@@ -85,7 +85,7 @@ def get_n_grams(word_list, gram_size):
 
 
 def generate_word_list(body, settings):
-    """ Returns a list of words, given a message tag """
+    """ Returns a list of words according to the given settings, given a text """
 
     body = remove_punctuation(body)
     body = body.lower()

@@ -7,6 +7,11 @@ Kent Beck, Mike Beedle, Arie van Bennekum, Alistair Cockburn, Ward Cunningham,
   Sutherland, and Dave Thomas.
 \newblock Manifesto for agile software development, 2001.
 
+\bibitem{cythondocs}
+Stefan Behnel, Robert Bradshaw, Dag~Sverre Seljebotn, Greg Ewing, William
+  Stein, Gabriel Gellner, et~al.
+\newblock Cython's documentation.
+
 \bibitem{rep_dem_one}
 Maneesh Bhand, Dan Robinson, and Conal Sathi.
 \newblock Text classifiers for political ideologies.
@@ -27,6 +32,19 @@ John Chilcot et~al.
 \newblock {\em Report of a Committee of Privy Counsellors. London, UK: House of
   Commons}, 2016.
 
+\bibitem{svd}
+Alan~Kaylor Cline and Inderjit~S Dhillon.
+\newblock Computation of the singular value decomposition.
+\newblock 2006.
+
+\bibitem{numpysvd}
+The~SciPy community.
+\newblock Numpy svd documentation.
+
+\bibitem{numpymanual}
+The~SciPy community.
+\newblock Numpy v1.14 manual.
+
 \bibitem{corpus_definition}
 Cambridge Dictionary.
 \newblock Corpus dictionary definition.
@@ -34,6 +52,14 @@ Cambridge Dictionary.
 \bibitem{pythonfaqs}
 Python~Software Foundation.
 \newblock Design and history faq.
+
+\bibitem{pythoncollectionsdocs}
+Python~Software Foundation.
+\newblock Python collections documentation.
+
+\bibitem{pythonsetdocs}
+Python~Software Foundation.
+\newblock Python set types documentation.
 
 \bibitem{open_parliament_licence}
 UK~Government.
@@ -64,6 +90,18 @@ Dan Jurafsky and James~H. Martin.
 \newblock Prentice Hall series in artificial intelligence. 2nd ed.,
   international ed. edition, 2009.
 
+\bibitem{nbcdocs}
+Scikit learn developers.
+\newblock Naive bayes user guide.
+
+\bibitem{sklearnpca}
+Scikit learn developers.
+\newblock Scikit learn pca.
+
+\bibitem{svmdocs}
+Scikit learn developers.
+\newblock Support vector machines user guide.
+
 \bibitem{ml_book_murphy}
 Kevin~P. Murphy.
 \newblock {\em Machine learning [electronic resource] : a probabilistic
@@ -83,6 +121,18 @@ House of~Commons.
 Alexander Pak and Patrick Paroubek.
 \newblock Twitter as a corpus for sentiment analysis and opinion mining.
 \newblock In {\em LREc}, volume~10, 2010.
+
+\bibitem{skspeed}
+Fabian Pedregosa, Ga{\"e}l Varoquaux, Alexandre Gramfort, Vincent Michel,
+  Bertrand Thirion, Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron
+  Weiss, Vincent Dubourg, et~al.
+\newblock Scikit-learn: Machine learning in python.
+\newblock {\em Journal of machine learning research}, 12(Oct):2825--2830, 2011.
+
+\bibitem{porter1980algorithm}
+Martin~F Porter.
+\newblock An algorithm for suffix stripping.
+\newblock {\em Program}, 14(3):130--137, 1980.
 
 \bibitem{iraq_media_study}
 P.~Robinson, P.~Goddard, R.~Brown, and P.M. Taylor.
@@ -116,5 +166,10 @@ Andranik Tumasjan, Timm~Oliver Sprenger, Philipp~G Sandner, and Isabell~M
 \newblock Predicting elections with twitter: What 140 characters reveal about
   political sentiment.
 \newblock {\em Icwsm}, 10(1):178--185, 2010.
+
+\bibitem{numpyspeed}
+St{\'e}fan van~der Walt, S~Chris Colbert, and Gael Varoquaux.
+\newblock The numpy array: a structure for efficient numerical computation.
+\newblock {\em Computing in Science \& Engineering}, 13(2):22--30, 2011.
 
 \end{thebibliography}

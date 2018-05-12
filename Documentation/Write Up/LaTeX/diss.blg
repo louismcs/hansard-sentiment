@@ -15,16 +15,33 @@ Warning--entry type for "parsing" isn't style-file defined
 --line 182 of file refs.bib
 Warning--entry type for "pythonfaqs" isn't style-file defined
 --line 189 of file refs.bib
-Warning--entry type for "sqlitezeroconfig" isn't style-file defined
+Warning--entry type for "pythonsetdocs" isn't style-file defined
 --line 196 of file refs.bib
-Warning--entry type for "sqliteserverless" isn't style-file defined
+Warning--entry type for "pythoncollectionsdocs" isn't style-file defined
 --line 203 of file refs.bib
-Warning--entry type for "sqlitelicence" isn't style-file defined
+Warning--entry type for "sqlitezeroconfig" isn't style-file defined
 --line 210 of file refs.bib
-Warning--entry type for "sqlitetypes" isn't style-file defined
+Warning--entry type for "sqliteserverless" isn't style-file defined
 --line 217 of file refs.bib
+Warning--entry type for "sqlitelicence" isn't style-file defined
+--line 224 of file refs.bib
+Warning--entry type for "sqlitetypes" isn't style-file defined
+--line 231 of file refs.bib
+Warning--entry type for "numpymanual" isn't style-file defined
+--line 238 of file refs.bib
+Warning--entry type for "nbcdocs" isn't style-file defined
+--line 266 of file refs.bib
+Warning--entry type for "svmdocs" isn't style-file defined
+--line 273 of file refs.bib
+Warning--entry type for "cythondocs" isn't style-file defined
+--line 280 of file refs.bib
+Warning--entry type for "sklearnpca" isn't style-file defined
+--line 305 of file refs.bib
+Warning--entry type for "numpysvd" isn't style-file defined
+--line 313 of file refs.bib
 Warning--empty journal in rep_dem_one
+Warning--empty journal in svd
 Warning--empty year in first_twitter
 Warning--empty publisher in nlp_book
 Warning--can't use both volume and number fields in twitter_as_a_corpus
-(There were 15 warnings)
+(There were 24 warnings)

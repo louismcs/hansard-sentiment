@@ -122,95 +122,140 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{impl}{{3}{27}{Implementation}{chapter.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}System Overview}{27}{section.3.1}}
-\newlabel{impl-overview}{{3.1}{27}{System Overview}{section.3.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}System Architecture}{27}{section.3.1}}
+\newlabel{impl-architecture}{{3.1}{27}{System Architecture}{section.3.1}{}}
+\citation{numpyspeed}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Data flow in the project.}}{28}{figure.3.1}}
 \newlabel{fig:dataflow}{{3.1}{28}{Data flow in the project}{figure.3.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Data Acquisition}{28}{section.3.2}}
-\newlabel{impl-acquisition}{{3.2}{28}{Data Acquisition}{section.3.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Scraping Data}{28}{subsection.3.2.1}}
-\newlabel{impl-scraping}{{3.2.1}{28}{Scraping Data}{subsection.3.2.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Data Structures}{28}{section.3.2}}
+\newlabel{impl-structures}{{3.2}{28}{Data Structures}{section.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}NumPy Arrays}{28}{subsection.3.2.1}}
+\citation{numpymanual}
+\citation{pythonsetdocs}
+\citation{pythoncollectionsdocs}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Internal dependencies within the project.}}{29}{figure.3.2}}
 \newlabel{fig:dependencies}{{3.2}{29}{Internal dependencies within the project}{figure.3.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces A screenshot of incorrect structure in the Hansard.}}{29}{figure.3.3}}
-\newlabel{fig:incorrecthansard}{{3.3}{29}{A screenshot of incorrect structure in the Hansard}{figure.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Sets}{29}{subsection.3.2.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Counters}{29}{subsection.3.2.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces A screenshot of incorrect structure in the Hansard.}}{30}{figure.3.3}}
+\newlabel{fig:incorrecthansard}{{3.3}{30}{A screenshot of incorrect structure in the Hansard}{figure.3.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Data Acquisition}{30}{section.3.3}}
+\newlabel{impl-acquisition}{{3.3}{30}{Data Acquisition}{section.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Scraping Data}{30}{subsection.3.3.1}}
+\newlabel{impl-scraping}{{3.3.1}{30}{Scraping Data}{subsection.3.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Wrangling Data}{30}{subsection.3.3.2}}
+\newlabel{impl-wrangling}{{3.3.2}{30}{Wrangling Data}{subsection.3.3.2}{}}
 \citation{pythonfaqs}
-\newlabel{lst:add_day}{{3.1}{30}{High-level code used to scrape all the debates from a given day}{lstlisting.3.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}High-level code used to scrape all the debates from a given day.}{30}{lstlisting.3.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces A screenshot of a quote in the Hansard.}}{30}{figure.3.4}}
-\newlabel{fig:hansardquote}{{3.4}{30}{A screenshot of a quote in the Hansard}{figure.3.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Wrangling Data}{30}{subsection.3.2.2}}
-\newlabel{impl-wrangling}{{3.2.2}{30}{Wrangling Data}{subsection.3.2.2}{}}
-\newlabel{lst:quote}{{3.2}{31}{HTML paragraph tag of the quote in Figure \ref {fig:hansardquote}}{lstlisting.3.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.2}HTML paragraph tag of the quote in Figure \ref  {fig:hansardquote}.}{31}{lstlisting.3.2}}
-\newlabel{lst:get_paragraph_text}{{3.3}{31}{Python code using regular expressions to clean the text from a paragraph tag}{lstlisting.3.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.3}Python code using regular expressions to clean the text from a paragraph tag.}{31}{lstlisting.3.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Labelling Data}{31}{subsection.3.2.3}}
-\newlabel{impl-labelling}{{3.2.3}{31}{Labelling Data}{subsection.3.2.3}{}}
+\newlabel{lst:add_day}{{3.1}{31}{High-level code used to scrape all the debates from a given day}{lstlisting.3.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}High-level code used to scrape all the debates from a given day.}{31}{lstlisting.3.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces A screenshot of a quote in the Hansard.}}{31}{figure.3.4}}
+\newlabel{fig:hansardquote}{{3.4}{31}{A screenshot of a quote in the Hansard}{figure.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Labelling Data}{31}{subsection.3.3.3}}
+\newlabel{impl-labelling}{{3.3.3}{31}{Labelling Data}{subsection.3.3.3}{}}
+\newlabel{lst:quote}{{3.2}{32}{HTML paragraph tag of the quote in Figure \ref {fig:hansardquote}}{lstlisting.3.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.2}HTML paragraph tag of the quote in Figure \ref  {fig:hansardquote}.}{32}{lstlisting.3.2}}
+\newlabel{lst:get_paragraph_text}{{3.3}{32}{Python code using regular expressions to clean the text from a paragraph tag}{lstlisting.3.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.3}Python code using regular expressions to clean the text from a paragraph tag.}{32}{lstlisting.3.3}}
 \citation{sqlitezeroconfig}
 \citation{sqliteserverless}
 \citation{sqlitelicence}
 \citation{sqlitetypes}
-\newlabel{lst:match_full_name}{{3.4}{32}{Function that matches an MP's name in the Hansard}{lstlisting.3.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.4}Function that matches an MP's name in the Hansard}{32}{lstlisting.3.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.4}Database - DEADLINE: 2ND MAY}{32}{subsection.3.2.4}}
-\newlabel{impl-database}{{3.2.4}{32}{Database - DEADLINE: 2ND MAY}{subsection.3.2.4}{}}
-\newlabel{lst:get_aye_members_from_term}{{3.5}{33}{Function that performs a query on the database to get the ids of all the MPs who voted `aye' in a given vote and spoke in a debate whose title contains a given term}{lstlisting.3.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.5}Function that performs a query on the database to get the ids of all the MPs who voted `aye' in a given vote and spoke in a debate whose title contains a given term.}{33}{lstlisting.3.5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces The entity-relationship (ER) diagram of the system's database.}}{34}{figure.3.5}}
-\newlabel{fig:erdiagram}{{3.5}{34}{The entity-relationship (ER) diagram of the system's database}{figure.3.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Classifier}{35}{section.3.3}}
-\newlabel{impl-classifier}{{3.3}{35}{Classifier}{section.3.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Constructing Features}{35}{subsection.3.3.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Optimisations}{35}{subsection.3.3.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Summary - DEADLINE: 4TH MAY}{35}{section.3.4}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Evaluation}{37}{chapter.4}}
+\newlabel{lst:match_full_name}{{3.4}{33}{Function that matches an MP's name in the Hansard}{lstlisting.3.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.4}Function that matches an MP's name in the Hansard}{33}{lstlisting.3.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Database - DEADLINE: 2ND MAY}{33}{subsection.3.3.4}}
+\newlabel{impl-database}{{3.3.4}{33}{Database - DEADLINE: 2ND MAY}{subsection.3.3.4}{}}
+\newlabel{lst:get_aye_members_from_term}{{3.5}{34}{Function that performs a query on the database to get the ids of all the MPs who voted `aye' in a given vote and spoke in a debate whose title contains a given term}{lstlisting.3.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.5}Function that performs a query on the database to get the ids of all the MPs who voted `aye' in a given vote and spoke in a debate whose title contains a given term.}{34}{lstlisting.3.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Classifier}{34}{section.3.4}}
+\newlabel{impl-classifier}{{3.4}{34}{Classifier}{section.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Avoiding Overfitting}{34}{subsection.3.4.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces The entity-relationship (ER) diagram of the system's database.}}{35}{figure.3.5}}
+\newlabel{fig:erdiagram}{{3.5}{35}{The entity-relationship (ER) diagram of the system's database}{figure.3.5}{}}
+\citation{svmdocs}
+\citation{nbcdocs}
+\citation{cythondocs}
+\citation{skspeed}
+\citation{porter1980algorithm}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Scikit-learn}{36}{subsection.3.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Optimisations}{36}{subsection.3.4.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3.1}Stemming}{36}{subsubsection.3.4.3.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3.2}Stop Word Removal}{36}{subsubsection.3.4.3.2}}
+\newlabel{lst:remove_stopwords}{{3.6}{37}{A function which removes the stop words and words on from a given list of words}{lstlisting.3.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.6}A function which removes the stop words and words on from a given list of words.}{37}{lstlisting.3.6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3.3}N-grams}{37}{subsubsection.3.4.3.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3.4}Learning Settings and Hyperparameters}{37}{subsubsection.3.4.3.4}}
+\citation{sklearnpca}
+\citation{numpysvd}
+\citation{svd}
+\newlabel{lst:generate_word_list}{{3.7}{38}{A function which uses given settings to produce a word list of a given text}{lstlisting.3.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.7}A function which uses given settings to produce a word list of a given text.}{38}{lstlisting.3.7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3.5}Dimensionality Reduction}{38}{subsubsection.3.4.3.5}}
+\newlabel{impl-reduction}{{3.4.3.5}{38}{Dimensionality Reduction}{subsubsection.3.4.3.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagrams illustrating how the hyperparameter search is conducted.}}{39}{figure.3.6}}
+\newlabel{fig:gridsearch}{{3.6}{39}{Diagrams illustrating how the hyperparameter search is conducted}{figure.3.6}{}}
+\newlabel{lst:reduce_features}{{3.8}{39}{A function using NumPy array operations to perform singular value decomposition on two sets of given features}{lstlisting.3.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.8}A function using NumPy array operations to perform singular value decomposition on two sets of given features}{39}{lstlisting.3.8}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Summary - DEADLINE: 4TH MAY}{40}{section.3.5}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Evaluation}{41}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{eval}{{4}{37}{Evaluation}{chapter.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Internal Evaluation}{37}{section.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Manual Checks}{37}{subsection.4.1.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Comparison of Optimisations}{37}{subsection.4.1.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Baseline Comparison - DEADLINE: 7TH MAY}{37}{subsection.4.1.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}External Evaluation}{37}{section.4.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Spam Email Dataset}{37}{subsection.4.2.1}}
-\newlabel{eval-spam}{{4.2.1}{37}{Spam Email Dataset}{subsection.4.2.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Comparisons With Related Work}{37}{subsection.4.2.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Evaluation of Project Goals}{37}{section.4.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Summary - DEADLINE: 9TH MAY}{37}{section.4.4}}
+\newlabel{eval}{{4}{41}{Evaluation}{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Internal Evaluation}{41}{section.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Manual Checks}{41}{subsection.4.1.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Comparison of Optimisations}{41}{subsection.4.1.2}}
+\newlabel{eval-optimisations}{{4.1.2}{41}{Comparison of Optimisations}{subsection.4.1.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Baseline Comparison - DEADLINE: 7TH MAY}{41}{subsection.4.1.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}External Evaluation}{41}{section.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Spam Email Dataset}{41}{subsection.4.2.1}}
+\newlabel{eval-spam}{{4.2.1}{41}{Spam Email Dataset}{subsection.4.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Comparisons With Related Work}{41}{subsection.4.2.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Evaluation of Project Goals}{41}{section.4.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Summary - DEADLINE: 9TH MAY}{41}{section.4.4}}
 \bibdata{refs}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions}{39}{chapter.5}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions}{43}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{conc}{{5}{39}{Conclusions}{chapter.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Achievements}{39}{section.5.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Lessons Learned}{39}{section.5.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Future Work - DEADLINE: 11TH MAY}{39}{section.5.3}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{39}{section.5.3}}
+\newlabel{conc}{{5}{43}{Conclusions}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Achievements}{43}{section.5.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Lessons Learned}{43}{section.5.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Future Work - DEADLINE: 11TH MAY}{43}{section.5.3}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{43}{section.5.3}}
 \bibcite{agile}{1}
-\bibcite{rep_dem_one}{2}
-\bibcite{parsing}{3}
-\bibcite{ml_book}{4}
-\bibcite{chilcot2016report}{5}
-\bibcite{corpus_definition}{6}
-\bibcite{pythonfaqs}{7}
-\bibcite{open_parliament_licence}{8}
-\bibcite{rep_dem_two}{9}
-\bibcite{first_twitter}{10}
-\bibcite{factiva}{11}
-\bibcite{nlp_book}{12}
-\bibcite{ml_book_murphy}{13}
-\bibcite{mp_votes_bbc}{14}
-\bibcite{hansard}{15}
-\bibcite{twitter_as_a_corpus}{16}
-\bibcite{iraq_media_study}{17}
-\bibcite{syria_iraq_air_strikes}{18}
-\bibcite{sqlitetypes}{19}
-\bibcite{sqlitezeroconfig}{20}
-\bibcite{sqliteserverless}{21}
-\bibcite{sqlitelicence}{22}
-\bibcite{predicting_elections_twitter}{23}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Project Proposal}{43}{appendix.A}}
+\bibcite{cythondocs}{2}
+\bibcite{rep_dem_one}{3}
+\bibcite{parsing}{4}
+\bibcite{ml_book}{5}
+\bibcite{chilcot2016report}{6}
+\bibcite{svd}{7}
+\bibcite{numpysvd}{8}
+\bibcite{numpymanual}{9}
+\bibcite{corpus_definition}{10}
+\bibcite{pythonfaqs}{11}
+\bibcite{pythoncollectionsdocs}{12}
+\bibcite{pythonsetdocs}{13}
+\bibcite{open_parliament_licence}{14}
+\bibcite{rep_dem_two}{15}
+\bibcite{first_twitter}{16}
+\bibcite{factiva}{17}
+\bibcite{nlp_book}{18}
+\bibcite{nbcdocs}{19}
+\bibcite{sklearnpca}{20}
+\bibcite{svmdocs}{21}
+\bibcite{ml_book_murphy}{22}
+\bibcite{mp_votes_bbc}{23}
+\bibcite{hansard}{24}
+\bibcite{twitter_as_a_corpus}{25}
+\bibcite{skspeed}{26}
+\bibcite{porter1980algorithm}{27}
+\bibcite{iraq_media_study}{28}
+\bibcite{syria_iraq_air_strikes}{29}
+\bibcite{sqlitetypes}{30}
+\bibcite{sqlitezeroconfig}{31}
+\bibcite{sqliteserverless}{32}
+\bibcite{sqlitelicence}{33}
+\bibcite{predicting_elections_twitter}{34}
+\bibcite{numpyspeed}{35}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Project Proposal}{49}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{sec:proposal}{{A}{43}{Project Proposal}{appendix.A}{}}
+\newlabel{sec:proposal}{{A}{49}{Project Proposal}{appendix.A}{}}
