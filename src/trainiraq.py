@@ -42,7 +42,7 @@ def fetch_speeches(speeches, mp_data):
 
 
 def parse_speeches(settings, mp_data, train):
-    """ Parses MPs' speeches and creates the corresponding bags of words"""
+    """ Parses MPs' speeches and creates the corresponding bags of words """
     if settings['entailment']:
         question_bags = generate_question_bags(settings)
 
