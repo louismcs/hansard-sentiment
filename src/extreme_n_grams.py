@@ -1,16 +1,15 @@
-import time
 import pickle
+from numpy import array, zeros
 
 import database
-from trainiraq import get_members_from_file, get_speeches, generate_train_data, generate_test_data
-from trainhelper import reduce_features
+from trainiraq import get_members_from_file, get_speeches, generate_train_data
 
 def get_settings_and_data():
     settings = {
         'use_test_data': False,
         'black_list': [],
         'white_list': [],
-        'bag_size': 100,
+        'bag_size': 500,
         'max_bag_size': True,
         'remove_stopwords': False,
         'stem_words': False,
@@ -53,39 +52,45 @@ def get_settings_and_data():
 
         print('Got training data')
 
-        test_data = []
-
-        member_data = train_data + test_data
-
-        settings['speeches'] = get_speeches(corpus, member_data, settings['debates'])
+        settings['speeches'] = get_speeches(corpus, train_data, settings['debates'])
 
         print('Got speeches')
 
-    data = {
-        'train': train_data,
-        'test': test_data
-    }
-
-    return settings, data
-
-
-def generate_features(settings, data):
-    train_features, _, common_words = generate_train_data(settings, data['train'])
-
-    test_features, _, _ = generate_test_data(common_words, settings, data['test'])
-
-    return train_features, test_features
-
+    return settings, train_data
 
 def find_n_grams():
 
-    settings, data = get_settings_and_data()
+    #settings, data = get_settings_and_data()
 
-    #settings = pickle.load(open('svdsettings.p', 'rb'))
+    #features, samples, common_words = generate_train_data(settings, data)
 
-    #data = pickle.load(open('svddata.p', 'rb'))
+    #features = array([feature['speech_bag'] for feature in features])
 
-    generate_features(settings, data)
+    features = pickle.load(open('xfeatures.p', 'rb'))
+    samples = pickle.load(open('xsamples.p', 'rb'))
+    common_words = pickle.load(open('xwords.p', 'rb'))
+
+    combined_word_counts = zeros(500)
+    positive_word_counts = zeros(500)
+
+    for i, feature in enumerate(features):
+        combined_word_counts += feature
+        if samples[i] == 1:
+            positive_word_counts += feature
+
+    positive_probabilities = positive_word_counts / combined_word_counts
+
+    n_gram_data = {}
+
+    for i, n_gram in enumerate(common_words):
+        n_gram_data[n_gram] = {
+            'probability': positive_probabilities[i],
+            'count': combined_word_counts[i]
+        }
+        print('{},{},{}'.format(combined_word_counts[i], n_gram, positive_probabilities[i]))
+
+
+
 
 
 find_n_grams()
