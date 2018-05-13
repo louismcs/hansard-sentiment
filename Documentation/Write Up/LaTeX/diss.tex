@@ -763,7 +763,7 @@ Figure \ref{fig:gridsearch} gives a graphic illustration of how this algorithm w
 
 \subsubsection{Dimensionality Reduction} \label{impl-reduction}
 
-The running time of an SVM classifier increases with the size of the features. It therefore makes sense to use dimensionality reduction techniques to improve the efficiency of classification. In this project, I used principle component analysis (PCA), as it is a relatively efficient method and there is good library support for it. Initially, I used the Scikit-learn implementation of PCA \cite{sklearnpca}, however after testing it I found that I could perform the feature reduction more efficiently using the NumPy singular value decomposition function \cite{numpysvd} and using the resulting matrices to perform reduce the size of the features (which is how PCA is carried out \cite{svd}). Listing \ref{lst:reduce_features} gives my Python code for this dimensionality reduction. As discussed in \ref{eval-optimisations}, even the NumPy implementation was too slow to be practical in the project and good results could by reducing the size of the features by limiting the number of words considered.
+The running time of an SVM classifier increases with the size of the features. It therefore makes sense to use dimensionality reduction techniques to improve the efficiency of classification. In this project, I used principle component analysis (PCA), as it is a relatively efficient method and there is good library support for it. Initially, I used the Scikit-learn implementation of PCA \cite{sklearnpca}, however after testing it I found that I could perform the feature reduction more efficiently using the NumPy singular value decomposition function \cite{numpysvd} and using the resulting matrices to perform reduce the size of the features (which is how PCA is carried out \cite{svd}). Listing \ref{lst:reduce_features} gives my Python code for this dimensionality reduction. As discussed in \ref{eval-reduction}, even the NumPy implementation was too slow to be practical in the project and good results could by reducing the size of the features by limiting the number of words considered.
 
 \pylisting{A function using NumPy array operations to perform singular value decomposition on two sets of given features}{reduce_features}
 
@@ -788,9 +788,9 @@ Assessors are well aware that large programs will very likely include some resid
 
 
 \section{Internal Evaluation}
-\subsection{Manual Checks}
-\subsection{Comparison of Optimisations} \label{eval-optimisations}
-\subsection{Baseline Comparison - DEADLINE: 7TH MAY}
+\subsection{Database Analysis}
+\subsection{Classifier Results} \label{eval-optimisations}
+\subsection{Evaluation of Dimensionality Reduction} \label{eval-reduction}
 
 \section{External Evaluation}
 

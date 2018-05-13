@@ -1,6 +1,7 @@
 import time
 import pickle
-
+from sklearn import svm
+from sklearn.metrics import f1_score
 import database
 from trainiraq import get_members_from_file, get_speeches, generate_train_data, generate_test_data
 from trainhelper import reduce_features
@@ -81,11 +82,14 @@ def get_settings_and_data():
 
 
 def generate_features(settings, data):
-    train_features, _, common_words = generate_train_data(settings, data['train'])
+    train_features, train_samples, common_words = generate_train_data(settings, data['train'])
 
-    test_features, _, _ = generate_test_data(common_words, settings, data['test'])
+    test_features, test_samples, _ = generate_test_data(common_words, settings, data['test'])
 
-    return train_features, test_features
+    train_features = [feature['speech_bag'] for feature in train_features]
+    test_features = [feature['speech_bag'] for feature in test_features]
+
+    return train_features, test_features, train_samples, test_samples
 
 
 def time_reduction():
@@ -97,17 +101,30 @@ def time_reduction():
     data = pickle.load(open('svddata.p', 'rb'))
 
     start = time.time()
-    generate_features(settings, data)
+    train_features, test_features, train_samples, test_samples = generate_features(settings, data)
     end = time.time()
     print('Simple reduction time: {} seconds'.format(end - start))
 
-    settings['max_bag_size'] = False
+    classifier = svm.SVC()
+    classifier.fit(train_features, train_samples)
 
-    train_features, test_features = generate_features(settings, data)
+    test_predictions = classifier.predict(test_features)
+
+    print(f1_score(test_samples, test_predictions))
+
+    settings['bag_size'] = 2000
+
+    train_features, test_features, train_samples, test_samples = generate_features(settings, data)
     start = time.time()
     reduce_features(train_features, test_features)
     end = time.time()
     print('SVD reduction time: {} seconds'.format(end - start))
 
+    classifier = svm.SVC()
+    classifier.fit(train_features, train_samples)
+
+    test_predictions = classifier.predict(test_features)
+
+    print(f1_score(test_samples, test_predictions))
 
 time_reduction()

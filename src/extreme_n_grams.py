@@ -1,4 +1,5 @@
 import pickle
+import csv
 from numpy import array, zeros
 
 import database
@@ -10,11 +11,11 @@ def get_settings_and_data():
         'black_list': [],
         'white_list': [],
         'bag_size': 500,
-        'max_bag_size': True,
+        'max_bag_size': False,
         'remove_stopwords': False,
         'stem_words': False,
         'group_numbers': False,
-        'n_gram': 2,
+        'n_gram': 1,
         'test_division': 102565,
         'all_debates': False,
         'debate_terms': ['iraq', 'terrorism', 'middle east', 'defence policy',
@@ -60,18 +61,22 @@ def get_settings_and_data():
 
 def find_n_grams():
 
-    #settings, data = get_settings_and_data()
+    settings, data = get_settings_and_data()
 
-    #features, samples, common_words = generate_train_data(settings, data)
+    features, samples, common_words = generate_train_data(settings, data)
 
-    #features = array([feature['speech_bag'] for feature in features])
+    features = array([feature['speech_bag'] for feature in features])
 
-    features = pickle.load(open('xfeatures.p', 'rb'))
-    samples = pickle.load(open('xsamples.p', 'rb'))
-    common_words = pickle.load(open('xwords.p', 'rb'))
+    #features = pickle.load(open('xfeatures.p', 'rb'))
+    #samples = pickle.load(open('xsamples.p', 'rb'))
+    #common_words = pickle.load(open('xwords.p', 'rb'))
 
-    combined_word_counts = zeros(500)
-    positive_word_counts = zeros(500)
+    pickle.dump(features, open('xfeatures.p', 'wb'))
+    pickle.dump(samples, open('xsamples.p', 'wb'))
+    pickle.dump(common_words, open('xwords.p', 'wb'))
+
+    combined_word_counts = zeros(len(common_words))
+    positive_word_counts = zeros(len(common_words))
 
     for i, feature in enumerate(features):
         combined_word_counts += feature
@@ -82,14 +87,19 @@ def find_n_grams():
 
     n_gram_data = {}
 
+    csv_data = []
+
     for i, n_gram in enumerate(common_words):
         n_gram_data[n_gram] = {
             'probability': positive_probabilities[i],
             'count': combined_word_counts[i]
         }
-        print('{},{},{}'.format(combined_word_counts[i], n_gram, positive_probabilities[i]))
+        csv_data.append([combined_word_counts[i], n_gram, positive_probabilities[i]])
 
-
+    csv_file = open('words.csv', 'w', newline="")
+    writer = csv.writer(csv_file, delimiter=',')
+    writer.writerows(csv_data)
+    csv_file.close()
 
 
 

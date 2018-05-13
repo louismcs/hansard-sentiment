@@ -96,7 +96,7 @@ def make_svd_scatter():
 
     #settings, data = get_settings_and_data()
 
-    settings = pickle.load(open('svdsettings.p', 'rb'))
+    """ settings = pickle.load(open('svdsettings.p', 'rb'))
 
     data = pickle.load(open('svddata.p', 'rb'))
 
@@ -117,7 +117,11 @@ def make_svd_scatter():
     print(train_features[0])
 
     pickle.dump(train_features, open('features.p', 'wb'))
-    pickle.dump(train_samples, open('samples.p', 'wb'))
+    pickle.dump(train_samples, open('samples.p', 'wb')) """
+
+    train_features = pickle.load(open('features.p', 'rb'))
+    train_samples = pickle.load(open('samples.p', 'rb'))
+    
 
     positive_xs = []
     positive_ys = []
@@ -133,19 +137,13 @@ def make_svd_scatter():
             negative_xs.append(train_features[i][0])
             negative_ys.append(train_features[i][1])
 
-    """     for i, sample in enumerate(test_samples):
-        if sample == 1:
-            positive_xs.append(test_features[i][0])
-            positive_ys.append(test_features[i][1])
-        else:
-            negative_xs.append(test_features[i][0])
-            negative_ys.append(test_features[i][1]) """
-
     print('Got coords')
 
-
-    pyplot.scatter(positive_xs, positive_ys, s=0.1, c='g', alpha=0.5)
-    pyplot.scatter(negative_xs, negative_ys, s=0.1, c='r', alpha=0.5)
+    """ ax = pyplot.gca()
+    ax.set_xscale('log')
+    ax.set_yscale('log') """
+    pyplot.scatter(positive_xs, positive_ys, s=1, marker="P")
+    pyplot.scatter(negative_xs, negative_ys, s=1, marker="X")
 
     pyplot.show()
 

@@ -181,17 +181,9 @@ def compute_rank(sigma):
 def reduce_features(complete_train_features, complete_test_features):
     """ Performs the same principle component analysis on given train and test features """
 
-
-    print(len(complete_train_features))
-
-    print(len(complete_train_features[0]))
-
-    complete_train_features = [feature['speech_bag'] for feature in complete_train_features]
-    complete_test_features = [feature['speech_bag'] for feature in complete_test_features]
-
     _, sigma, v_transpose = svd(complete_train_features, full_matrices=True, compute_uv=True)
 
-    rank = compute_rank(sigma)
+    rank = 500#compute_rank(sigma)
 
     truncated_v = v_transpose[:rank].transpose()
 
