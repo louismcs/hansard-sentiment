@@ -75,7 +75,6 @@ Supervisor:         & Dr Tamara Polajnar                    \\
 
 
 \section*{Original Aims of the Project}
-%Max 100 words
 
 Due to my interest in both natural language processing and politics and a lack of previous work done in the area, I decided that I wanted to perform sentiment analysis on British political texts. After extensive research, I found a study \cite{iraq_media_study} that manually assessed the biases of British newspaper articles on the Iraq war, so decided that I would use the dataset produced by the study. I aimed to develop a program to retrieve the texts of the newspaper articles specified in the study \cite{iraq_media_study} and implement a classifier using this data and a bag of words model.
 
@@ -89,8 +88,7 @@ Due to my interest in both natural language processing and politics and a lack o
 
 
 \section*{Special Difficulties}
-%Max 100 words (most will simply say 'None')
- - Mention the original dataset licence issues and change?
+None
  
 \newpage
 \section*{Declaration}
@@ -120,31 +118,6 @@ I, Louis Max Cley Slater of Pembroke College, being a candidate for Part II of t
 \pagestyle{headings}
 
 \chapter{Introduction}
-\begin{comment}
-\newpage
-\section{Presentation and Professional Practice}
-
-This section is a note to me. Remove before submission.
-
-Worth 14\%
-
-The assessors will determine whether you have taken a professional and ethical approach in your work. In particular, they will check that you have used appropriate methods and tools, understood software licenses, deployed appropriate review and evaluation techniques and been aware of the social and ethical impact of your work. You must demonstrate a structured design approach, including high-level design planning, design-for-test, consideration of human factors and systematic evaluation including confidence metrics within your evaluation. You should explain how you would show conformance with appropriate legislation, such as that for intellectual property, data protection, human subjects and software licenses such as those for open source. Show that you understand the consequences of your project (or a more fully-formed variant of it) in terms of how it might affect commercial markets, contribute to society and/or the research community.
-
-Regarding presentation, assessors primarily require the dissertation to be literate and tidy. It is not necessary to spend hours using an advanced graphics design package but it is necessary to write with correct grammar, in a clear and focused expository style using properly constructed sentences.
-
-Strict adherence to the top-level arrangement described in Section 12 is regarded as part of the Presentation. Candidates who fail to put their names on the top right-hand corners of cover sheets, misunderstand the phrase “at most 100 words”, or omit the Proforma altogether, will lose marks for Presentation.
-
-Most of the marks are scored in the five chapters in the body of the dissertation.
-
-Assessors recognise that the precise partitioning prescribed by the five chapter headings will sometimes prove too serious a constraint. A writer might, for example, feel that it is essential to discuss some aspects of the Implementation in earlier chapters. Assessors will credit Implementation marks ahead of time in such circumstances. It is unnecessary to repeat the discussion in order to earn the marks.
-
-
-\newpage
-Introduction and preparation - 26\%
-
-The Introduction should explain the principal motivation for the project. Show how the work fits into the broad area of surrounding Computer Science and give a brief survey of previous related work. It should generally be unnecessary to quote at length from technical papers or textbooks. If a simple bibliographic reference is insufficient, consign any lengthy quotation to an appendix.
-\end{comment}
-
 
 \section{Motivation}
 
@@ -155,7 +128,6 @@ The 2003 invasion of Iraq was an issue that cut across the political spectrum, w
 
 
 \section{Problem Formulation} \label{intro-challenges}
-%Make more technical
 
 In this project, I look at how best to apply machine learning techniques to the carry out sentiment analysis on texts about the Iraq war. Since I can obtain labelled data relevant to the project without great difficulty (e.g. having to manually label it), I decided to consider this project as a supervised learning program. We can naturally simplify all stances on the Iraq war to be either pro-war or anti-war, thereby allowing the problem to be formulated as a binary classification task. One of the simplest implementations for a binary classifier is the na\"{i}ve Bayes classifier (described in \S\ref{prep-bayes}), so I use this as a baseline. For reasons outlined in \S\ref{prep-svm}, I use a support vector machine classifier as the default model.
 \newline
@@ -178,18 +150,7 @@ In \hyperref[prep]{Chapter \ref{prep}}, I formally define the project, then outl
 
 \chapter{Preparation} \label{prep}
 
-\begin{comment}
-Principally, this chapter should describe the work which was undertaken before code was written, hardware built or theories worked on. It should show how the project proposal was further refined and clarified, so that the Implementation stage could go smoothly rather than by trial and error.
 
-Throughout this chapter and indeed the whole dissertation, it is essential to demonstrate that a proper professional approach was employed.
-
-The nature of this chapter will vary greatly from one dissertation to another but, underlining the professional approach, this chapter will very likely include a section headed “Requirements Analysis” and incorporate other references to software engineering techniques.
-
-The chapter will cite any new programming languages and systems which had to be learnt and will mention complicated theories or algorithms which required understanding.
-
-It is essential to declare the Starting Point (see Section 7). This states any existing codebase or materials that your project builds on. The text here can commonly be identical to the text in your proposal, but it may enlarge on it or report variations. For instance, the true starting point may have turned out to be different from that declared in the proposal and such discrepancies must be explained.
-\end{comment}
-%Adapt this
 There were three main stages to the preparation of the project:
 \begin{enumerate}
 	\item Defining and planning the project. A project of this scale needs clear definition of its goals and a well defined plan designed to achieve these goals. Sections \S\ref{prep-requirements}, \S\ref{prep-changes} \& \S\ref{prep-start} detail this stage of the preparation.
@@ -583,24 +544,11 @@ I predominantly developed the project using my own laptop running the Windows 10
 	\caption{The versions of the software used in this project}
 \end{table}
 
-\section{Summary - DEADLINE: 13TH APRIL}
+\section{Summary}
 
 In this chapter, I have defined the project and the steps I took before starting its development. These steps involved planning the project and how its success will be measured, thereby allowing smoother implementation and evaluation.
 
 \chapter{Implementation} \label{impl}
-
-\begin{comment}
-Worth 40\%
-
-This chapter should describe what was actually produced: the programs which were written, the hardware which was built or the theory which was developed. Any design strategies that looked ahead to the testing stage might profitably be referred to (the professional approach again).
-
-Descriptions of programs may include fragments of high-level code but large chunks of code are usually best left to appendices or omitted altogether. Analogous advice applies to circuit diagrams.
-
-Draw attention to the parts of the work which are not your own. Making effective use of powerful tools and pre-existing code is often laudable, and will count to your credit if properly reported.
-
-It should not be necessary to give a day-by-day account of the progress of the work but major milestones may sometimes be highlighted with advantage.
-\end{comment}
-
 
 This chapter discusses the implementation of the various components of the project. Section \S\ref{impl-architecture} provides an overview to the system's implementation. Section \S\ref{impl-structures} talks about some of the design decisions related to specific data structures. Section \S\ref{impl-acquisition} gives details about compiling the project's dataset and section \S\ref{impl-classifier} discusses the implementation of the classifier.
 
@@ -696,7 +644,7 @@ One of my primary reasons for using the Hansard as the corpus for this project w
 
 \pylisting{Function that matches an MP's name in the Hansard }{match_full_name}
 
-\subsection{Database - DEADLINE: 2ND MAY} \label{impl-database}
+\subsection{Database} \label{impl-database}
 
 Since the database would only be used locally (so there would only ever be one copy) and I planned on accessing it serially, I could easily ensure that my database would satisfy the ACID properties (Atomicity, Consistency, Isolation \& Durability) by using a relational database. As described in \S\ref{prep-database}, I opted to use SQLite due to its low overheads - it is referred to as a zero-configuration database \cite{sqlitezeroconfig}. The benefits of this are two-fold; it reduces development time and running time, since there is no separate server process and therefore no overhead from message passing to and from the database \cite{sqliteserverless}. Further to this, the authors of SQLite released the code under a licence that allows anyone to ``copy, modify, publish, use, compile, sell, or distribute'' SQLite \cite{sqlitelicence}, which is clearly sufficient for my needs in this project.
 \\\\
@@ -767,24 +715,11 @@ The running time of an SVM classifier increases with the size of the features. I
 
 \pylisting{A function using NumPy array operations to perform singular value decomposition on two sets of given features}{reduce_features}
 
-\section{Summary - DEADLINE: 4TH MAY}
+\section{Summary}
 
 In this chapter I described the overall system architecture and discussed the work I undertook to implement the project's components. Throughout the preparation and implementation, I made decisions to facilitate the evaluation, which is detailed further in the next chapter.
 
 \chapter{Evaluation} \label{eval}
-
-\begin{comment}
-Evaluation and conclusions worth 20\%
-
-This is where Assessors will be looking for signs of success and for evidence of thorough and systematic evaluation as discussed in Section 8.3. Sample output, tables of timings and photographs of workstation screens, oscilloscope traces or circuit boards may be included. A graph that does not indicate confidence intervals will generally leave a professional scientist with a negative impression.
-
-As with code, voluminous examples of sample output are usually best left to appendices or omitted altogether.
-
-There are some obvious questions which this chapter will address. How many of the original goals were achieved? Were they proved to have been achieved? Did the program, hardware, or theory really work?
-
-Assessors are well aware that large programs will very likely include some residual bugs. It should always be possible to demonstrate that a program works in simple cases and it is instructive to demonstrate how close it is to working in a really ambitious case.
-
-\end{comment}
 
 In this section I assess the successes and failures of what was developed in this project. To follow a similar order to the implementation section, I first analyse the data in section \S\ref{eval-database}, then evaluate the classifier's results in section \S\ref{eval-results} and in section \S\ref{eval-reduction} I consider the benefits of the extension in which I implemented dimensionality reduction. I then move onto section \S\ref{eval-spam} in which I evaluate my results for the spam email classifier. I conclude this chapter by assessing the extent to which the project met its goals in section \S\ref{eval-goals}.
 
@@ -931,7 +866,7 @@ As discussed in section \S\ref{impl-overfitting}, developing a classifier to det
 
 The two primary goals of the project were defined in section \S\ref{prep-requirements}. They were to ``Construct a database that comprises British texts on the Iraq war'' and to ``Develop a classifier that can determine the stance of the texts in the database''. Section \S\ref{eval-database} provides evidence of my achievement of the first of these goals and section \S\ref{eval-results} shows that I have successfully completed the second of the two goals. I refined these goals to give the project's core tasks in table \ref{table:tasks}, which I completed (as detailed in \S\ref{impl}), before going on to complete extensions to the project.
 
-\section{Summary - DEADLINE: 9TH MAY}
+\section{Summary}
 
 This project was successful in achieving two main aims of creating a dataset of British texts on the Iraq war and developing a classifier to use this corpus. The novel method of using an MPs' House of Commons voting record to label their speeches proved to be successful, as demonstrated by the good results of the classifier.
 
@@ -939,9 +874,15 @@ This project was successful in achieving two main aims of creating a dataset of 
 
 \section{Achievements}
 
+Through carrying out this project, I created a dataset using data from the Hansard and data.parliament.uk. This dataset contains all the speeches and votes made between September 11th 2001 and 18th March 2003 (inclusive). I then used this dataset to develop an SVM classifier which achieved an F1 score of 0.898 on MPs' speeches, which is significantly better than the baseline 0.392, which was the F1 score of the na\"{i}ve Bayes classifier on the same data.
+
 \section{Lessons Learned}
 
-\section{Future Work - DEADLINE: 11TH MAY}
+The success of the project demonstrates that the Hansard is a great resource for NLP applications, especially as I showed that it can be labelled using House of Commons voting data. While the project did go well overall, the licensing issues with the initial dataset delayed the project from the off. If I were to do the project again, I would check the licences of the any resources it was using before starting any other work, so as to avoid a similar problem. In addition to learning more about licensing of data, I learned a lot about NLP and machine learning techniques through carrying out this project.
+
+\section{Future Work}
+
+To improve the classifier, I could adopt more complex models which could account for how MPs' stances change over time or how likely an MP is to follow their party's line in a vote when they contradict the MPs own views. A new model could also use additional data from other sources, such as newspapers and social media to further improve classification. The dataset could be extended over a longer range, thus making it useful for analyses of a wider range of political issues. I plan to create an API for this dataset, which will hopefully encourage further applications to be built using House of Commons data, which would in turn increase the accountability of MPs.
 
 \begin{comment}
 This chapter is likely to be very short and it may well refer back to the Introduction. It might properly explain how you would have planned the project if starting again with the benefit of hindsight.
@@ -959,7 +900,6 @@ This chapter is likely to be very short and it may well refer back to the Introd
 
 \chapter{Project Proposal}
 \label{sec:proposal}
-Assessors like to see some sample code or example circuit diagrams, and appendices are the sensible places to include such items. Accordingly, software and hardware projects should incorporate appropriate appendices. Note that the 12,000 word limit does not include material in the appendices, but only in extremely unusual circumstances may appendices exceed 10-15 pages - if you feel that such unusual circumstances might apply to you you should ask your Director of Studies and Supervisor to apply to the Chairman of Examiners. It is quite in order to have no appendices. Appendices should appear between the bibliography and the project proposal.
 \input{proposal}
 
 \end{document}

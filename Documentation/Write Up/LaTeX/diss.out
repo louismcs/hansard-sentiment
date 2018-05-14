@@ -22,7 +22,7 @@
 \BOOKMARK [2][-]{subsection.2.10.3}{Libraries}{section.2.10}% 22
 \BOOKMARK [2][-]{subsection.2.10.4}{Development Environment}{section.2.10}% 23
 \BOOKMARK [2][-]{subsection.2.10.5}{Table of Software Used}{section.2.10}% 24
-\BOOKMARK [1][-]{section.2.11}{Summary - DEADLINE: 13TH APRIL}{chapter.2}% 25
+\BOOKMARK [1][-]{section.2.11}{Summary}{chapter.2}% 25
 \BOOKMARK [0][-]{chapter.3}{Implementation}{}% 26
 \BOOKMARK [1][-]{section.3.1}{System Architecture}{chapter.3}% 27
 \BOOKMARK [1][-]{section.3.2}{Data Structures}{chapter.3}% 28
@@ -33,7 +33,7 @@
 \BOOKMARK [2][-]{subsection.3.3.1}{Scraping Data}{section.3.3}% 33
 \BOOKMARK [2][-]{subsection.3.3.2}{Wrangling Data}{section.3.3}% 34
 \BOOKMARK [2][-]{subsection.3.3.3}{Labelling Data}{section.3.3}% 35
-\BOOKMARK [2][-]{subsection.3.3.4}{Database - DEADLINE: 2ND MAY}{section.3.3}% 36
+\BOOKMARK [2][-]{subsection.3.3.4}{Database}{section.3.3}% 36
 \BOOKMARK [1][-]{section.3.4}{Classifier}{chapter.3}% 37
 \BOOKMARK [2][-]{subsection.3.4.1}{Avoiding Overfitting}{section.3.4}% 38
 \BOOKMARK [2][-]{subsection.3.4.2}{Scikit-learn}{section.3.4}% 39
@@ -43,17 +43,17 @@
 \BOOKMARK [3][-]{subsubsection.3.4.3.3}{N-grams}{subsection.3.4.3}% 43
 \BOOKMARK [3][-]{subsubsection.3.4.3.4}{Learning Settings and Hyperparameters}{subsection.3.4.3}% 44
 \BOOKMARK [3][-]{subsubsection.3.4.3.5}{Dimensionality Reduction}{subsection.3.4.3}% 45
-\BOOKMARK [1][-]{section.3.5}{Summary - DEADLINE: 4TH MAY}{chapter.3}% 46
+\BOOKMARK [1][-]{section.3.5}{Summary}{chapter.3}% 46
 \BOOKMARK [0][-]{chapter.4}{Evaluation}{}% 47
 \BOOKMARK [1][-]{section.4.1}{Database Analysis}{chapter.4}% 48
 \BOOKMARK [1][-]{section.4.2}{Classifier Results}{chapter.4}% 49
 \BOOKMARK [1][-]{section.4.3}{Evaluation of Dimensionality Reduction}{chapter.4}% 50
 \BOOKMARK [1][-]{section.4.4}{Spam Email Dataset}{chapter.4}% 51
 \BOOKMARK [1][-]{section.4.5}{Evaluation of Project Goals}{chapter.4}% 52
-\BOOKMARK [1][-]{section.4.6}{Summary - DEADLINE: 9TH MAY}{chapter.4}% 53
+\BOOKMARK [1][-]{section.4.6}{Summary}{chapter.4}% 53
 \BOOKMARK [0][-]{chapter.5}{Conclusions}{}% 54
 \BOOKMARK [1][-]{section.5.1}{Achievements}{chapter.5}% 55
 \BOOKMARK [1][-]{section.5.2}{Lessons Learned}{chapter.5}% 56
-\BOOKMARK [1][-]{section.5.3}{Future Work - DEADLINE: 11TH MAY}{chapter.5}% 57
+\BOOKMARK [1][-]{section.5.3}{Future Work}{chapter.5}% 57
 \BOOKMARK [0][-]{section.5.3}{Bibliography}{}% 58
 \BOOKMARK [0][-]{appendix.A}{Project Proposal}{}% 59
