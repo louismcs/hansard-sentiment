@@ -12,8 +12,9 @@ def plot_distribution():
 
     ax = pyplot.gca()
     ax.set_xscale('log')
+    pyplot.axhline(0, ls='--', color='black', lw=0.1)
     pyplot.xlabel('Word Frequency')
     pyplot.ylabel('Probability Offset')
-    pyplot.scatter(xs, ys, s=1, c='gray', alpha=0.5)
+    pyplot.scatter(xs, ys, s=1, c='gray')
     pyplot.show()
 plot_distribution()

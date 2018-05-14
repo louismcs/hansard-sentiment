@@ -3,6 +3,7 @@
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, f1_score
+from sklearn import svm
 
 import database
 
@@ -21,7 +22,9 @@ def compute_member_f1s(settings, data):
 
     test_features, test_samples, members = generate_test_data(common_words, settings, data['test'])
 
-    classifier = MLPClassifier(solver='lbfgs')
+    classifier = svm.SVC()
+    
+    #classifier = MLPClassifier(solver='lbfgs')
 
     #classifier = GaussianNB()
 

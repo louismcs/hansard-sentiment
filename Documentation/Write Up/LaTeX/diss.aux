@@ -184,6 +184,7 @@
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {3.6}A function which removes the stop words and words on from a given list of words.}{37}{lstlisting.3.6}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3.3}N-grams}{37}{subsubsection.3.4.3.3}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3.4}Learning Settings and Hyperparameters}{37}{subsubsection.3.4.3.4}}
+\newlabel{impl-learning}{{3.4.3.4}{37}{Learning Settings and Hyperparameters}{subsubsection.3.4.3.4}{}}
 \citation{sklearnpca}
 \citation{numpysvd}
 \citation{svd}
@@ -196,66 +197,90 @@
 \newlabel{lst:reduce_features}{{3.8}{39}{A function using NumPy array operations to perform singular value decomposition on two sets of given features}{lstlisting.3.8}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {3.8}A function using NumPy array operations to perform singular value decomposition on two sets of given features}{39}{lstlisting.3.8}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.5}Summary - DEADLINE: 4TH MAY}{40}{section.3.5}}
+\citation{zipf}
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Evaluation}{41}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{eval}{{4}{41}{Evaluation}{chapter.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.1}Internal Evaluation}{41}{section.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Manual Checks}{41}{subsection.4.1.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Comparison of Optimisations}{41}{subsection.4.1.2}}
-\newlabel{eval-optimisations}{{4.1.2}{41}{Comparison of Optimisations}{subsection.4.1.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Baseline Comparison - DEADLINE: 7TH MAY}{41}{subsection.4.1.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}External Evaluation}{41}{section.4.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Spam Email Dataset}{41}{subsection.4.2.1}}
-\newlabel{eval-spam}{{4.2.1}{41}{Spam Email Dataset}{subsection.4.2.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Comparisons With Related Work}{41}{subsection.4.2.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Evaluation of Project Goals}{41}{section.4.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Summary - DEADLINE: 9TH MAY}{41}{section.4.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Database Analysis}{41}{subsection.4.1.1}}
+\newlabel{eval-database}{{4.1.1}{41}{Database Analysis}{subsection.4.1.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces A scatter plot of frequency against rank for all the words in the debates considered in this project.}}{42}{figure.4.1}}
+\newlabel{fig:bigzipf}{{4.1}{42}{A scatter plot of frequency against rank for all the words in the debates considered in this project}{figure.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces A scatter plot of frequency against rank for the 500 most common words and 2-grams in the training set.}}{43}{figure.4.2}}
+\newlabel{fig:zipf}{{4.2}{43}{A scatter plot of frequency against rank for the 500 most common words and 2-grams in the training set}{figure.4.2}{}}
+\citation{whips}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set.}}{44}{figure.4.3}}
+\newlabel{fig:ngramoffset}{{4.3}{44}{A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set}{figure.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Classifier Results}{44}{subsection.4.1.2}}
+\newlabel{eval-results}{{4.1.2}{44}{Classifier Results}{subsection.4.1.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces The ten most anti-war terms in the 500 most common words and 2-grams in the training set.}}{45}{table.4.1}}
+\newlabel{table:anti-grams}{{4.1}{45}{The ten most anti-war terms in the 500 most common words and 2-grams in the training set}{table.4.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces The ten most pro-war terms in the 500 most common words and 2-grams in the training set.}}{45}{table.4.2}}
+\newlabel{table:pro-grams}{{4.2}{45}{The ten most pro-war terms in the 500 most common words and 2-grams in the training set}{table.4.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces The F1 scores of the project's main classifier and the baseline classifier.}}{45}{table.4.3}}
+\newlabel{table:results}{{4.3}{45}{The F1 scores of the project's main classifier and the baseline classifier}{table.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces A diagram showing the grid of the first stage of the hyperparameter search.}}{46}{figure.4.4}}
+\newlabel{fig:hyperparamgrid}{{4.4}{46}{A diagram showing the grid of the first stage of the hyperparameter search}{figure.4.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces The settings learned by the SVM classifier.}}{46}{table.4.4}}
+\newlabel{table:settings}{{4.4}{46}{The settings learned by the SVM classifier}{table.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Evaluation of Dimensionality Reduction}{47}{subsection.4.1.3}}
+\newlabel{eval-reduction}{{4.1.3}{47}{Evaluation of Dimensionality Reduction}{subsection.4.1.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}External Evaluation}{47}{section.4.2}}
+\newlabel{eval-external}{{4.2}{47}{External Evaluation}{section.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Spam Email Dataset}{47}{subsection.4.2.1}}
+\newlabel{eval-spam}{{4.2.1}{47}{Spam Email Dataset}{subsection.4.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Comparisons With Related Work}{47}{subsection.4.2.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Evaluation of Project Goals}{47}{section.4.3}}
+\newlabel{eval-goals}{{4.3}{47}{Evaluation of Project Goals}{section.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Summary - DEADLINE: 9TH MAY}{47}{section.4.4}}
 \bibdata{refs}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions}{43}{chapter.5}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions}{49}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{conc}{{5}{43}{Conclusions}{chapter.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Achievements}{43}{section.5.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Lessons Learned}{43}{section.5.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Future Work - DEADLINE: 11TH MAY}{43}{section.5.3}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{43}{section.5.3}}
+\newlabel{conc}{{5}{49}{Conclusions}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Achievements}{49}{section.5.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Lessons Learned}{49}{section.5.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Future Work - DEADLINE: 11TH MAY}{49}{section.5.3}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{49}{section.5.3}}
 \bibcite{agile}{1}
 \bibcite{cythondocs}{2}
-\bibcite{rep_dem_one}{3}
-\bibcite{parsing}{4}
-\bibcite{ml_book}{5}
-\bibcite{chilcot2016report}{6}
-\bibcite{svd}{7}
-\bibcite{numpysvd}{8}
-\bibcite{numpymanual}{9}
-\bibcite{corpus_definition}{10}
-\bibcite{pythonfaqs}{11}
-\bibcite{pythoncollectionsdocs}{12}
-\bibcite{pythonsetdocs}{13}
-\bibcite{open_parliament_licence}{14}
-\bibcite{rep_dem_two}{15}
-\bibcite{first_twitter}{16}
-\bibcite{factiva}{17}
-\bibcite{nlp_book}{18}
-\bibcite{nbcdocs}{19}
-\bibcite{sklearnpca}{20}
-\bibcite{svmdocs}{21}
-\bibcite{ml_book_murphy}{22}
-\bibcite{mp_votes_bbc}{23}
-\bibcite{hansard}{24}
-\bibcite{twitter_as_a_corpus}{25}
-\bibcite{skspeed}{26}
-\bibcite{porter1980algorithm}{27}
-\bibcite{iraq_media_study}{28}
-\bibcite{syria_iraq_air_strikes}{29}
-\bibcite{sqlitetypes}{30}
-\bibcite{sqlitezeroconfig}{31}
-\bibcite{sqliteserverless}{32}
-\bibcite{sqlitelicence}{33}
-\bibcite{predicting_elections_twitter}{34}
-\bibcite{numpyspeed}{35}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Project Proposal}{49}{appendix.A}}
+\bibcite{whips}{3}
+\bibcite{rep_dem_one}{4}
+\bibcite{parsing}{5}
+\bibcite{ml_book}{6}
+\bibcite{chilcot2016report}{7}
+\bibcite{svd}{8}
+\bibcite{numpysvd}{9}
+\bibcite{numpymanual}{10}
+\bibcite{corpus_definition}{11}
+\bibcite{pythonfaqs}{12}
+\bibcite{pythoncollectionsdocs}{13}
+\bibcite{pythonsetdocs}{14}
+\bibcite{open_parliament_licence}{15}
+\bibcite{rep_dem_two}{16}
+\bibcite{first_twitter}{17}
+\bibcite{factiva}{18}
+\bibcite{nlp_book}{19}
+\bibcite{nbcdocs}{20}
+\bibcite{sklearnpca}{21}
+\bibcite{svmdocs}{22}
+\bibcite{ml_book_murphy}{23}
+\bibcite{zipf}{24}
+\bibcite{mp_votes_bbc}{25}
+\bibcite{hansard}{26}
+\bibcite{twitter_as_a_corpus}{27}
+\bibcite{skspeed}{28}
+\bibcite{porter1980algorithm}{29}
+\bibcite{iraq_media_study}{30}
+\bibcite{syria_iraq_air_strikes}{31}
+\bibcite{sqlitetypes}{32}
+\bibcite{sqlitezeroconfig}{33}
+\bibcite{sqliteserverless}{34}
+\bibcite{sqlitelicence}{35}
+\bibcite{predicting_elections_twitter}{36}
+\bibcite{numpyspeed}{37}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Project Proposal}{55}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{sec:proposal}{{A}{49}{Project Proposal}{appendix.A}{}}
+\newlabel{sec:proposal}{{A}{55}{Project Proposal}{appendix.A}{}}

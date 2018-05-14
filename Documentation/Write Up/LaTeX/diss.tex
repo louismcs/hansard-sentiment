@@ -739,7 +739,7 @@ Stop words (such as `the', `a' and `it') are frequently used words which carry l
 
 The major limitation of the bag-of-words model is that it doesn't represent the order of words. For this reason, many bag of words implementations use n-grams instead of just individual words. An n-gram is a sequence of n words, ordered as they are in the text they were sampled from. Using n-grams enriches the representation of a text; if we know the 2-gram `British troops' is in a given text, it tells us more than just the fact that the words `British' and `troops' are both in the text, since such a text will not necessarily mention British troops. Due to these potential gains, I implemented functionality to extract n-grams from MPs' speeches.
 
-\subsubsection{Learning Settings and Hyperparameters}
+\subsubsection{Learning Settings and Hyperparameters} \label{impl-learning}
 
 Once I implemented stemming, stop word removal and n-grams as well as number-grouping and L2 normalisation, I devised a way for the program to automatically determine whether or not these potential optimisations should be applied. To facilitate this, I used a settings dictionary to determine the control flow of the program, as demonstrated in Listing \ref{lst:generate_word_list}. I then used stratified cross-validation to determine the best value for each of the settings. In order to speed-up the training, I limited database accesses by retrieving and storing all the necessary data at the beginning, then getting stored data in each iteration of the cross-validation.
 \\\\
@@ -786,17 +786,144 @@ Assessors are well aware that large programs will very likely include some resid
 
 \end{comment}
 
+In this section I assess the successes and failures of what was developed in this project. To follow a similar order to the implementation section, I first analyse the data in section \S\ref{eval-database}, then evaluate the classifier's results in section \S\ref{eval-results} and in section \S\ref{eval-reduction} I consider the benefits of the extension in which I implemented dimensionality reduction. I then move onto section \S\ref{eval-external} in which I compare the project's results to other similar projects, starting with the spam email dataset in \S\ref{eval-spam}. I conclude this chapter by assessing the extent to which the project met its goals in section \S\ref{eval-goals}.
 
 \section{Internal Evaluation}
-\subsection{Database Analysis}
-\subsection{Classifier Results} \label{eval-optimisations}
+\subsection{Database Analysis} \label{eval-database}
+
+Since the result of the data acquisition described in section \S\ref{impl-acquisition} was a dataset of predominantly textual, it was difficult to quantitatively analyse this part of the project, but I performed various checks in order to establish that the dataset was constructed correctly.
+\\\\
+Firstly, the defensive programming style I adopted when writing the code to fetch, collate and store the data was geared towards facilitating the evaluation - wherever there was an error with the data, I outputted the relevant information and didn't write the data to the database. I then manually checked these outputs to see if there were any data that should have been written to the database, but wasn't due to the error. All of the outputs related to instances where there were problems with the Hansard, which indicates that my program to create the database worked correctly.
+\\\\
+Another way I assessed the database was to perform a series of unit tests on the database class's methods. For these tests, I used the original data sources (the Hansard and data.parliament.uk) to create a series of expected outputs from a set of queries I wrote. I then ran the queries and the actual results were 100\% consistent with the expected results.
+\\\\
+The main quantitative analysis I carried out on the database was considering the word (and n-gram) frequency distribution. According to Zipf's law, the frequency of the $i^{th}$ most frequent term is inversely proportional to $i$ (the word's rank). More specifically, there is a linear relationship between the logarithm of the frequency of a word and the logarithm of the rank of the word \cite{zipf}. Although Zipf's law is just an empirical observation, if the database was constructed correctly, we would expect it to obey this rule. Figure \ref{fig:bigzipf} shows a scatter plot of frequency against rank for all the words in the debates considered in this project, constructed using the project's database. The graph is plotted on a log-log scale, which is why we see the linear correlation that we would expect of a natural corpus. The coefficient of determination, $r^2$, for the plotted data is $0.97 \pm 0.07$\footnotemark, which provides further evidence for the project's corpus obeying Zipf's law and supports my hypothesis that it is properly constructed.
+\\\\
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=1]{figs/bigzipf.png}
+	\end{center}
+	\caption{A scatter plot of frequency against rank for all the words in the debates considered in this project.}
+	\label{fig:bigzipf}
+\end{figure}
+As I will discuss in section \S\ref{eval-results}, the classifier was trained on the 500 most common words and 2-grams in the training set. As expected, these also follow Zipf's law, which is demonstrated in figure \ref{fig:zipf}. For these data, the coefficient of determination is $1.00 \pm 0.02$\footnotemark[\value{footnote}], which strengthens the idea that it obeys Zipf's law.
+\\\\
+
+\footnotetext{Although the standard error suggests it could be, the coefficient of determination cannot exceed 1.}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=1]{figs/zipf.png}
+	\end{center}
+	\caption{A scatter plot of frequency against rank for the 500 most common words and 2-grams in the training set.}
+	\label{fig:zipf}
+\end{figure}
+
+Figure \ref{fig:ngramoffset} is another scatter plot of the same 500 terms, but instead plots their probability offset against their frequency (on a log scale). The probability offset of a given term is given by:
+\begin{equation}
+	\frac{\sum_{s \in P}c_{s}(\text{term})}{\sum_{s \in P \cup N}c_{s}(\text{term})} - \frac{\sum_{t \in T}\sum_{s \in P}c_{s}(t)}{\sum_{t \in T}\sum_{s \in P \cup N}c_{s}(t)}
+\end{equation}
+where $c_{s}(t)$ is the occurrences of term $t$ in speech $s$, $T$ is the set of the 500 most common words and 2-grams in the training set, $P$ is the set of positively labelled (pro-war) speeches in the training set and $N$ is the set of negatively labelled (anti-war) speeches in the training set. The first part of the expression corresponds to the probability of an occurrence of the given term being in a pro-war speech, while the second part is the probability that a given occurrence of any term is in a pro-war speech. This normalisation is necessary due to the fact that the dataset is unbalanced. Any terms for which the probability offset is greater than 0 have a pro-war bias and any term with a probability offset less than 0 have an anti-war bias. The figure shows that the more common terms do not have significant biases, but less frequent terms are more likely to be useful to our classification. Table \ref{table:anti-grams} and table \ref{table:pro-grams} show the most anti-war and pro-war terms respectively.
+\\\\
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.8]{figs/ngramoffset.png}
+	\end{center}
+	\caption{A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set.}
+	\label{fig:ngramoffset}
+\end{figure} 
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{lll}
+		\hline
+		\textbf{Term}  & \textbf{Probability Offset} & \textbf{Frequency} \\ \hline
+		american       & -0.250                      & 325                \\
+		bush           & -0.240                      & 249                \\
+		the us         & -0.234                      & 220                \\
+		administration & -0.218                      & 215                \\
+		war            & -0.202                      & 1240               \\
+		the british    & -0.185                      & 235                \\
+		of us          & -0.146                      & 250                \\
+		this country   & -0.145                      & 219                \\
+		attack         & -0.133                      & 216                \\
+		bin            & -0.130                      & 235                \\ \hline
+	\end{tabular}
+	\caption{The ten most anti-war terms in the 500 most common words and 2-grams in the training set.}
+	\label{table:anti-grams}
+\end{table}
+\begin{table}[]
+	\centering
+	\begin{tabular}{lll}
+		\hline
+		\textbf{Term} & \textbf{Probability Offset} & \textbf{Frequency} \\ \hline
+		operations    & 0.185                       & 292                \\
+		to ensure     & 0.140                       & 253                \\
+		as i          & 0.132                       & 296                \\
+		terrorists    & 0.128                       & 267                \\
+		ensure        & 0.119                       & 343                \\
+		continue      & 0.117                       & 300                \\
+		ensure that   & 0.115                       & 290                \\
+		of course     & 0.114                       & 275                \\
+		need to       & 0.113                       & 389                \\
+		my hon        & 0.113                       & 775                \\ \hline
+	\end{tabular}
+	\caption{The ten most pro-war terms in the 500 most common words and 2-grams in the training set.}
+	\label{table:pro-grams}	
+\end{table}
+
+\subsection{Classifier Results} \label{eval-results}
+
+Table \ref{table:results} highlights the successful performance of the classifier I developed for this project - it significantly outperforms the na\"{i}ve Bayes classifier, which I decided would be the baseline in the initial stages of the project. Note that I have used F1 scores as the metric to compare classifiers, as F1 scores account for imbalances in data, as I discussed in section \S\ref{evaluation-metrics}.
+\\\\
+\begin{table}[]
+	\centering
+	\begin{tabular}{lll}
+		\hline
+		\textbf{Classifier}      & \textbf{F1 score by speech} & \textbf{F1 score by MP} \\ \hline
+		Na\"{i}ve Bayes baseline & 0.392                       & 0.182                   \\
+		SVM                      & 0.898                       & 0.809                   \\ \hline
+	\end{tabular}
+	\caption{The F1 scores of the project's main classifier and the baseline classifier.}
+	\label{table:results}	
+\end{table}
+
+The cross-validation learning algorithm established that the rbf kernel function would likely produce the best results. In doing so, it performed a search for the best combination of hyperparameters (as described in section \S\ref{impl-learning}). Figure \ref{fig:hyperparamgrid} illustrates the first iteration of the grid search for hyperparameters. The diagram clearly shows that lower values of $C$ result in a better F1 score. This is expected, as lower values of $C$ allow more training examples to be misclassified (as discussed in section \S\ref{prep-svm}) and there is inherent noise in the data, due to MPs not voting consistently with their own views due to party whips \cite{whips}, which results in some mislabelling of the data.
+\\\\
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.8]{figs/hyperparamgrid.png}
+	\end{center}
+	\caption{A diagram showing the grid of the first stage of the hyperparameter search.}
+	\label{fig:hyperparamgrid}
+\end{figure}
+
+The learning algorithm which determined the kernel and hyperparameters also determined the settings, which are shown in table \ref{table:settings}. 
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{ll}
+		\hline
+		\textbf{Setting}  & \textbf{Value} \\ \hline
+		n\_gram           & 2              \\ 
+		remove\_stopwords & False          \\
+		stem\_words       & False          \\
+		group\_numbers    & False          \\
+		normalise         & True           \\
+		\hline
+	\end{tabular}
+	\caption{The settings learned by the SVM classifier.}
+	\label{table:settings}	
+\end{table}
+
 \subsection{Evaluation of Dimensionality Reduction} \label{eval-reduction}
 
-\section{External Evaluation}
+\section{External Evaluation} \label{eval-external}
 
 \subsection{Spam Email Dataset} \label{eval-spam}
 \subsection{Comparisons With Related Work}
-\section{Evaluation of Project Goals}
+\section{Evaluation of Project Goals} \label{eval-goals}
 
 
 \section{Summary - DEADLINE: 9TH MAY}
