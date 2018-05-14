@@ -45,15 +45,12 @@
 \contentsline {subsubsection}{\numberline {3.4.3.5}Dimensionality Reduction}{38}{subsubsection.3.4.3.5}
 \contentsline {section}{\numberline {3.5}Summary - DEADLINE: 4TH MAY}{40}{section.3.5}
 \contentsline {chapter}{\numberline {4}Evaluation}{41}{chapter.4}
-\contentsline {section}{\numberline {4.1}Internal Evaluation}{41}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Database Analysis}{41}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Classifier Results}{44}{subsection.4.1.2}
-\contentsline {subsection}{\numberline {4.1.3}Evaluation of Dimensionality Reduction}{47}{subsection.4.1.3}
-\contentsline {section}{\numberline {4.2}External Evaluation}{47}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Spam Email Dataset}{47}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Comparisons With Related Work}{47}{subsection.4.2.2}
-\contentsline {section}{\numberline {4.3}Evaluation of Project Goals}{47}{section.4.3}
-\contentsline {section}{\numberline {4.4}Summary - DEADLINE: 9TH MAY}{47}{section.4.4}
+\contentsline {section}{\numberline {4.1}Database Analysis}{41}{section.4.1}
+\contentsline {section}{\numberline {4.2}Classifier Results}{44}{section.4.2}
+\contentsline {section}{\numberline {4.3}Evaluation of Dimensionality Reduction}{47}{section.4.3}
+\contentsline {section}{\numberline {4.4}Spam Email Dataset}{48}{section.4.4}
+\contentsline {section}{\numberline {4.5}Evaluation of Project Goals}{48}{section.4.5}
+\contentsline {section}{\numberline {4.6}Summary - DEADLINE: 9TH MAY}{48}{section.4.6}
 \contentsline {chapter}{\numberline {5}Conclusions}{49}{chapter.5}
 \contentsline {section}{\numberline {5.1}Achievements}{49}{section.5.1}
 \contentsline {section}{\numberline {5.2}Lessons Learned}{49}{section.5.2}

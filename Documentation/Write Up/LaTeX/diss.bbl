@@ -43,6 +43,10 @@ Alan~Kaylor Cline and Inderjit~S Dhillon.
 \newblock Computation of the singular value decomposition.
 \newblock 2006.
 
+\bibitem{resolution}
+CNN.
+\newblock Text of u.n. resolution on iraq.
+
 \bibitem{numpysvd}
 The~SciPy community.
 \newblock Numpy svd documentation.

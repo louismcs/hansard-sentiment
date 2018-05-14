@@ -786,10 +786,9 @@ Assessors are well aware that large programs will very likely include some resid
 
 \end{comment}
 
-In this section I assess the successes and failures of what was developed in this project. To follow a similar order to the implementation section, I first analyse the data in section \S\ref{eval-database}, then evaluate the classifier's results in section \S\ref{eval-results} and in section \S\ref{eval-reduction} I consider the benefits of the extension in which I implemented dimensionality reduction. I then move onto section \S\ref{eval-external} in which I compare the project's results to other similar projects, starting with the spam email dataset in \S\ref{eval-spam}. I conclude this chapter by assessing the extent to which the project met its goals in section \S\ref{eval-goals}.
+In this section I assess the successes and failures of what was developed in this project. To follow a similar order to the implementation section, I first analyse the data in section \S\ref{eval-database}, then evaluate the classifier's results in section \S\ref{eval-results} and in section \S\ref{eval-reduction} I consider the benefits of the extension in which I implemented dimensionality reduction. I then move onto section \S\ref{eval-spam} in which I evaluate my results for the spam email classifier. I conclude this chapter by assessing the extent to which the project met its goals in section \S\ref{eval-goals}.
 
-\section{Internal Evaluation}
-\subsection{Database Analysis} \label{eval-database}
+\section{Database Analysis} \label{eval-database}
 
 Since the result of the data acquisition described in section \S\ref{impl-acquisition} was a dataset of predominantly textual, it was difficult to quantitatively analyse this part of the project, but I performed various checks in order to establish that the dataset was constructed correctly.
 \\\\
@@ -872,7 +871,7 @@ where $c_{s}(t)$ is the occurrences of term $t$ in speech $s$, $T$ is the set of
 	\label{table:pro-grams}	
 \end{table}
 
-\subsection{Classifier Results} \label{eval-results}
+\section{Classifier Results} \label{eval-results}
 
 Table \ref{table:results} highlights the successful performance of the classifier I developed for this project - it significantly outperforms the na\"{i}ve Bayes classifier, which I decided would be the baseline in the initial stages of the project. Note that I have used F1 scores as the metric to compare classifiers, as F1 scores account for imbalances in data, as I discussed in section \S\ref{evaluation-metrics}.
 \\\\
@@ -899,7 +898,9 @@ The cross-validation learning algorithm established that the rbf kernel function
 	\label{fig:hyperparamgrid}
 \end{figure}
 
-The learning algorithm which determined the kernel and hyperparameters also determined the settings, which are shown in table \ref{table:settings}. 
+The learning algorithm which determined the kernel and hyperparameters also determined the settings, which are shown in table \ref{table:settings}. As tables \ref{table:anti-grams} and \ref{table:pro-grams} demonstrate, 2-grams were very useful in classification, so it makes sense that the learning algorithm chose to use them. The tables also show that stop words do carry significant semantic value when they are part of a 2-gram, despite the fact that figure \ref{fig:ngramoffset} shows that stop words are not useful in isolation for classification. Although it may be useful to group numbers for some applications, it was not in this case, as evidenced by the fact that `September 11' had a significant anti-war bias and `1441' was the 15th most pro-war term (the United Nations Security Council Resolution 1441 was an offering to Iraq to encourage them to disarm \cite{resolution}).
+\\\\
+Interestingly, table \ref{table:results} shows that for both classifiers, the F1 score was higher when was calculated on predictions for each speech, rather than on predictions for each MP. This is counter-intuitive, since the MPs' predictions are made using an aggregation of their speeches - we might expect that having more data would lead to better classifications. The most feasible explanation is that speeches made by MPs who make less speeches are more likely to be misclassified. This makes sense, since if an MP is less sure of their stance on the war, their view is more likely to have changed over the period of time from which this project's corpus was created. Further to this, an MP who is less sure of their stance is more likely to be convinced to follow their party's line. I decided to test the hypothesis that MPs who made less speeches in debates related to the Iraq war were more likely to be misclassified, by carrying out a t-test. The mean of the number of speeches made for correctly classified MPs was 10, whereas it was only 5 for misclassified MPs. While this does support the hypothesis, the t statistic was 0.951, meaning it was only significant to the 80\% level, which is not sufficiently high to make any conclusive statements about the hypothesis.
 
 \begin{table}[]
 	\centering
@@ -917,12 +918,12 @@ The learning algorithm which determined the kernel and hyperparameters also dete
 	\label{table:settings}	
 \end{table}
 
-\subsection{Evaluation of Dimensionality Reduction} \label{eval-reduction}
+\section{Evaluation of Dimensionality Reduction} \label{eval-reduction}
 
-\section{External Evaluation} \label{eval-external}
+When testing the principle component analysis (PCA) I had implemented (see section \S\ref{impl-reduction}), I realised that the slow operation of the singular value decomposition (svd - part of the principle component analysis algorithm) had become the bottleneck on the running time of the classifier and the gains in performance it achieved were marginal. The poor running time was due to the fact that the feature vectors that the algorithm was decomposing were so large. I therefore decided to truncate these vectors by decreasing the bag size in the bag of words model, before performing the svd. While this did significantly speed-up the PCA, it resulted in a lower F1 score than could be achieved by truncating the feature vectors to the same dimensionality, just by decreasing bag size. Since decreasing the bag size had no time overhead and produced better results, I decided to use this in the classifier and omit the use of PCA entirely.
 
-\subsection{Spam Email Dataset} \label{eval-spam}
-\subsection{Comparisons With Related Work}
+
+\section{Spam Email Dataset} \label{eval-spam}
 \section{Evaluation of Project Goals} \label{eval-goals}
 
 
