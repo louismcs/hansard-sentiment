@@ -112,6 +112,12 @@ Scikit learn developers.
 Scikit learn developers.
 \newblock Support vector machines user guide.
 
+\bibitem{spampaper}
+Ben Medlock.
+\newblock An adaptive, semi-structured language model approach to spam
+  filtering on a new corpus.
+\newblock In {\em CEAS}, 2006.
+
 \bibitem{ml_book_murphy}
 Kevin~P. Murphy.
 \newblock {\em Machine learning [electronic resource] : a probabilistic

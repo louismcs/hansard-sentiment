@@ -10,7 +10,7 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces A scatter plot of frequency against rank for all the words in the debates considered in this project.}}{42}{figure.4.1}
 \contentsline {figure}{\numberline {4.2}{\ignorespaces A scatter plot of frequency against rank for the 500 most common words and 2-grams in the training set.}}{43}{figure.4.2}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set.}}{45}{figure.4.3}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set.}}{44}{figure.4.3}
 \contentsline {figure}{\numberline {4.4}{\ignorespaces A diagram showing the grid of the first stage of the hyperparameter search.}}{46}{figure.4.4}
 \addvspace {10\p@ }
 \addvspace {10\p@ }

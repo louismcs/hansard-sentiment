@@ -200,7 +200,7 @@ There were three main stages to the preparation of the project:
 \end{enumerate}
 
 \section{Requirements Analysis} \label{prep-requirements}
-The primary goals of this data are to:
+The primary goals of this project are to:
 \begin{itemize}
 	\item Construct a database that comprises British texts on the Iraq war
 	\item Develop a classifier that can determine the stance of the texts in the database.
@@ -527,7 +527,7 @@ It is important to note that the order of the elements above is not relevant.
 
 \section{Software Engineering Techniques} \label{prep-sweng}
 	
-Before implementing the first classifier, I couldn't be sure that it would be possible to develop a system to classify MP's speeches due to the lack of other similar work. Due to this, it was important to get to this point as quickly as possible and then change the project requirements at that point if the data couldn't be classified. This strategy lent itself to agile software development \cite{agile}, so this is what I used. I considered each of the tasks in Table \ref{table:tasks} as my first five sprints (in the same order as the table), later defining further sprints as project extensions.
+Before implementing the first classifier, I couldn't be sure that it would be possible to develop a system to classify MP's speeches due to the lack of other similar work. Due to this, it was important to get to this point as quickly as possible and then change the project requirements at that point if the data couldn't be classified. This strategy lent itself to agile software development \cite{agile}, so this is what I used. I used each of the tasks in Table \ref{table:tasks} to establish the projects first sprints, later defining further sprints as project extensions.
 \newline
 \newline
 Throughout development, I used a linter to ensure that I maintained a high standard of code, with consistent documentation and also used revision control. I designed programs to be as modular as possible, which helped with testing and debugging.
@@ -715,7 +715,7 @@ To maintain good software engineering practices, I only accessed the database th
 
 \section{Classifier} \label{impl-classifier}
 
-\subsection{Avoiding Overfitting}
+\subsection{Avoiding Overfitting} \label{impl-overfitting}
 
 I took appropriate measures in order to ensure that my classifier wasn't overfitting. Firstly, before implementing a program to determine the stance of MPs' speeches, I wrote a classify to determine whether a given email is spam. I developed this classifier using a bag of words representation and a support vector machine, as this is how I planned to write the project's main classifier. Since the two tasks are essentially the same, I could use adapt the spam email classifier, so it determined the sentiment of MPs' speeches. Using this development procedure meant that I avoided making the classifier overly specific. It also provided a further way to evaluate the project, as I discuss in section \S\ref{eval-spam}. In addition to this, during development I only ever used the training data, comparing different implementations using averages of F1 scores across cross-validation folds. This meant that there was no scope for developing a classifier that was specifically tailored to produce good results on the testing set.
 
@@ -794,7 +794,7 @@ Since the result of the data acquisition described in section \S\ref{impl-acquis
 \\\\
 Firstly, the defensive programming style I adopted when writing the code to fetch, collate and store the data was geared towards facilitating the evaluation - wherever there was an error with the data, I outputted the relevant information and didn't write the data to the database. I then manually checked these outputs to see if there were any data that should have been written to the database, but wasn't due to the error. All of the outputs related to instances where there were problems with the Hansard, which indicates that my program to create the database worked correctly.
 \\\\
-Another way I assessed the database was to perform a series of unit tests on the database class's methods. For these tests, I used the original data sources (the Hansard and data.parliament.uk) to create a series of expected outputs from a set of queries I wrote. I then ran the queries and the actual results were 100\% consistent with the expected results.
+Another way I assessed the database was to perform a series of unit tests on the database class's methods. For these tests, I used the original data sources (the Hansard and data.parliament.uk) to create a series of expected outputs from a set of queries I wrote. I then ran the queries and the actual results were 100\% consistent with the expected results. Further to this, when accessing the data to develop the project's classifier, the database never produced an error. Given that the primary function of the database was to be used for this classifier, this supports success of the database acquisition section of the project.
 \\\\
 The main quantitative analysis I carried out on the database was considering the word (and n-gram) frequency distribution. According to Zipf's law, the frequency of the $i^{th}$ most frequent term is inversely proportional to $i$ (the word's rank). More specifically, there is a linear relationship between the logarithm of the frequency of a word and the logarithm of the rank of the word \cite{zipf}. Although Zipf's law is just an empirical observation, if the database was constructed correctly, we would expect it to obey this rule. Figure \ref{fig:bigzipf} shows a scatter plot of frequency against rank for all the words in the debates considered in this project, constructed using the project's database. The graph is plotted on a log-log scale, which is why we see the linear correlation that we would expect of a natural corpus. The coefficient of determination, $r^2$, for the plotted data is $0.97 \pm 0.07$\footnotemark, which provides further evidence for the project's corpus obeying Zipf's law and supports my hypothesis that it is properly constructed.
 \\\\
@@ -924,11 +924,16 @@ When testing the principle component analysis (PCA) I had implemented (see secti
 
 
 \section{Spam Email Dataset} \label{eval-spam}
+
+As discussed in section \S\ref{impl-overfitting}, developing a classifier to detect spam email before the project's main classifier had many benefits, including adding a further way to evaluate the system. This evaluation is possible, since the spam email dataset I used was published by Medlock along with a paper containing state-of-the-art results for spam email detection \cite{spampaper}, meaning that I could compare these results with my own. My classifier achieved 90\% accuracy\footnote{I give the accuracy rather than F1 score here, since this is what is used in the paper which I am using to compare my results.} on the spam email dataset, compared with the 93\% given in Medlock's paper for SVM classification. Since this classifier was specifically tailored to detecting spam email and mine was not (since spam detection was not the focus of this project), the 90\% accuracy my classifier achieved is a respectable result.
+
 \section{Evaluation of Project Goals} \label{eval-goals}
 
+The two primary goals of the project were defined in section \S\ref{prep-requirements}. They were to ``Construct a database that comprises British texts on the Iraq war'' and to ``Develop a classifier that can determine the stance of the texts in the database''. Section \S\ref{eval-database} provides evidence of my achievement of the first of these goals and section \S\ref{eval-results} shows that I have successfully completed the second of the two goals. I refined these goals to give the project's core tasks in table \ref{table:tasks}, which I completed (as detailed in \S\ref{impl}), before going on to complete extensions to the project.
 
 \section{Summary - DEADLINE: 9TH MAY}
 
+This project was successful in achieving two main aims of creating a dataset of British texts on the Iraq war and developing a classifier to use this corpus. The novel method of using an MPs' House of Commons voting record to label their speeches proved to be successful, as demonstrated by the good results of the classifier.
 
 \chapter{Conclusions} \label{conc}
 

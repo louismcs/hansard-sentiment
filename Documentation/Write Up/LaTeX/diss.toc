@@ -48,7 +48,7 @@
 \contentsline {section}{\numberline {4.1}Database Analysis}{41}{section.4.1}
 \contentsline {section}{\numberline {4.2}Classifier Results}{44}{section.4.2}
 \contentsline {section}{\numberline {4.3}Evaluation of Dimensionality Reduction}{47}{section.4.3}
-\contentsline {section}{\numberline {4.4}Spam Email Dataset}{48}{section.4.4}
+\contentsline {section}{\numberline {4.4}Spam Email Dataset}{47}{section.4.4}
 \contentsline {section}{\numberline {4.5}Evaluation of Project Goals}{48}{section.4.5}
 \contentsline {section}{\numberline {4.6}Summary - DEADLINE: 9TH MAY}{48}{section.4.6}
 \contentsline {chapter}{\numberline {5}Conclusions}{49}{chapter.5}

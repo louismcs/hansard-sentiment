@@ -169,6 +169,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3.4}Classifier}{34}{section.3.4}}
 \newlabel{impl-classifier}{{3.4}{34}{Classifier}{section.3.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Avoiding Overfitting}{34}{subsection.3.4.1}}
+\newlabel{impl-overfitting}{{3.4.1}{34}{Avoiding Overfitting}{subsection.3.4.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces The entity-relationship (ER) diagram of the system's database.}}{35}{figure.3.5}}
 \newlabel{fig:erdiagram}{{3.5}{35}{The entity-relationship (ER) diagram of the system's database}{figure.3.5}{}}
 \citation{svmdocs}
@@ -209,25 +210,26 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces A scatter plot of frequency against rank for the 500 most common words and 2-grams in the training set.}}{43}{figure.4.2}}
 \newlabel{fig:zipf}{{4.2}{43}{A scatter plot of frequency against rank for the 500 most common words and 2-grams in the training set}{figure.4.2}{}}
 \citation{whips}
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces The ten most anti-war terms in the 500 most common words and 2-grams in the training set.}}{44}{table.4.1}}
-\newlabel{table:anti-grams}{{4.1}{44}{The ten most anti-war terms in the 500 most common words and 2-grams in the training set}{table.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set.}}{44}{figure.4.3}}
+\newlabel{fig:ngramoffset}{{4.3}{44}{A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set}{figure.4.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.2}Classifier Results}{44}{section.4.2}}
 \newlabel{eval-results}{{4.2}{44}{Classifier Results}{section.4.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set.}}{45}{figure.4.3}}
-\newlabel{fig:ngramoffset}{{4.3}{45}{A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set}{figure.4.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces The ten most anti-war terms in the 500 most common words and 2-grams in the training set.}}{45}{table.4.1}}
+\newlabel{table:anti-grams}{{4.1}{45}{The ten most anti-war terms in the 500 most common words and 2-grams in the training set}{table.4.1}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces The ten most pro-war terms in the 500 most common words and 2-grams in the training set.}}{45}{table.4.2}}
 \newlabel{table:pro-grams}{{4.2}{45}{The ten most pro-war terms in the 500 most common words and 2-grams in the training set}{table.4.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces The F1 scores of the project's main classifier and the baseline classifier.}}{45}{table.4.3}}
+\newlabel{table:results}{{4.3}{45}{The F1 scores of the project's main classifier and the baseline classifier}{table.4.3}{}}
 \citation{resolution}
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces The F1 scores of the project's main classifier and the baseline classifier.}}{46}{table.4.3}}
-\newlabel{table:results}{{4.3}{46}{The F1 scores of the project's main classifier and the baseline classifier}{table.4.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces A diagram showing the grid of the first stage of the hyperparameter search.}}{46}{figure.4.4}}
 \newlabel{fig:hyperparamgrid}{{4.4}{46}{A diagram showing the grid of the first stage of the hyperparameter search}{figure.4.4}{}}
+\citation{spampaper}
 \@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces The settings learned by the SVM classifier.}}{47}{table.4.4}}
 \newlabel{table:settings}{{4.4}{47}{The settings learned by the SVM classifier}{table.4.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.3}Evaluation of Dimensionality Reduction}{47}{section.4.3}}
 \newlabel{eval-reduction}{{4.3}{47}{Evaluation of Dimensionality Reduction}{section.4.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Spam Email Dataset}{48}{section.4.4}}
-\newlabel{eval-spam}{{4.4}{48}{Spam Email Dataset}{section.4.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Spam Email Dataset}{47}{section.4.4}}
+\newlabel{eval-spam}{{4.4}{47}{Spam Email Dataset}{section.4.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.5}Evaluation of Project Goals}{48}{section.4.5}}
 \newlabel{eval-goals}{{4.5}{48}{Evaluation of Project Goals}{section.4.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.6}Summary - DEADLINE: 9TH MAY}{48}{section.4.6}}
@@ -263,21 +265,22 @@
 \bibcite{nbcdocs}{21}
 \bibcite{sklearnpca}{22}
 \bibcite{svmdocs}{23}
-\bibcite{ml_book_murphy}{24}
-\bibcite{zipf}{25}
-\bibcite{mp_votes_bbc}{26}
-\bibcite{hansard}{27}
-\bibcite{twitter_as_a_corpus}{28}
-\bibcite{skspeed}{29}
-\bibcite{porter1980algorithm}{30}
-\bibcite{iraq_media_study}{31}
-\bibcite{syria_iraq_air_strikes}{32}
-\bibcite{sqlitetypes}{33}
-\bibcite{sqlitezeroconfig}{34}
-\bibcite{sqliteserverless}{35}
-\bibcite{sqlitelicence}{36}
-\bibcite{predicting_elections_twitter}{37}
-\bibcite{numpyspeed}{38}
+\bibcite{spampaper}{24}
+\bibcite{ml_book_murphy}{25}
+\bibcite{zipf}{26}
+\bibcite{mp_votes_bbc}{27}
+\bibcite{hansard}{28}
+\bibcite{twitter_as_a_corpus}{29}
+\bibcite{skspeed}{30}
+\bibcite{porter1980algorithm}{31}
+\bibcite{iraq_media_study}{32}
+\bibcite{syria_iraq_air_strikes}{33}
+\bibcite{sqlitetypes}{34}
+\bibcite{sqlitezeroconfig}{35}
+\bibcite{sqliteserverless}{36}
+\bibcite{sqlitelicence}{37}
+\bibcite{predicting_elections_twitter}{38}
+\bibcite{numpyspeed}{39}
 \@writefile{toc}{\contentsline {chapter}{\numberline {A}Project Proposal}{55}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
