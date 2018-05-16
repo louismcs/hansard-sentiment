@@ -12,10 +12,10 @@ def get_settings_and_data():
         'white_list': [],
         'bag_size': 500,
         'max_bag_size': False,
-        'remove_stopwords': False,
-        'stem_words': False,
+        'remove_stopwords': True,
+        'stem_words':True,
         'group_numbers': False,
-        'n_gram': 1,
+        'n_gram': 5,
         'test_division': 102565,
         'all_debates': False,
         'debate_terms': ['iraq', 'terrorism', 'middle east', 'defence policy',
@@ -96,7 +96,7 @@ def find_n_grams():
         }
         csv_data.append([combined_word_counts[i], n_gram, positive_probabilities[i]])
 
-    csv_file = open('words.csv', 'w', newline="")
+    csv_file = open('allwords.csv', 'w', newline="")
     writer = csv.writer(csv_file, delimiter=',')
     writer.writerows(csv_data)
     csv_file.close()

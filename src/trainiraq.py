@@ -54,11 +54,12 @@ def parse_speeches(settings, mp_data, train):
     sum_bag = collections.Counter()
 
     members = {}
-
+    total = 0
     for speech in speeches:
         if speech['member'] not in members:
             members[speech['member']] = speech['votes']
         word_list = generate_word_list(speech['text'], settings)
+        total += len(word_list)
         bag = collections.Counter()
         for word in word_list:
             bag[word] += 1
@@ -102,8 +103,8 @@ def parse_speeches(settings, mp_data, train):
                     'speech_bag': bag,
                     'member': speech['member']
                 })
-
-
+    print('Total: {}'.format(total))
+    print('Sum bag: {}'.format(len(sum_bag)))
     return aye_features, no_features, sum_bag, members
 
 

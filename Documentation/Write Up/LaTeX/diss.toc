@@ -6,14 +6,15 @@
 \contentsline {chapter}{\numberline {2}Preparation}{13}{chapter.2}
 \contentsline {section}{\numberline {2.1}Requirements Analysis}{13}{section.2.1}
 \contentsline {section}{\numberline {2.2}Changes from the Initial Proposal}{14}{section.2.2}
-\contentsline {section}{\numberline {2.3}Starting Point - DEADLINE: 11TH APRIL}{15}{section.2.3}
+\contentsline {section}{\numberline {2.3}Starting Point}{15}{section.2.3}
 \contentsline {section}{\numberline {2.4}Introduction to Supervised Learning}{15}{section.2.4}
 \contentsline {section}{\numberline {2.5}Introduction to the Na\"{i}ve Bayes Classifier}{16}{section.2.5}
 \contentsline {section}{\numberline {2.6}Introduction to Support Vector Machines}{17}{section.2.6}
 \contentsline {section}{\numberline {2.7}Introduction to Evaluating Supervised Learning Systems}{23}{section.2.7}
 \contentsline {subsection}{\numberline {2.7.1}Train/Test Split}{23}{subsection.2.7.1}
-\contentsline {subsection}{\numberline {2.7.2}Cross Validation}{23}{subsection.2.7.2}
-\contentsline {subsection}{\numberline {2.7.3}Evaluation Metrics}{23}{subsection.2.7.3}
+\contentsline {subsection}{\numberline {2.7.2}Overfitting}{23}{subsection.2.7.2}
+\contentsline {subsection}{\numberline {2.7.3}Cross Validation}{23}{subsection.2.7.3}
+\contentsline {subsection}{\numberline {2.7.4}Evaluation Metrics}{23}{subsection.2.7.4}
 \contentsline {section}{\numberline {2.8}Introduction to the Bag-of-Words Model}{24}{section.2.8}
 \contentsline {section}{\numberline {2.9}Software Engineering Techniques}{25}{section.2.9}
 \contentsline {section}{\numberline {2.10}Choice of Tools}{26}{section.2.10}
@@ -43,12 +44,12 @@
 \contentsline {subsubsection}{\numberline {3.4.3.3}N-grams}{39}{subsubsection.3.4.3.3}
 \contentsline {subsubsection}{\numberline {3.4.3.4}Learning Settings and Hyperparameters}{39}{subsubsection.3.4.3.4}
 \contentsline {subsubsection}{\numberline {3.4.3.5}Dimensionality Reduction}{40}{subsubsection.3.4.3.5}
-\contentsline {section}{\numberline {3.5}Summary}{42}{section.3.5}
+\contentsline {section}{\numberline {3.5}Summary}{41}{section.3.5}
 \contentsline {chapter}{\numberline {4}Evaluation}{43}{chapter.4}
 \contentsline {section}{\numberline {4.1}Database Analysis}{43}{section.4.1}
-\contentsline {section}{\numberline {4.2}Classifier Results}{46}{section.4.2}
+\contentsline {section}{\numberline {4.2}Classifier Results}{48}{section.4.2}
 \contentsline {section}{\numberline {4.3}Evaluation of Dimensionality Reduction}{49}{section.4.3}
-\contentsline {section}{\numberline {4.4}Spam Email Dataset}{49}{section.4.4}
+\contentsline {section}{\numberline {4.4}Spam Email Dataset}{50}{section.4.4}
 \contentsline {section}{\numberline {4.5}Evaluation of Project Goals}{50}{section.4.5}
 \contentsline {section}{\numberline {4.6}Summary}{50}{section.4.6}
 \contentsline {chapter}{\numberline {5}Conclusions}{51}{chapter.5}

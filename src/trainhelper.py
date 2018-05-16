@@ -24,7 +24,6 @@ def remove_tags(body):
 
 def remove_punctuation(body):
     """ Removes punctuation from a given string """
-
     body = body.replace("\n", " ")
     body = re.sub(r"[^\w\d\s#'-]", '', body)
     body = body.replace(" '", " ")

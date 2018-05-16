@@ -18,12 +18,13 @@ from trainiraq import get_speeches
 def compute_member_f1s(settings, data):
     """ Runs one loop of the cross-validation """
 
-    train_features, train_samples, common_words = generate_train_data(settings, data['train'])
+    train_features, train_samples, common_words = generate_train_data(settings, data['train'] + data['test'])
 
     test_features, test_samples, members = generate_test_data(common_words, settings, data['test'])
 
+    print('SPeeches: {}'.format(len(train_samples) + len(test_samples)))
     #classifier = svm.SVC()
-    
+
     #classifier = MLPClassifier(solver='lbfgs')
 
     classifier = GaussianNB()
@@ -77,7 +78,7 @@ def run():
         'black_list': [],
         'white_list': [],
         'bag_size': 500,
-        'max_bag_size': True,
+        'max_bag_size': False,
         'remove_stopwords': False,
         'stem_words': False,
         'group_numbers': False,

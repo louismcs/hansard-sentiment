@@ -144,6 +144,13 @@ class Database:
         return self.__curs.fetchall()
 
 
+    def get_all_speeches(self):
+        """ Returns the text of all speeches in the database """
+
+        self.__curs.execute("SELECT QUOTE FROM SPEECH")
+        return self.__curs.fetchall()
+
+
     def generate_csv(self, table):
         """ Outputs a csv for the given table """
         data = self.__curs.execute("SELECT * FROM " + table)
