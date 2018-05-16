@@ -224,7 +224,14 @@ The supervised learning system creates a function $h$ that takes a feature vecto
 This definition allows us to intuitively view each feature vector as a point in k-dimensional space. We consider each point to be either negative ($y = -1$) or positive ($y = +1$). In this analogy, $h$ is a function that determines whether a point is negative or positive, depending on where it is in the k-dimensional space. The more points that $h$ sees, the better its estimation of whether new unseen points are negative or positive.
 \newline
 \newline
-The figure below shows a visualisation of our intuition of feature vectors, where $k = 2$. In this diagram, the supervised learning system learns a function to distinguish the '-' and '+' points. Given a new, previously unseen point, this function would be able to estimate whether it is a '-' or a '+'.
+Figure \ref{fig:2dpoints} shows a visualisation of our intuition of feature vectors, where $k = 2$. In this diagram, the supervised learning system learns a function to distinguish the '-' and '+' points. Given a new, previously unseen point, this function would be able to estimate whether it is a '-' or a '+'.
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.6]{figs/2dpoints.png}
+	\end{center}
+	\caption{A simple 2D plot of four labelled features.}
+	\label{fig:2dpoints}
+\end{figure}
 \section{Introduction to the Na\"{i}ve Bayes Classifier} \label{prep-bayes}
 
 This is one of the simplest classifiers to understand and implement. It uses the assumption that all features are independent of each other:

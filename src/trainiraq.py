@@ -117,7 +117,7 @@ def generate_train_data(settings, mp_list):
     else:
         common_words = []
         for term in sum_bag:
-            if sum_bag[term] > 0:
+            if sum_bag[term] > 9:
                 common_words.append(term)
 
     features, samples = generate_classifier_data(aye_features, no_features, common_words,

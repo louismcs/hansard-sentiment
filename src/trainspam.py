@@ -10,6 +10,8 @@ from numpy import array, mean, std
 from sklearn import svm
 from sklearn.metrics import accuracy_score, f1_score
 
+from scipy.sparse import csr_matrix
+
 from trainhelper import (generate_linear_param_sets, generate_linear_values,
                          generate_poly_param_sets, generate_poly_values,
                          generate_rbf_param_sets, generate_rbf_values,
@@ -174,6 +176,9 @@ def compute_f1(settings, data):
         classifier = svm.SVC(C=settings['poly_c'], kernel='poly', degree=settings['poly_d'],
                              gamma=settings['poly_gamma'], coef0=settings['poly_r'],
                              cache_size=settings['cache'])
+
+    train_features = csr_matrix(train_features).asfptype()
+    test_features = csr_matrix(test_features).asfptype()
 
     if settings['svd']:
         train_features, test_features = reduce_features(train_features, test_features)

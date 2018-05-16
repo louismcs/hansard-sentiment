@@ -12,7 +12,7 @@ def get_settings_and_data():
         'black_list': [],
         'white_list': [],
         'bag_size': 100,
-        'max_bag_size': True,
+        'max_bag_size': False,
         'remove_stopwords': False,
         'stem_words': False,
         'group_numbers': False,
@@ -96,11 +96,11 @@ def time_reduction():
 
     #settings, data = get_settings_and_data()
 
-    settings = pickle.load(open('svdsettings.p', 'rb'))
+    #settings = pickle.load(open('svdsettings.p', 'rb'))
 
-    data = pickle.load(open('svddata.p', 'rb'))
+    #data = pickle.load(open('svddata.p', 'rb'))
 
-    start = time.time()
+    """ start = time.time()
     train_features, test_features, train_samples, test_samples = generate_features(settings, data)
     end = time.time()
     print('Simple reduction time: {} seconds'.format(end - start))
@@ -112,18 +112,35 @@ def time_reduction():
 
     print(f1_score(test_samples, test_predictions))
 
-    settings['bag_size'] = 2000
+    settings['bag_size'] = 2000 """
 
-    train_features, test_features, train_samples, test_samples = generate_features(settings, data)
+    #train_features, test_features, train_samples, test_samples = generate_features(settings, data)
+    #pickle.dump(train_features, open('trainfeatures.p', 'wb'))
+    #pickle.dump(test_features, open('testfeatures.p', 'wb'))
+    #pickle.dump(train_samples, open('trainsamples.p', 'wb'))
+    #pickle.dump(test_samples, open('testsamples.p', 'wb'))
+
+    train_features = pickle.load(open('trainfeatures.p', 'rb'))
+    test_features = pickle.load(open('testfeatures.p', 'rb'))
+    train_samples = pickle.load(open('trainsamples.p', 'rb'))
+    test_samples = pickle.load(open('testsamples.p', 'rb'))
     start = time.time()
-    reduce_features(train_features, test_features)
+    print('Reducing features')
+    reduced_train_features, reduced_test_features = reduce_features(train_features, test_features)
+    print(reduced_train_features.shape)
+    print(reduced_test_features.shape)
+    print('Reduced features')
     end = time.time()
     print('SVD reduction time: {} seconds'.format(end - start))
 
     classifier = svm.SVC()
-    classifier.fit(train_features, train_samples)
+    classifier.fit(reduced_train_features, train_samples)
 
-    test_predictions = classifier.predict(test_features)
+    test_predictions = classifier.predict(reduced_test_features)
+
+    for pred in test_predictions:
+        if pred == -1:
+            print('AAA')
 
     print(f1_score(test_samples, test_predictions))
 

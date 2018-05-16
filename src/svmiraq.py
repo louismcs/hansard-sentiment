@@ -270,7 +270,9 @@ def compute_f1(settings, data):
 
     test_features, test_samples, _ = generate_test_data(common_words, settings, data['test'])
 
-    if settings['kernel'] == 'linear':
+    if settings['kernel'] == 'default':
+        classifier = svm.SVC(cache_size=settings['cache'])
+    elif settings['kernel'] == 'linear':
         classifier = svm.SVC(C=settings['linear_c'], kernel='linear', cache_size=settings['cache'])
     elif settings['kernel'] == 'rbf':
         classifier = svm.SVC(C=settings['rbf_c'], kernel='rbf', gamma=settings['rbf_gamma'],
@@ -626,13 +628,32 @@ def refine_poly_params(settings, mp_folds):
 
 def learn_settings(settings, mp_folds):
     """ Determines the optimal set of settings and hyperparameters for the classifier """
+
+    current_f1s = [compute_f1(settings, fold) for fold in mp_folds]
+
+    current_f1s = choose_boolean_setting(settings, 'normalise', current_f1s, mp_folds)
+
+    current_f1s = choose_boolean_setting(settings, 'remove_stopwords', current_f1s, mp_folds)
+
+    current_f1s = choose_boolean_setting(settings, 'stem_words', current_f1s, mp_folds)
+
+    current_f1s = choose_boolean_setting(settings, 'group_numbers', current_f1s, mp_folds)
+
+    print('Boolean settings learned')
+    print(current_f1s)
+
+    current_f1s = change_n_gram(settings, 1, current_f1s, mp_folds)
+
+    print('N gram learned')
+    print(current_f1s)
+    """ 
     linear_param_values = generate_linear_values(5)
 
     linear_f1s, linear_params = find_linear_params(settings, mp_folds, linear_param_values)
 
     linear_mean = mean(linear_f1s)
 
-    print('Linear mean: {}'.format(linear_mean))
+    print('Linear mean: {}'.format(linear_mean)) """
 
     rbf_param_values = generate_rbf_values(5, 7)
 
@@ -642,15 +663,21 @@ def learn_settings(settings, mp_folds):
 
     print('RBF mean: {}'.format(rbf_mean))
 
-    poly_param_values = generate_poly_values(4, 1, 1, 1)
+    """ poly_param_values = generate_poly_values(4, 1, 1, 1)
 
     poly_f1s, poly_params = find_poly_params(settings, mp_folds, poly_param_values)
 
     poly_mean = mean(poly_f1s)
 
-    print('Poly mean: {}'.format(poly_mean))
+    print('Poly mean: {}'.format(poly_mean)) """
 
-    if linear_mean > rbf_mean:
+
+    settings['kernel'] = 'rbf'
+    settings['rbf_c'] = rbf_params['c']
+    settings['rbf_gamma'] = rbf_params['gamma']
+    current_f1s = rbf_f1s
+
+    """ if linear_mean > rbf_mean:
         if linear_mean > poly_mean:
             settings['kernel'] = 'linear'
             settings['linear_c'] = linear_params['c']
@@ -674,25 +701,9 @@ def learn_settings(settings, mp_folds):
             settings['poly_gamma'] = poly_params['gamma']
             settings['poly_d'] = poly_params['d']
             settings['poly_r'] = poly_params['r']
-            current_f1s = poly_f1s
+            current_f1s = poly_f1s """
 
     print('Hyper parameters learned')
-    print(current_f1s)
-
-    current_f1s = choose_boolean_setting(settings, 'normalise', current_f1s, mp_folds)
-
-    current_f1s = choose_boolean_setting(settings, 'remove_stopwords', current_f1s, mp_folds)
-
-    current_f1s = choose_boolean_setting(settings, 'stem_words', current_f1s, mp_folds)
-
-    current_f1s = choose_boolean_setting(settings, 'group_numbers', current_f1s, mp_folds)
-
-    print('Boolean settings learned')
-    print(current_f1s)
-
-    current_f1s = change_n_gram(settings, 1, current_f1s, mp_folds)
-
-    print('N gram learned')
     print(current_f1s)
 
     if settings['kernel'] == 'linear':
@@ -712,8 +723,6 @@ def learn_settings(settings, mp_folds):
         settings['poly_d'] = poly_params['d']
         settings['poly_r'] = poly_params['r']
 
-    settings['max_bag_size'] = False
-
     pickle.dump(settings, open('settings.p', 'wb'))
 
     print('Hyper parameters refined')
@@ -729,7 +738,7 @@ def run():
         'black_list': [],
         'white_list': [],
         'bag_size': 100,
-        'max_bag_size': True,
+        'max_bag_size': False,
         'remove_stopwords': False,
         'stem_words': False,
         'group_numbers': False,
@@ -741,11 +750,12 @@ def run():
         'no_of_folds': 10,
         'entailment': True,
         'normalise': False,
-        'svd': False,
+        'svd': True,
         'division_ids': [102564, 102565],
         'test_mp_file': 'test-stratified.txt',
         'train_mp_file': 'train-stratified.txt',
-        'cache': 1024
+        'cache': 1024,
+        'kernel': 'default'
     }
 
 

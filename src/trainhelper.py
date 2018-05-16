@@ -12,7 +12,8 @@ from numpy import linalg
 from numpy import log10
 from numpy import logspace
 from numpy import matmul
-from numpy.linalg import svd
+from scipy.sparse import csr_matrix
+from scipy.sparse.linalg import svds
 
 
 def remove_tags(body):
@@ -178,16 +179,16 @@ def compute_rank(sigma):
     return i - 1
 
 
-def reduce_features(complete_train_features, complete_test_features):
+def reduce_features(train_features, test_features, rank=300):
     """ Performs the same principle component analysis on given train and test features """
+    train_features = csr_matrix(train_features).asfptype()
+    test_features = csr_matrix(test_features).asfptype()
+    _, _, v_transpose = svds(train_features, k=rank)
 
-    _, sigma, v_transpose = svd(complete_train_features, full_matrices=True, compute_uv=True)
+    truncated_v = v_transpose.transpose()
 
-    rank = 500#compute_rank(sigma)
-
-    truncated_v = v_transpose[:rank].transpose()
-
-    return matmul(complete_train_features, truncated_v), matmul(complete_test_features, truncated_v)
+    return (matmul(train_features.toarray(), truncated_v),
+            matmul(test_features.toarray(), truncated_v))
 
 
 def generate_linear_param_sets(linear_param_values):
