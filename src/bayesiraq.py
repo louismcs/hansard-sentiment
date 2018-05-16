@@ -22,11 +22,11 @@ def compute_member_f1s(settings, data):
 
     test_features, test_samples, members = generate_test_data(common_words, settings, data['test'])
 
-    classifier = svm.SVC()
+    #classifier = svm.SVC()
     
     #classifier = MLPClassifier(solver='lbfgs')
 
-    #classifier = GaussianNB()
+    classifier = GaussianNB()
 
     classifier.fit([feature['speech_bag'] for feature in train_features], train_samples)
 
@@ -76,7 +76,7 @@ def run():
         'use_test_data': False,
         'black_list': [],
         'white_list': [],
-        'bag_size': 100,
+        'bag_size': 500,
         'max_bag_size': True,
         'remove_stopwords': False,
         'stem_words': False,

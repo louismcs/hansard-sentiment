@@ -296,8 +296,14 @@ The idea of the maximum margin classifier is that it maximises $\delta$, the dis
 \begin{equation} \label{eq:maxdelta}
 	\underset{\mathbf{w}, b}{\operatorname{argmax}}(min(\delta)).
 \end{equation}
-The figure below illustrates this problem in a 2D space (i.e. where $\mathbf{x} = (x_1, x_2)$)
-%insert figure
+Figure \ref{fig:hyperplane} illustrates this problem in a 2D space (i.e. where $\mathbf{x} = (x_1, x_2)$).
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.6]{figs/hyperplane.png}
+	\end{center}
+	\caption{A simple 2D plot of four labelled features and a hyperplane (which is a line in two dimensions) distinguishing the positive and negative points.}
+	\label{fig:hyperplane}
+\end{figure}
 \newline
 \newline
 To determine whether feature vector $\mathbf{x}_i$ should be positively or negatively labelled, we simply need to determine which side of the hyperplane it lies on. This gives us the decision function
@@ -321,7 +327,7 @@ For the support vectors, we then have
 %Insert figure
 \newline
 \newline
-We now need to compute the width of the margin so we can then form an expression to maximise it. The figure above gives us some intuition as to how we can achieve this. Since $\mathbf{w}$ is perpendicular to the hyperplane, $\frac{\mathbf{w}}{||\mathbf{w}||}$ must be the unit normal to the hyperplane. We can then use a positively labelled support vector, $\mathbf{x}_+$ and a negatively labelled support vector, $\mathbf{x}_-$ to get an expression for the margin width:
+We now need to compute the width of the margin so we can then form an expression to maximise it. Figure \ref{fig:hyperplane} gives us some intuition as to how we can achieve this. Since $\mathbf{w}$ is perpendicular to the hyperplane, $\frac{\mathbf{w}}{||\mathbf{w}||}$ must be the unit normal to the hyperplane. We can then use a positively labelled support vector, $\mathbf{x}_+$ and a negatively labelled support vector, $\mathbf{x}_-$ to get an expression for the margin width:
 \begin{equation}
 \begin{aligned}
 	\text{Margin width} & = \frac{\mathbf{w}}{||\mathbf{w}||} \cdot (\mathbf{x}_+ - \mathbf{x}_-) \\
@@ -382,8 +388,14 @@ We can then find $\mathbf{w}_{opt}$ by substituting $\boldsymbol{\alpha}_{opt}$ 
 		-1, \quad \text{otherwise}.
 	\end{cases}
 \end{equation}
-Thus far, we have been working under the assumption that our data is linearly separable. In practice, this is very rarely the case and for this project due to the inherent noise in our data (described in \S \ref{intro-challenges}), this assumption is very unlikely to hold.The figure below illustrates a simple example for which the data are not linearly separable.
-%Insert figure
+Thus far, we have been working under the assumption that our data is linearly separable. In practice, this is very rarely the case and for this project due to the inherent noise in our data (described in \S \ref{intro-challenges}), this assumption is very unlikely to hold. Figure \ref{fig:inseparable} illustrates a simple example for which the data are not linearly separable.
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.6]{figs/inseparable.png}
+	\end{center}
+	\caption{A simple 2D plot of four linearly inseparable labelled features.}
+	\label{fig:inseparable}
+\end{figure}
 \newline
 \newline
 In order to fix this problem, we can use a transformation, $\phi$, to transform our feature vectors into a new space in which our data is more easily separable. Applying this transformation to (\ref{eq:separableL}) gives us a new $L$:
@@ -676,7 +688,7 @@ I took appropriate measures in order to ensure that my classifier wasn't overfit
 
 \subsection{Scikit-learn}
 
-I opted to use the Scikit-learn library to implement the classifier, as it provided a good implementation for both a support vector machine and a na\"{i}ve Bayes classifier and both have significant documentation \cite{svmdocs, nbcdocs} and community support. Scikit-learn is built on other libraries which significantly improves its performance. For example, it makes use of Cython, which is supports C code within Python programs \cite{cythondocs}. In their evaluation of machine learning libraries in Python, F. Pedregosa et al. showed that the Scikit-learn support vector machine was the faster than any other implementation they tested \cite{skspeed}. A further benefit of Scikit-learn is that it has a na\"{i}ve Bayes classifier, which used similar syntax to the support vector machine, meaning that it was easy to establish a baseline F1 score.
+I opted to use the Scikit-learn library to implement the classifier, as it provided a good implementation for both a support vector machine and a na\"{i}ve Bayes classifier and both have significant documentation \cite{nbcdocs, svmdocs} and community support. Scikit-learn is built on other libraries which significantly improves its performance. For example, it makes use of Cython, which is supports C code within Python programs \cite{cythondocs}. In their evaluation of machine learning libraries in Python, F. Pedregosa et al. showed that the Scikit-learn support vector machine was the faster than any other implementation they tested \cite{skspeed}. A further benefit of Scikit-learn is that it has a na\"{i}ve Bayes classifier, which used similar syntax to the support vector machine, meaning that it was easy to establish a baseline F1 score.
 
 \subsection{Optimisations}
 

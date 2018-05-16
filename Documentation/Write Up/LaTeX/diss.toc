@@ -10,50 +10,50 @@
 \contentsline {section}{\numberline {2.4}Introduction to Supervised Learning}{15}{section.2.4}
 \contentsline {section}{\numberline {2.5}Introduction to the Na\"{i}ve Bayes Classifier}{16}{section.2.5}
 \contentsline {section}{\numberline {2.6}Introduction to Support Vector Machines}{17}{section.2.6}
-\contentsline {section}{\numberline {2.7}Introduction to Evaluating Supervised Learning Systems}{22}{section.2.7}
-\contentsline {subsection}{\numberline {2.7.1}Train/Test Split}{22}{subsection.2.7.1}
-\contentsline {subsection}{\numberline {2.7.2}Cross Validation}{22}{subsection.2.7.2}
-\contentsline {subsection}{\numberline {2.7.3}Evaluation Metrics}{22}{subsection.2.7.3}
-\contentsline {section}{\numberline {2.8}Introduction to the Bag-of-Words Model}{23}{section.2.8}
-\contentsline {section}{\numberline {2.9}Software Engineering Techniques}{24}{section.2.9}
-\contentsline {section}{\numberline {2.10}Choice of Tools}{25}{section.2.10}
-\contentsline {subsection}{\numberline {2.10.1}Programming Language}{25}{subsection.2.10.1}
-\contentsline {subsection}{\numberline {2.10.2}Database}{25}{subsection.2.10.2}
-\contentsline {subsection}{\numberline {2.10.3}Libraries}{25}{subsection.2.10.3}
-\contentsline {subsection}{\numberline {2.10.4}Development Environment}{25}{subsection.2.10.4}
-\contentsline {subsection}{\numberline {2.10.5}Table of Software Used}{26}{subsection.2.10.5}
-\contentsline {section}{\numberline {2.11}Summary}{26}{section.2.11}
-\contentsline {chapter}{\numberline {3}Implementation}{27}{chapter.3}
-\contentsline {section}{\numberline {3.1}System Architecture}{27}{section.3.1}
-\contentsline {section}{\numberline {3.2}Data Structures}{28}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}NumPy Arrays}{28}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Sets}{29}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Counters}{29}{subsection.3.2.3}
-\contentsline {section}{\numberline {3.3}Data Acquisition}{30}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Scraping Data}{30}{subsection.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}Wrangling Data}{30}{subsection.3.3.2}
-\contentsline {subsection}{\numberline {3.3.3}Labelling Data}{31}{subsection.3.3.3}
-\contentsline {subsection}{\numberline {3.3.4}Database}{33}{subsection.3.3.4}
-\contentsline {section}{\numberline {3.4}Classifier}{34}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Avoiding Overfitting}{34}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Scikit-learn}{36}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}Optimisations}{36}{subsection.3.4.3}
-\contentsline {subsubsection}{\numberline {3.4.3.1}Stemming}{36}{subsubsection.3.4.3.1}
-\contentsline {subsubsection}{\numberline {3.4.3.2}Stop Word Removal}{36}{subsubsection.3.4.3.2}
-\contentsline {subsubsection}{\numberline {3.4.3.3}N-grams}{37}{subsubsection.3.4.3.3}
-\contentsline {subsubsection}{\numberline {3.4.3.4}Learning Settings and Hyperparameters}{37}{subsubsection.3.4.3.4}
-\contentsline {subsubsection}{\numberline {3.4.3.5}Dimensionality Reduction}{38}{subsubsection.3.4.3.5}
-\contentsline {section}{\numberline {3.5}Summary}{40}{section.3.5}
-\contentsline {chapter}{\numberline {4}Evaluation}{41}{chapter.4}
-\contentsline {section}{\numberline {4.1}Database Analysis}{41}{section.4.1}
-\contentsline {section}{\numberline {4.2}Classifier Results}{44}{section.4.2}
-\contentsline {section}{\numberline {4.3}Evaluation of Dimensionality Reduction}{47}{section.4.3}
-\contentsline {section}{\numberline {4.4}Spam Email Dataset}{47}{section.4.4}
-\contentsline {section}{\numberline {4.5}Evaluation of Project Goals}{48}{section.4.5}
-\contentsline {section}{\numberline {4.6}Summary}{48}{section.4.6}
-\contentsline {chapter}{\numberline {5}Conclusions}{49}{chapter.5}
-\contentsline {section}{\numberline {5.1}Achievements}{49}{section.5.1}
-\contentsline {section}{\numberline {5.2}Lessons Learned}{49}{section.5.2}
-\contentsline {section}{\numberline {5.3}Future Work}{49}{section.5.3}
-\contentsline {chapter}{Bibliography}{49}{section.5.3}
-\contentsline {chapter}{\numberline {A}Project Proposal}{55}{appendix.A}
+\contentsline {section}{\numberline {2.7}Introduction to Evaluating Supervised Learning Systems}{23}{section.2.7}
+\contentsline {subsection}{\numberline {2.7.1}Train/Test Split}{23}{subsection.2.7.1}
+\contentsline {subsection}{\numberline {2.7.2}Cross Validation}{23}{subsection.2.7.2}
+\contentsline {subsection}{\numberline {2.7.3}Evaluation Metrics}{23}{subsection.2.7.3}
+\contentsline {section}{\numberline {2.8}Introduction to the Bag-of-Words Model}{24}{section.2.8}
+\contentsline {section}{\numberline {2.9}Software Engineering Techniques}{25}{section.2.9}
+\contentsline {section}{\numberline {2.10}Choice of Tools}{26}{section.2.10}
+\contentsline {subsection}{\numberline {2.10.1}Programming Language}{26}{subsection.2.10.1}
+\contentsline {subsection}{\numberline {2.10.2}Database}{26}{subsection.2.10.2}
+\contentsline {subsection}{\numberline {2.10.3}Libraries}{26}{subsection.2.10.3}
+\contentsline {subsection}{\numberline {2.10.4}Development Environment}{26}{subsection.2.10.4}
+\contentsline {subsection}{\numberline {2.10.5}Table of Software Used}{27}{subsection.2.10.5}
+\contentsline {section}{\numberline {2.11}Summary}{27}{section.2.11}
+\contentsline {chapter}{\numberline {3}Implementation}{29}{chapter.3}
+\contentsline {section}{\numberline {3.1}System Architecture}{29}{section.3.1}
+\contentsline {section}{\numberline {3.2}Data Structures}{30}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}NumPy Arrays}{30}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Sets}{31}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Counters}{31}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}Data Acquisition}{32}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Scraping Data}{32}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Wrangling Data}{32}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}Labelling Data}{33}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.4}Database}{35}{subsection.3.3.4}
+\contentsline {section}{\numberline {3.4}Classifier}{36}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Avoiding Overfitting}{36}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Scikit-learn}{38}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Optimisations}{38}{subsection.3.4.3}
+\contentsline {subsubsection}{\numberline {3.4.3.1}Stemming}{38}{subsubsection.3.4.3.1}
+\contentsline {subsubsection}{\numberline {3.4.3.2}Stop Word Removal}{38}{subsubsection.3.4.3.2}
+\contentsline {subsubsection}{\numberline {3.4.3.3}N-grams}{39}{subsubsection.3.4.3.3}
+\contentsline {subsubsection}{\numberline {3.4.3.4}Learning Settings and Hyperparameters}{39}{subsubsection.3.4.3.4}
+\contentsline {subsubsection}{\numberline {3.4.3.5}Dimensionality Reduction}{40}{subsubsection.3.4.3.5}
+\contentsline {section}{\numberline {3.5}Summary}{42}{section.3.5}
+\contentsline {chapter}{\numberline {4}Evaluation}{43}{chapter.4}
+\contentsline {section}{\numberline {4.1}Database Analysis}{43}{section.4.1}
+\contentsline {section}{\numberline {4.2}Classifier Results}{46}{section.4.2}
+\contentsline {section}{\numberline {4.3}Evaluation of Dimensionality Reduction}{49}{section.4.3}
+\contentsline {section}{\numberline {4.4}Spam Email Dataset}{49}{section.4.4}
+\contentsline {section}{\numberline {4.5}Evaluation of Project Goals}{50}{section.4.5}
+\contentsline {section}{\numberline {4.6}Summary}{50}{section.4.6}
+\contentsline {chapter}{\numberline {5}Conclusions}{51}{chapter.5}
+\contentsline {section}{\numberline {5.1}Achievements}{51}{section.5.1}
+\contentsline {section}{\numberline {5.2}Lessons Learned}{51}{section.5.2}
+\contentsline {section}{\numberline {5.3}Future Work}{51}{section.5.3}
+\contentsline {chapter}{Bibliography}{51}{section.5.3}
+\contentsline {chapter}{\numberline {A}Project Proposal}{57}{appendix.A}

@@ -177,9 +177,6 @@ def compute_f1(settings, data):
                              gamma=settings['poly_gamma'], coef0=settings['poly_r'],
                              cache_size=settings['cache'])
 
-    train_features = csr_matrix(train_features).asfptype()
-    test_features = csr_matrix(test_features).asfptype()
-
     if settings['svd']:
         train_features, test_features = reduce_features(train_features, test_features)
 
@@ -625,14 +622,14 @@ def learn_settings(settings, spam_message_folds, gen_message_folds):
 
     settings['default_svm'] = False
 
-    linear_param_values = generate_linear_values(5)
+    '''linear_param_values = generate_linear_values(5)
 
     linear_f1s, linear_params = find_linear_params(settings, spam_message_folds, gen_message_folds,
                                                    linear_param_values)
 
     linear_mean = mean(linear_f1s)
 
-    print('Linear mean: {}'.format(linear_mean))
+    print('Linear mean: {}'.format(linear_mean))'''
 
     rbf_param_values = generate_rbf_values(5, 7)
 
@@ -643,16 +640,16 @@ def learn_settings(settings, spam_message_folds, gen_message_folds):
 
     print('RBF mean: {}'.format(rbf_mean))
 
-    poly_param_values = generate_poly_values(4, 1, 1, 1)
+    '''poly_param_values = generate_poly_values(4, 1, 1, 1)
 
     poly_f1s, poly_params = find_poly_params(settings, spam_message_folds, gen_message_folds,
                                              poly_param_values)
 
     poly_mean = mean(poly_f1s)
 
-    print('Poly mean: {}'.format(poly_mean))
+    print('Poly mean: {}'.format(poly_mean))'''
 
-    if linear_mean > rbf_mean:
+    '''if linear_mean > rbf_mean:
         if linear_mean > poly_mean:
             settings['kernel'] = 'linear'
             settings['linear_c'] = linear_params['c']
@@ -676,8 +673,12 @@ def learn_settings(settings, spam_message_folds, gen_message_folds):
             settings['poly_gamma'] = poly_params['gamma']
             settings['poly_d'] = poly_params['d']
             settings['poly_r'] = poly_params['r']
-            current_f1s = poly_f1s
-
+            current_f1s = poly_f1s'''
+    
+    settings['kernel'] = 'rbf'
+    settings['rbf_c'] = rbf_params['c']
+    settings['rbf_gamma'] = rbf_params['gamma']
+    current_f1s = rbf_f1s
     print('Hyper parameters learned')
     print(current_f1s)
 
@@ -719,13 +720,13 @@ def run():
         'black_list': [],
         'white_list': [],
         'bag_size': 100,
-        'max_bag_size': True,
+        'max_bag_size': False,
         'remove_stopwords': False,
         'stem_words': False,
         'n_gram': 1,
         'no_of_folds': 10,
         'normalise': False,
-        'svd': False,
+        'svd': True,
         'cache': 1024,
         'default_svm': True
     }
@@ -753,5 +754,31 @@ def run():
         }
         settings['max_bag_size'] = False
         compute_f1(settings, data)
+
+
+def run_from_settings_file():
+    """ Sets the settings from a file and runs the program """
+
+    settings = pickle.load(open('refined_settings.p', 'rb'))
+
+    print(settings)
+    settings['default_svm'] = True
+    settings['n_gram'] = 3
+    spam_train_messages = get_messages('Data/Spam/train_SPAM.ems')
+    gen_train_messages = get_messages('Data/Spam/train_GEN.ems')
+    spam_test_messages = get_messages('Data/Spam/test_SPAM.ems')
+    gen_test_messages = get_messages('Data/Spam/test_GEN.ems')
+
+    data = {
+        'train': {
+            'spam': spam_train_messages,
+            'gen': gen_train_messages
+        },
+        'test':  {
+            'spam': spam_test_messages,
+            'gen': gen_test_messages
+        }
+    }
+    compute_f1(settings, data)
 
 run()

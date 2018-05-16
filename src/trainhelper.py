@@ -8,6 +8,7 @@ import re
 from nltk import PorterStemmer
 from nltk import ngrams
 from nltk.corpus import stopwords
+from numpy import array
 from numpy import linalg
 from numpy import log10
 from numpy import logspace
@@ -181,14 +182,14 @@ def compute_rank(sigma):
 
 def reduce_features(train_features, test_features, rank=300):
     """ Performs the same principle component analysis on given train and test features """
-    train_features = csr_matrix(train_features).asfptype()
-    test_features = csr_matrix(test_features).asfptype()
-    _, _, v_transpose = svds(train_features, k=rank)
+    sparse_train_features = csr_matrix(train_features).asfptype()
+    sparse_test_features = csr_matrix(test_features)
+
+    _, _, v_transpose = svds(sparse_train_features, k=rank)
 
     truncated_v = v_transpose.transpose()
 
-    return (matmul(train_features.toarray(), truncated_v),
-            matmul(test_features.toarray(), truncated_v))
+    return sparse_train_features.dot(truncated_v), sparse_test_features.dot(truncated_v)
 
 
 def generate_linear_param_sets(linear_param_values):

@@ -334,7 +334,9 @@ def compute_member_f1s(settings, data):
     classifier.fit(complete_train_features, train_samples)
 
     test_predictions = classifier.predict(complete_test_features)
-
+    for pred in test_predictions:
+        if pred == -1:
+            print('aaa')
     grouped_speeches = {}
 
     for member_id in settings['testing_mps']:
@@ -737,7 +739,7 @@ def run():
         'use_test_data': False,
         'black_list': [],
         'white_list': [],
-        'bag_size': 100,
+        'bag_size': 500,
         'max_bag_size': False,
         'remove_stopwords': False,
         'stem_words': False,
@@ -807,4 +809,37 @@ def run():
         settings['max_bag_size'] = False
         compute_member_f1s(settings, data)
 
-run()
+
+def run_from_settings_file():
+    """ Sets the settings from a file and runs the program """
+
+    settings = pickle.load(open('settings.p', 'rb'))
+    settings['normalise'] = True
+    settings['use_test_data'] = True
+    with database.Database() as corpus:
+        mp_folds = get_mp_folds(corpus, settings)
+
+        print('Made splits')
+
+        train_data = mp_folds[0]['test'] + mp_folds[0]['train']
+
+        test_data = []
+
+        for member in settings['testing_mps']:
+            votes = {}
+            for division_id in settings['division_ids']:
+                votes[division_id] = corpus.is_aye_vote(division_id, member)
+            test_data.append({
+                'id': member,
+                'votes': votes
+            })
+
+    data = {
+        'train': train_data,
+        'test': test_data
+    }
+
+    compute_member_f1s(settings, data)
+
+
+run_from_settings_file()
