@@ -2,7 +2,7 @@ import csv
 
 from matplotlib import pyplot
 def plot_distribution():
-    with open('Data/Iraq/Evaluation/ngramoffset.csv', 'r') as f:
+    with open('Data/Iraq/Evaluation/freqoffsets.csv', 'r') as f:
         reader = csv.reader(f)
         xs = []
         ys = []

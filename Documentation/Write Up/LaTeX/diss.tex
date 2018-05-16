@@ -227,9 +227,9 @@ This definition allows us to intuitively view each feature vector as a point in 
 Figure \ref{fig:2dpoints} shows a visualisation of our intuition of feature vectors, where $k = 2$. In this diagram, the supervised learning system learns a function to distinguish the `-' and `+' points. Given a new, previously unseen point, this function would be able to estimate whether it is a `-' or a `+'.
 \begin{figure}
 	\begin{center}
-		\includegraphics[scale=0.6]{figs/overfitting.png}
+		\includegraphics[scale=0.6]{figs/2dpoints.png}
 	\end{center}
-	\caption{An example of the an overfitting function.}
+	\caption{A simple 2D plot of four labelled features.}
 	\label{fig:2dpoints}
 \end{figure}
 \section{Introduction to the Na\"{i}ve Bayes Classifier} \label{prep-bayes}
@@ -451,7 +451,13 @@ In \S\ref{supervised-learning}, we saw how a supervised learning system is train
 \subsection{Overfitting} \label{prep-overfitting}
 
 Overfitting is a common problem in supervised learning problems. It occurs when a classifier learns to get a very high performance on the training set, but does not generalise well to unseen data, meaning that the classifier achieves poor results on the test data. Figure \ref{fig:overfitting} illustrates a simple example of a (two-dimensional) hyperplane overfits the given data.
-
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.6]{figs/overfitting.png}
+	\end{center}
+	\caption{An example of the an overfitting function.}
+	\label{fig:overfitting}
+\end{figure}
 \subsection{Cross Validation} \label{cross-validation}
 Cross validation is a way to mitigate overfitting. To use this scheme, we split the training set into $k$ disjoint folds. Doing this means that we can iterate the process of training and evaluating without using the data set aside for testing. This is done by training on $k-1$ of the folds, then evaluating the system on the fold left out. This is repeated $k$ times, so each fold is used for evaluation exactly once. Averaging over all the folds each fold gives a reliable evaluation metric. We can use this method to determine the system's hyperparameters and any other settings that need to be determined before training. This is called cross-validation. To do this, we repeat the method described for different combinations of hyperparameters and settings and select the combination whose average evaluation metric is greatest. In this project, I use stratified cross-validation - for this scheme, when splitting the data into folds, I ensure that each fold has a roughly even split of positive and negative examples.
 \subsection{Evaluation Metrics} \label{evaluation-metrics}
@@ -553,8 +559,10 @@ I predominantly developed the project using my own laptop running the Windows 10
 		\textbf{Software}        & \textbf{Version} \\ \hline
 		BeautifulSoup            & 4.6.0            \\
 		git                      & 2.8.1.windows.1  \\
+		Matplotlib               & 2.1.2            \\
 		Natural Language Toolkit & 3.2.5            \\
 		NumPy                    & 1.13.3           \\
+		Pandas                   & 0.22.0           \\
 		PyLint                   & 1.7.4            \\
 		Python                   & 3.6.3            \\
 		Requests                 & 2.18.4           \\

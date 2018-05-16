@@ -15,15 +15,15 @@
 \contentsline {subsection}{\numberline {2.7.2}Overfitting}{23}{subsection.2.7.2}
 \contentsline {subsection}{\numberline {2.7.3}Cross Validation}{23}{subsection.2.7.3}
 \contentsline {subsection}{\numberline {2.7.4}Evaluation Metrics}{23}{subsection.2.7.4}
-\contentsline {section}{\numberline {2.8}Introduction to the Bag-of-Words Model}{24}{section.2.8}
-\contentsline {section}{\numberline {2.9}Software Engineering Techniques}{25}{section.2.9}
-\contentsline {section}{\numberline {2.10}Choice of Tools}{26}{section.2.10}
-\contentsline {subsection}{\numberline {2.10.1}Programming Language}{26}{subsection.2.10.1}
-\contentsline {subsection}{\numberline {2.10.2}Database}{26}{subsection.2.10.2}
-\contentsline {subsection}{\numberline {2.10.3}Libraries}{26}{subsection.2.10.3}
-\contentsline {subsection}{\numberline {2.10.4}Development Environment}{26}{subsection.2.10.4}
-\contentsline {subsection}{\numberline {2.10.5}Table of Software Used}{27}{subsection.2.10.5}
-\contentsline {section}{\numberline {2.11}Summary}{27}{section.2.11}
+\contentsline {section}{\numberline {2.8}Introduction to the Bag-of-Words Model}{25}{section.2.8}
+\contentsline {section}{\numberline {2.9}Software Engineering Techniques}{26}{section.2.9}
+\contentsline {section}{\numberline {2.10}Choice of Tools}{27}{section.2.10}
+\contentsline {subsection}{\numberline {2.10.1}Programming Language}{27}{subsection.2.10.1}
+\contentsline {subsection}{\numberline {2.10.2}Database}{27}{subsection.2.10.2}
+\contentsline {subsection}{\numberline {2.10.3}Libraries}{27}{subsection.2.10.3}
+\contentsline {subsection}{\numberline {2.10.4}Development Environment}{27}{subsection.2.10.4}
+\contentsline {subsection}{\numberline {2.10.5}Table of Software Used}{28}{subsection.2.10.5}
+\contentsline {section}{\numberline {2.11}Summary}{28}{section.2.11}
 \contentsline {chapter}{\numberline {3}Implementation}{29}{chapter.3}
 \contentsline {section}{\numberline {3.1}System Architecture}{29}{section.3.1}
 \contentsline {section}{\numberline {3.2}Data Structures}{30}{section.3.2}
