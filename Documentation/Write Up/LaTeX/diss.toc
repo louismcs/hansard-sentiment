@@ -30,21 +30,22 @@
 \contentsline {subsection}{\numberline {3.2.1}NumPy Arrays}{30}{subsection.3.2.1}
 \contentsline {subsection}{\numberline {3.2.2}Sets}{31}{subsection.3.2.2}
 \contentsline {subsection}{\numberline {3.2.3}Counters}{31}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Sparse Matrices}{32}{subsection.3.2.4}
 \contentsline {section}{\numberline {3.3}Data Acquisition}{32}{section.3.3}
 \contentsline {subsection}{\numberline {3.3.1}Scraping Data}{32}{subsection.3.3.1}
 \contentsline {subsection}{\numberline {3.3.2}Wrangling Data}{32}{subsection.3.3.2}
-\contentsline {subsection}{\numberline {3.3.3}Labelling Data}{33}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.3}Labelling Data}{34}{subsection.3.3.3}
 \contentsline {subsection}{\numberline {3.3.4}Database}{35}{subsection.3.3.4}
-\contentsline {section}{\numberline {3.4}Classifier}{36}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Avoiding Overfitting}{36}{subsection.3.4.1}
+\contentsline {section}{\numberline {3.4}Classifier}{38}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Avoiding Overfitting}{38}{subsection.3.4.1}
 \contentsline {subsection}{\numberline {3.4.2}Scikit-learn}{38}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}Optimisations}{38}{subsection.3.4.3}
-\contentsline {subsubsection}{\numberline {3.4.3.1}Stemming}{38}{subsubsection.3.4.3.1}
-\contentsline {subsubsection}{\numberline {3.4.3.2}Stop Word Removal}{38}{subsubsection.3.4.3.2}
+\contentsline {subsection}{\numberline {3.4.3}Optimisations}{39}{subsection.3.4.3}
+\contentsline {subsubsection}{\numberline {3.4.3.1}Stemming}{39}{subsubsection.3.4.3.1}
+\contentsline {subsubsection}{\numberline {3.4.3.2}Stop Word Removal}{39}{subsubsection.3.4.3.2}
 \contentsline {subsubsection}{\numberline {3.4.3.3}N-grams}{39}{subsubsection.3.4.3.3}
-\contentsline {subsubsection}{\numberline {3.4.3.4}Learning Settings and Hyperparameters}{39}{subsubsection.3.4.3.4}
-\contentsline {subsubsection}{\numberline {3.4.3.5}Dimensionality Reduction}{40}{subsubsection.3.4.3.5}
-\contentsline {section}{\numberline {3.5}Summary}{41}{section.3.5}
+\contentsline {subsubsection}{\numberline {3.4.3.4}Learning Settings and Hyperparameters}{40}{subsubsection.3.4.3.4}
+\contentsline {subsubsection}{\numberline {3.4.3.5}Dimensionality Reduction}{41}{subsubsection.3.4.3.5}
+\contentsline {section}{\numberline {3.5}Summary}{42}{section.3.5}
 \contentsline {chapter}{\numberline {4}Evaluation}{43}{chapter.4}
 \contentsline {section}{\numberline {4.1}Database Analysis}{43}{section.4.1}
 \contentsline {section}{\numberline {4.2}Classifier Results}{48}{section.4.2}

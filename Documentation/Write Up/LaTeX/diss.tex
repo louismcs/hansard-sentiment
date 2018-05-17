@@ -164,7 +164,7 @@ There were three main stages to the preparation of the project:
 \section{Requirements Analysis} \label{prep-requirements}
 The primary goals of this project are to:
 \begin{itemize}
-	\item Construct a database that comprises British texts on the Iraq war
+	\item Construct a database that comprises British texts on the Iraq war.
 	\item Develop a classifier that can determine the stance of the texts in the database.
 \end{itemize}
 
@@ -631,7 +631,7 @@ I used various parts of the NumPy library throughout the project. For example, I
 	\item They support matrix operations with no additional work.
 \end{itemize}
 
-The benefits of the first two points were particularly clear given the large amount of data I was processing. Since the features were the largest data structures I used for numerical computations, they made the advantages of using NumPy arrays clearest. Listing \ref{lst:reduce_features} gives a snippet of code which demonstrates my use of NumPy arrays.
+The benefits of the first two points were particularly clear given the large amount of data I was processing. Since the features were the largest data structures I used for numerical computations, they made the advantages of using NumPy arrays clearest.
 
 \subsection{Sets}
 
@@ -640,6 +640,10 @@ The set data structure is built-in to Python and is implemented using a hash tab
 \subsection{Counters} 
 
 The Counter class is part of the collections module, which is part of the Python standard library, meaning that there is ample support available for its use. The data structure is optimised for counting hashable objects \cite{pythoncollectionsdocs}, meaning that it is essentially a multi-set designed to count the number of each element, which makes it perfect for representing a bag of words, making it useful throughout this project. As discussed in section \S\ref{impl-reduction}, it was necessary to reduce the size of the features used for classification, which could easily be done in $\mathcal{O}(k)$ time (where $k$ is the number of dimensions on the reduced features) using Counter's most\_common() method.
+
+\subsection{Sparse Matrices}
+
+The nature of bag of words features means that they are primarily populated by zeros. This means that although the dimensions of them feature matrices (matrices where each row is a set of features for a particular example) are very large, they can be significantly compressed into `sparse matrices', meaning they are more space efficient. Matrix multiplications are also sped up, since there are algorithms specifically designed for sparse matrices. Sparse matrices were most useful in dimensionality reduction, as they dramatically decreased the time taken for singular value decomposition. Listing \ref{lst:reduce_features} gives the code for this feature reduction using sparse matrices.
 
 \section{Data Acquisition} \label{impl-acquisition}
 \subsection{Scraping Data} \label{impl-scraping}
@@ -690,7 +694,7 @@ When designing the database schema, I ensured that the database would be fully n
 \end{figure}
 When working with the database, it was useful to be able to manually check the data and therefore the functioning of any program using the database. To do this, I used DB Browser for SQLite, which is a lightweight GUI interface that allowed me to browse the data. This was particularly useful for `evaluating' the data acquisition, since there is no formal way for me to automatically check the data in the database. This meant that manually sampling the data using DB Browser for SQLite and cross-referencing the data with that in the original data sources was the best feasible way for me to evaluate the data acquisition.
 \\\\
-To maintain good software engineering practices, I only accessed the database through the database class (as shown in Figure \ref{fig:dataflow}). Through doing this and keeping the class's member variables private, I only allowed access to the database through the class's public methods, thereby enforcing encapsulation and information hiding. This meant that I had to implement any database queries I used as functions in the database class. Listing \ref{lst:get_aye_members_from_term} is an example of my implementation of a database query.
+To maintain good software engineering practices, I only accessed the database through the database class (as shown in Figure \ref{fig:dataflow}). Through doing this and keeping the class's member variables private, I only allowed access to the database through the class's public methods, thereby enforcing encapsulation and information hiding. This meant that I had to implement any database queries I used as functions in the database class. Since database accesses are expensive, I limited the as much as possible, in part by querying the database and storing results at the beginning of the programs execution, then accessing values from variables when they were needed. Listing \ref{lst:get_aye_members_from_term} is an example of my implementation of a database query.
 \\\\
 \pylisting{Function that performs a query on the database to get the ids of all the MPs who voted `aye' in a given vote and spoke in a debate whose title contains a given term.}{get_aye_members_from_term}
 
@@ -744,7 +748,7 @@ Figure \ref{fig:gridsearch} gives a graphic illustration of how this algorithm w
 
 \subsubsection{Dimensionality Reduction} \label{impl-reduction}
 
-The running time of an SVM classifier increases with the size of the features. It therefore makes sense to use dimensionality reduction techniques to improve the efficiency of classification. In this project, I used principle component analysis (PCA), as it is a relatively efficient method and there is good library support for it. Initially, I used the Scikit-learn implementation of PCA \cite{sklearnpca}, however after testing it I found that I could perform the feature reduction more efficiently using the NumPy singular value decomposition function \cite{numpysvd} and using the resulting matrices to perform reduce the size of the features (which is how PCA is carried out \cite{svd}). Listing \ref{lst:reduce_features} gives my Python code for this dimensionality reduction. As discussed in \ref{eval-reduction}, even the NumPy implementation was too slow to be practical in the project and good results could by reducing the size of the features by limiting the number of words considered.
+The running time of an SVM classifier increases with the size of the features. It therefore makes sense to use dimensionality reduction techniques to improve the efficiency of classification. In this project, I used principle component analysis (PCA), as it is a relatively efficient method and there is good library support for it. Initially, I used the Scikit-learn implementation of PCA \cite{sklearnpca}, however after testing it I found that I could perform the feature reduction more efficiently using the NumPy singular value decomposition function \cite{numpysvd} and using the resulting matrices to perform reduce the size of the features (which is how PCA is carried out \cite{svd}). This implementation also proved too slow to be practical, so I adopted an approach to use sparse matrices, which significantly improved the performance. Listing \ref{lst:reduce_features} gives my Python code for this dimensionality reduction.
 
 \pylisting{A function using NumPy array operations to perform singular value decomposition on two sets of given features}{reduce_features}
 

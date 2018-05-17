@@ -1,13 +1,10 @@
-def reduce_features(complete_train_features, complete_test_features):
-    ''' Performs the same principle component
-        analysis on given train and test features '''
+def reduce_features(train_features, test_features, rank=300):
+    ''' Performs the same principle component analysis on given train and test features '''
+    sparse_train_features = csr_matrix(train_features).asfptype()
+    sparse_test_features = csr_matrix(test_features)
 
-    _, sigma, v_transpose = svd(complete_train_features, full_matrices=True,
-                                compute_uv=True)
+    _, _, v_transpose = svds(sparse_train_features, k=rank)
 
-    rank = compute_rank(sigma)
+    truncated_v = v_transpose.transpose()
 
-    truncated_v = v_transpose[:rank].transpose()
-
-    return matmul(complete_train_features, truncated_v), matmul(complete_test_features,
-                                                                truncated_v)
+    return sparse_train_features.dot(truncated_v), sparse_test_features.dot(truncated_v)

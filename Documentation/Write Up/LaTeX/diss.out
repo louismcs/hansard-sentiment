@@ -30,31 +30,32 @@
 \BOOKMARK [2][-]{subsection.3.2.1}{NumPy Arrays}{section.3.2}% 30
 \BOOKMARK [2][-]{subsection.3.2.2}{Sets}{section.3.2}% 31
 \BOOKMARK [2][-]{subsection.3.2.3}{Counters}{section.3.2}% 32
-\BOOKMARK [1][-]{section.3.3}{Data Acquisition}{chapter.3}% 33
-\BOOKMARK [2][-]{subsection.3.3.1}{Scraping Data}{section.3.3}% 34
-\BOOKMARK [2][-]{subsection.3.3.2}{Wrangling Data}{section.3.3}% 35
-\BOOKMARK [2][-]{subsection.3.3.3}{Labelling Data}{section.3.3}% 36
-\BOOKMARK [2][-]{subsection.3.3.4}{Database}{section.3.3}% 37
-\BOOKMARK [1][-]{section.3.4}{Classifier}{chapter.3}% 38
-\BOOKMARK [2][-]{subsection.3.4.1}{Avoiding Overfitting}{section.3.4}% 39
-\BOOKMARK [2][-]{subsection.3.4.2}{Scikit-learn}{section.3.4}% 40
-\BOOKMARK [2][-]{subsection.3.4.3}{Optimisations}{section.3.4}% 41
-\BOOKMARK [3][-]{subsubsection.3.4.3.1}{Stemming}{subsection.3.4.3}% 42
-\BOOKMARK [3][-]{subsubsection.3.4.3.2}{Stop Word Removal}{subsection.3.4.3}% 43
-\BOOKMARK [3][-]{subsubsection.3.4.3.3}{N-grams}{subsection.3.4.3}% 44
-\BOOKMARK [3][-]{subsubsection.3.4.3.4}{Learning Settings and Hyperparameters}{subsection.3.4.3}% 45
-\BOOKMARK [3][-]{subsubsection.3.4.3.5}{Dimensionality Reduction}{subsection.3.4.3}% 46
-\BOOKMARK [1][-]{section.3.5}{Summary}{chapter.3}% 47
-\BOOKMARK [0][-]{chapter.4}{Evaluation}{}% 48
-\BOOKMARK [1][-]{section.4.1}{Database Analysis}{chapter.4}% 49
-\BOOKMARK [1][-]{section.4.2}{Classifier Results}{chapter.4}% 50
-\BOOKMARK [1][-]{section.4.3}{Evaluation of Dimensionality Reduction}{chapter.4}% 51
-\BOOKMARK [1][-]{section.4.4}{Spam Email Dataset}{chapter.4}% 52
-\BOOKMARK [1][-]{section.4.5}{Evaluation of Project Goals}{chapter.4}% 53
-\BOOKMARK [1][-]{section.4.6}{Summary}{chapter.4}% 54
-\BOOKMARK [0][-]{chapter.5}{Conclusions}{}% 55
-\BOOKMARK [1][-]{section.5.1}{Achievements}{chapter.5}% 56
-\BOOKMARK [1][-]{section.5.2}{Lessons Learned}{chapter.5}% 57
-\BOOKMARK [1][-]{section.5.3}{Future Work}{chapter.5}% 58
-\BOOKMARK [0][-]{section.5.3}{Bibliography}{}% 59
-\BOOKMARK [0][-]{appendix.A}{Project Proposal}{}% 60
+\BOOKMARK [2][-]{subsection.3.2.4}{Sparse Matrices}{section.3.2}% 33
+\BOOKMARK [1][-]{section.3.3}{Data Acquisition}{chapter.3}% 34
+\BOOKMARK [2][-]{subsection.3.3.1}{Scraping Data}{section.3.3}% 35
+\BOOKMARK [2][-]{subsection.3.3.2}{Wrangling Data}{section.3.3}% 36
+\BOOKMARK [2][-]{subsection.3.3.3}{Labelling Data}{section.3.3}% 37
+\BOOKMARK [2][-]{subsection.3.3.4}{Database}{section.3.3}% 38
+\BOOKMARK [1][-]{section.3.4}{Classifier}{chapter.3}% 39
+\BOOKMARK [2][-]{subsection.3.4.1}{Avoiding Overfitting}{section.3.4}% 40
+\BOOKMARK [2][-]{subsection.3.4.2}{Scikit-learn}{section.3.4}% 41
+\BOOKMARK [2][-]{subsection.3.4.3}{Optimisations}{section.3.4}% 42
+\BOOKMARK [3][-]{subsubsection.3.4.3.1}{Stemming}{subsection.3.4.3}% 43
+\BOOKMARK [3][-]{subsubsection.3.4.3.2}{Stop Word Removal}{subsection.3.4.3}% 44
+\BOOKMARK [3][-]{subsubsection.3.4.3.3}{N-grams}{subsection.3.4.3}% 45
+\BOOKMARK [3][-]{subsubsection.3.4.3.4}{Learning Settings and Hyperparameters}{subsection.3.4.3}% 46
+\BOOKMARK [3][-]{subsubsection.3.4.3.5}{Dimensionality Reduction}{subsection.3.4.3}% 47
+\BOOKMARK [1][-]{section.3.5}{Summary}{chapter.3}% 48
+\BOOKMARK [0][-]{chapter.4}{Evaluation}{}% 49
+\BOOKMARK [1][-]{section.4.1}{Database Analysis}{chapter.4}% 50
+\BOOKMARK [1][-]{section.4.2}{Classifier Results}{chapter.4}% 51
+\BOOKMARK [1][-]{section.4.3}{Evaluation of Dimensionality Reduction}{chapter.4}% 52
+\BOOKMARK [1][-]{section.4.4}{Spam Email Dataset}{chapter.4}% 53
+\BOOKMARK [1][-]{section.4.5}{Evaluation of Project Goals}{chapter.4}% 54
+\BOOKMARK [1][-]{section.4.6}{Summary}{chapter.4}% 55
+\BOOKMARK [0][-]{chapter.5}{Conclusions}{}% 56
+\BOOKMARK [1][-]{section.5.1}{Achievements}{chapter.5}% 57
+\BOOKMARK [1][-]{section.5.2}{Lessons Learned}{chapter.5}% 58
+\BOOKMARK [1][-]{section.5.3}{Future Work}{chapter.5}% 59
+\BOOKMARK [0][-]{section.5.3}{Bibliography}{}% 60
+\BOOKMARK [0][-]{appendix.A}{Project Proposal}{}% 61
