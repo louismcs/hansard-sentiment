@@ -13,7 +13,7 @@
 \contentsline {section}{\numberline {2.7}Introduction to Evaluating Supervised Learning Systems}{21}{section.2.7}
 \contentsline {subsection}{\numberline {2.7.1}Train/Test Split}{21}{subsection.2.7.1}
 \contentsline {subsection}{\numberline {2.7.2}Overfitting}{21}{subsection.2.7.2}
-\contentsline {subsection}{\numberline {2.7.3}Cross Validation}{21}{subsection.2.7.3}
+\contentsline {subsection}{\numberline {2.7.3}Cross-Validation}{21}{subsection.2.7.3}
 \contentsline {subsection}{\numberline {2.7.4}Evaluation Metrics}{21}{subsection.2.7.4}
 \contentsline {section}{\numberline {2.8}Introduction to the Bag-of-Words Model}{23}{section.2.8}
 \contentsline {section}{\numberline {2.9}Software Engineering Techniques}{24}{section.2.9}
@@ -42,7 +42,7 @@
 \contentsline {subsection}{\numberline {3.4.3}Scikit-learn}{37}{subsection.3.4.3}
 \contentsline {subsection}{\numberline {3.4.4}Optimisations}{37}{subsection.3.4.4}
 \contentsline {subsubsection}{\numberline {3.4.4.1}Stemming}{37}{subsubsection.3.4.4.1}
-\contentsline {subsubsection}{\numberline {3.4.4.2}Stop Word Removal}{38}{subsubsection.3.4.4.2}
+\contentsline {subsubsection}{\numberline {3.4.4.2}Stopword Removal}{38}{subsubsection.3.4.4.2}
 \contentsline {subsubsection}{\numberline {3.4.4.3}N-grams}{38}{subsubsection.3.4.4.3}
 \contentsline {subsubsection}{\numberline {3.4.4.4}Learning Settings and Hyperparameters}{39}{subsubsection.3.4.4.4}
 \contentsline {subsubsection}{\numberline {3.4.4.5}Dimensionality Reduction}{40}{subsubsection.3.4.4.5}

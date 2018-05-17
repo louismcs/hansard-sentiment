@@ -13,7 +13,7 @@
 \BOOKMARK [1][-]{section.2.7}{Introduction to Evaluating Supervised Learning Systems}{chapter.2}% 13
 \BOOKMARK [2][-]{subsection.2.7.1}{Train/Test Split}{section.2.7}% 14
 \BOOKMARK [2][-]{subsection.2.7.2}{Overfitting}{section.2.7}% 15
-\BOOKMARK [2][-]{subsection.2.7.3}{Cross Validation}{section.2.7}% 16
+\BOOKMARK [2][-]{subsection.2.7.3}{Cross-Validation}{section.2.7}% 16
 \BOOKMARK [2][-]{subsection.2.7.4}{Evaluation Metrics}{section.2.7}% 17
 \BOOKMARK [1][-]{section.2.8}{Introduction to the Bag-of-Words Model}{chapter.2}% 18
 \BOOKMARK [1][-]{section.2.9}{Software Engineering Techniques}{chapter.2}% 19
@@ -42,7 +42,7 @@
 \BOOKMARK [2][-]{subsection.3.4.3}{Scikit-learn}{section.3.4}% 42
 \BOOKMARK [2][-]{subsection.3.4.4}{Optimisations}{section.3.4}% 43
 \BOOKMARK [3][-]{subsubsection.3.4.4.1}{Stemming}{subsection.3.4.4}% 44
-\BOOKMARK [3][-]{subsubsection.3.4.4.2}{Stop Word Removal}{subsection.3.4.4}% 45
+\BOOKMARK [3][-]{subsubsection.3.4.4.2}{Stopword Removal}{subsection.3.4.4}% 45
 \BOOKMARK [3][-]{subsubsection.3.4.4.3}{N-grams}{subsection.3.4.4}% 46
 \BOOKMARK [3][-]{subsubsection.3.4.4.4}{Learning Settings and Hyperparameters}{subsection.3.4.4}% 47
 \BOOKMARK [3][-]{subsubsection.3.4.4.5}{Dimensionality Reduction}{subsection.3.4.4}% 48
