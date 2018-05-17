@@ -24,7 +24,8 @@ def plot_grid():
     fig.subplots_adjust(bottom=0.25, left=0.25)
 
     heatmap = axis.pcolor(df_correlation, cmap='gray')
-    pyplot.colorbar(heatmap)
+    cbar = pyplot.colorbar(heatmap)
+    cbar.ax.set_ylabel('F1 Score\n', rotation=270)
     pyplot.xlabel('C')
     pyplot.ylabel('Gamma')
     axis.set_xticks(arange(df_correlation.shape[1]) + 0.5, minor=False)

@@ -193,4 +193,17 @@ St{\'e}fan van~der Walt, S~Chris Colbert, and Gael Varoquaux.
 \newblock The numpy array: a structure for efficient numerical computation.
 \newblock {\em Computing in Science \& Engineering}, 13(2):22--30, 2011.
 
+\bibitem{hansardtagging}
+Stephen Wattam, Paul Rayson, Marc Alexander, and Jean Anderson.
+\newblock Experiences with parallelisation of an existing nlp pipeline: Tagging
+  hansard.
+\newblock In {\em LREC}, pages 4093--4096, 2014.
+
+\bibitem{wikipediawar}
+Yiwei Zhou, Alexandra Cristea, and Zachary Roberts.
+\newblock Is wikipedia really neutral? a sentiment perspective study of
+  war-related wikipedia articles since 1945.
+\newblock In {\em Proceedings of the 29th Pacific Asia Conference on Language,
+  Information and Computation}, pages 160--168, 2015.
+
 \end{thebibliography}

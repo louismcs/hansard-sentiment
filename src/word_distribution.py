@@ -2,7 +2,7 @@ import csv
 
 from matplotlib import pyplot
 def plot_distribution():
-    with open('Data/Iraq/Evaluation/freqoffsets.csv', 'r') as f:
+    with open('Data/Iraq/Evaluation/freqoffset2.csv', 'r') as f:
         reader = csv.reader(f)
         xs = []
         ys = []
@@ -11,7 +11,7 @@ def plot_distribution():
             ys.append(float(line[1]))
 
     ax = pyplot.gca()
-    ax.set_xscale('log')
+    #ax.set_xscale('log')
     pyplot.axhline(0, ls='--', color='black', lw=0.1)
     pyplot.xlabel('Word Frequency')
     pyplot.ylabel('Probability Offset')

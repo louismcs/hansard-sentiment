@@ -1,19 +1,19 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces A simple 2D plot of four labelled features.}}{16}{figure.2.1}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces A simple 2D plot of four labelled features and a hyperplane (which is a line in two dimensions) distinguishing the positive and negative points.}}{18}{figure.2.2}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces A simple 2D plot of four linearly inseparable labelled features.}}{21}{figure.2.3}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces An example of the an overfitting function.}}{24}{figure.2.4}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces A simple 2D plot of four labelled features.}}{14}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces A simple 2D plot of four labelled features and a hyperplane (which is a line in two dimensions) distinguishing the positive and negative points.}}{16}{figure.2.2}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces A simple 2D plot of four linearly inseparable labelled features.}}{19}{figure.2.3}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces An example of the an overfitting function.}}{22}{figure.2.4}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Data flow in the project.}}{30}{figure.3.1}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Internal dependencies within the project.}}{31}{figure.3.2}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces A screenshot of incorrect structure in the Hansard.}}{33}{figure.3.3}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces A screenshot of a quote in the Hansard.}}{34}{figure.3.4}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces The entity-relationship (ER) diagram of the system's database.}}{37}{figure.3.5}
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagrams illustrating how the hyperparameter search is conducted.}}{41}{figure.3.6}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Data flow in the project.}}{28}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Internal dependencies within the project.}}{29}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces A screenshot of incorrect structure in the Hansard.}}{31}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces A screenshot of a quote in the Hansard.}}{32}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces The entity-relationship (ER) diagram of the system's database.}}{35}{figure.3.5}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagrams illustrating how the hyperparameter search is conducted.}}{40}{figure.3.6}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces A scatter plot of frequency against rank for all the words in the debates considered in this project.}}{44}{figure.4.1}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set.}}{45}{figure.4.2}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces A diagram showing the grid of the first stage of the hyperparameter search.}}{49}{figure.4.3}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces A scatter plot of probability offset against frequency for the n-grams in the training set.}}{45}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces A diagram showing the grid of the first stage of the hyperparameter search.}}{48}{figure.4.3}
 \addvspace {10\p@ }
 \addvspace {10\p@ }

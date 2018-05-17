@@ -15,7 +15,6 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{mdframed}
-\usepackage{natbib}
 
 \definecolor{light-gray}{gray}{0.95}
 \raggedbottom                           % try to avoid widows and orphans
@@ -60,7 +59,6 @@ Pembroke College \\[5mm]
 \pagestyle{plain}
 
 \chapter*{Proforma}
-Should be 1 page
 
 {\large
 \begin{tabular}{ll}
@@ -68,7 +66,7 @@ Name:               & \bf                        \\
 College:            & \bf Pembroke College                     \\
 Project Title:      & \bf Sentiment Analysis of Texts on the Iraq War \\
 Examination:        & \bf Computer Science Tripos -- Part II, July 2018  \\
-Word Count:         & \bf Max 12,000  \\
+Word Count:         & \bf 12,000  \\
 Project Originator: & Louis Max Cley Slater                    \\
 Supervisor:         & Dr Tamara Polajnar                    \\ 
 \end{tabular}
@@ -77,30 +75,28 @@ Supervisor:         & Dr Tamara Polajnar                    \\
 
 \section*{Original Aims of the Project}
 
-Due to my interest in both natural language processing and politics and a lack of previous work done in the area, I decided that I wanted to perform sentiment analysis on British political texts. After extensive research, I found a study \cite{iraq_media_study} that manually assessed the biases of British newspaper articles on the Iraq war, so decided that I would use the dataset produced by the study. I aimed to develop a program to retrieve the texts of the newspaper articles specified in the study \cite{iraq_media_study} and implement a classifier using this data and a bag of words model.
-
+Due to my interest in both natural language processing and politics and a lack of previous work done in the area, I decided that I wanted to perform sentiment analysis on British political texts - in particular, texts on the Iraq war.
 
 \section*{Work Completed}
-%Max 100 words
- - Problem with University's licence for DowJones (and others?). Didn't cover Scraping data/API use? Be specific and add Licence agreement(s) to bibliography
- - Switched to Hansard and voting datasets. Made the data retrieval stage lengthier. Cite datasets.
- - Numbers about success of classifier
- - Add anything else completed?
+In this project, I developed two components of a system to perform sentiment analysis on texts on the Iraq war. The first component constructs a dataset of speeches and votes in the House of Commons, while the second is a support vector machine classifier used to determine the stance of a given speech on the 2003 invasion of Iraq. The classifier is shown to achieve an F1 score of 0.894 on the test data, which is a far better performance than the project's baseline classifier.
 
 
 \section*{Special Difficulties}
-None
- 
+There were licensing issues with the dataset I initially planned to use, meaning that I had to construct my own dataset before implementing the project's classifier. 
 \newpage
+
 \section*{Declaration}
 
 I, Louis Max Cley Slater of Pembroke College, being a candidate for Part II of the Computer Science Tripos, hereby declare that this dissertation and the work described in it are my own work, unaided except as may be specified below, and that the dissertation does not contain material that has already been used to any substantial extent for a comparable purpose.
 
 \bigskip
-\leftline{Signed}
-
+\leftline{Signed:}
+\vspace{5pt}
+\includegraphics[scale=0.3]{figs/signature.png}
+\vspace{5pt}
+\\
 \medskip
-\leftline{Date}
+\leftline{Date: 17/05/2018} 
 
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
@@ -120,43 +116,41 @@ I, Louis Max Cley Slater of Pembroke College, being a candidate for Part II of t
 
 \chapter{Introduction}
 
-\section{Motivation}
-
-While computational approaches are often applied to political texts, very few studies have ever specifically concerned a British corpus (a collection of written or spoken material stored on a computer and used to find out how language is used \cite{corpus_definition}). After reading various papers that used natural language processing techniques on political corpora, I noted the most common studies concerned sentiment analysis of short texts, such as newspaper headlines or Tweets. This motivated me to investigate the task of performing sentiment analysis on longer pieces of text, to make the project more unique still.
-\newline
-\newline
-The 2003 invasion of Iraq was an issue that cut across the political spectrum, which makes it an interesting topic for a sentiment analysis project, since someone's stance on the war cannot be easily determined from their views on other issues \cite{mp_votes_bbc}. Furthermore, the recent publication of the Iraq Inquiry (commonly known as the Chilcot Inquiry) \cite{chilcot2016report} and the ongoing situation in Iraq and Syria \cite{syria_iraq_air_strikes} means that such a project is particularly timely.  In addition to this, (as far as I'm aware) there haven't been any previous studies which have carried out computational sentiment analysis with a focus on war, which makes the project more unique still.
-
+This dissertation describes the implementation of the two components of a system to perform sentiment analysis on texts on the Iraq war. The first component constructs a dataset of speeches and votes in the House of Commons, while the second is a support vector machine classifier used to determine the stance of a given speech on the 2003 invasion of Iraq. The classifier is shown to achieve an F1 score of 0.894 on the test data, which is a far better performance than the project's baseline classifier.
 
 \section{Problem Formulation} \label{intro-challenges}
 
-In this project, I look at how best to apply machine learning techniques to the carry out sentiment analysis on texts about the Iraq war. Since I can obtain labelled data relevant to the project without great difficulty (e.g. having to manually label it), I decided to consider this project as a supervised learning program. We can naturally simplify all stances on the Iraq war to be either pro-war or anti-war, thereby allowing the problem to be formulated as a binary classification task. One of the simplest implementations for a binary classifier is the na\"{i}ve Bayes classifier (described in \S\ref{prep-bayes}), so I use this as a baseline. For reasons outlined in \S\ref{prep-svm}, I use a support vector machine classifier as the default model.
+In this project, I look at how best to apply machine learning techniques to the carry out sentiment analysis on texts about the Iraq war. In order to optimise the performance of the sentiment analysis, I created a dataset using the Hansard (which is a collection of transcripts of House of Commons debates) and data from data.parliament.uk. I developed this dataset in such a way that made it easy to label an MP's speeches using their voting record, thus giving a labelled corpus (a corpus is a collection of written or spoken material stored on a computer and used to find out how language is used \cite{corpus_definition}). This meant that I could consider the sentiment analysis as a supervised learning classification problem. One of the simplest implementations for a binary classifier is the na\"{i}ve Bayes classifier (described in section \S\ref{prep-bayes}), so I use this as a baseline. For reasons outlined in section \S\ref{prep-svm}, I use a support vector machine classifier as the default model. Throughout this dissertation, I discuss how I optimised the classifier while maintaining good software engineering practices.
+
+\section{Motivation}
+
+The 2003 invasion of Iraq was an issue that cut across the political spectrum, which makes it an interesting topic for a sentiment analysis project, since someone's stance on the war cannot be easily determined from their views on other issues \cite{mp_votes_bbc}. Furthermore, the recent publication of the Iraq Inquiry (commonly known as the Chilcot Inquiry) \cite{chilcot2016report} and the ongoing situation in Iraq and Syria \cite{syria_iraq_air_strikes} means that such a project is particularly timely.
 \newline
-\newline
-When performing sentiment analysis, the corpus used is the most important resource. In \S\ref{prep-changes}, I justify my choice of the Hansard \cite{hansard} as the primary corpus for the project. The Hansard is the set of transcripts from British parliamentary debates. As MPs vote on individual issues (including the invasion of Iraq), we can use an MP's voting record to determine their view on a topic and therefore automatically label the stance of any of their speeches on that topic. Since, manually labelling data is laborious, I label the speeches using voting records, despite the additional difficulty of matching up two datasets and the noise that this introduces to the data (discussed in \S\ref{prep-changes}). Using this dataset means that we can essentially view the classifier produced as a system to predict how MPs will vote on an issue, given what they have said about the issue in the House of Commons.
+The development and publication of the project's dataset will facilitate further NLP work on House of Commons data, which will hopefully result in increased accountability of MPs.
 
 
 \section{Related Work} \label{intro-related}
-
-While many studies into sentiment analysis have been based around political issues, since 2009 the majority of such research has concerned Tweets. The first study to use Twitter as its primary corpus was `Twitter power: Tweets as electronic word of mouth' \cite{first_twitter} and there have since been countless studies following suit. In 2010, Pak, Alexander and Paroubek, Patrick proposed that Twitter could be used to determine public opinion \cite{twitter_as_a_corpus}, which was proven true later that year when sentiment analysis of Twitter provided predictions that paralleled the results of traditional election polls for the German federal election \cite{predicting_elections_twitter}. This focus on Twitter is useful, but since most political decisions are made in Government and not on the internet, we should also use computational methods to learn more about how our MPs represent us in Parliament. Unfortunately, although it makes the project more interesting, analysing longer political texts presents more challenges than analysing Tweets, in part due to the lack of guidance from similar previous work.
+There have been various NLP studies which have used the Hansard. The 2014 work by Wattam et al. is most similar to my use of the Hansard, since also they use it to develop a new dataset. The dataset they construct is a tagged version of the Hansard, which facilitates faster retrieval of the data \cite{hansardtagging}.
+\newline
+While many studies into sentiment analysis have been based on political issues, since 2009 the majority of such research has concerned Tweets. The first study to use Twitter as its primary corpus was `Twitter power: Tweets as electronic word of mouth' \cite{first_twitter} and there have since been countless studies following suit. In 2010, Pak et al. proposed that Twitter could be used to determine public opinion \cite{twitter_as_a_corpus}, which was proven true later that year when sentiment analysis of Twitter provided predictions that paralleled the results of traditional election polls for the German federal election \cite{predicting_elections_twitter}. This focus on Twitter is useful, but since most political decisions are made in Government and not on the internet, we should also use computational methods to learn more about how our MPs represent us in Parliament. Unfortunately, although it makes the project more interesting, analysing longer political texts presents more challenges than analysing Tweets, in part due to the lack of guidance from similar previous work.
+\newline
+In 2016, Zhou et al. published a paper on their work in which they performed sentiment analysis of Wikipedia articles on wars since 1945 by comparing Wikipedia pages in different languages \cite{wikipediawar}. Although this study uses a different methodology to my project (due to the fact that it compares texts in different languages), it provides good evidence that sentiment analysis can work well on corpora concerning war.
+\newline
+In the US, there have been a small number of papers detailing sentiment analysis on transcripts of Congress debates \cite{rep_dem_one, rep_dem_two}. The results of these studies indicate that determining an MP's stance on the Iraq war from their speeches in the House of Commons may be possible, however, these papers use transcripts to determine a politician's political party, which is likely to be more clear-cut than their stance on a particular issue.
 \newline
 \newline
-In the US, there have been a small number of papers detailing sentiment analysis on transcripts of Congress debates \cite{rep_dem_one, rep_dem_two}. The results of these studies indicate that determining an MP's stance on the Iraq war from their speeches in the House of Commons may be possible, however these papers use transcripts to determine a politician's political party, which is likely to be more clear-cut than their stance on a particular issue.
-\newline
-\newline
-The lack of relevant works to this project highlights its uniqueness, which is one of the principal motivations for the project.
 
 \section{Overview of the Project}
-In \hyperref[prep]{Chapter \ref{prep}}, I formally define the project, then outline the relevant models and algorithms before discussing decisions I made about how best to implement the project. \hyperref[impl]{Chapter \ref{impl}} details the development of the system, while \hyperref[eval]{Chapter \ref{eval}} assesses the success of the project, in part by comparing the performance of various classifier optimisations and viewing these results in the context of other similar work. \hyperref[conc]{Chapter \ref{conc}} summarises what the project accomplished and the implications of its results, commenting on the potential for further work related to the project.
+In \hyperref[prep]{chapter \ref{prep}}, I formally define the project, then outline the relevant models and algorithms before discussing decisions I made about how best to implement the project. \hyperref[impl]{chapter \ref{impl}} details the development of the system, while \hyperref[eval]{chapter \ref{eval}} assesses the project's success. \hyperref[conc]{chapter \ref{conc}} summarises what the project accomplished and the implications of its results, commenting on the potential for further work related to the project.
 
 \chapter{Preparation} \label{prep}
 
 
 There were three main stages to the preparation of the project:
 \begin{enumerate}
-	\item Defining and planning the project. A project of this scale needs clear definition of its goals and a well defined plan designed to achieve these goals. Sections \S\ref{prep-requirements}, \S\ref{prep-changes} \& \S\ref{prep-start} detail this stage of the preparation.
+	\item Defining and planning the project. A project of this scale needs a clear definition of its goals and a well-defined plan designed to achieve these goals. Sections \S\ref{prep-requirements}, \S\ref{prep-changes} \& \S\ref{prep-start} detail this stage of the preparation.
 
-	\item Learning about the relevant concepts and methods. This was useful as it helped me to make informed decisions about implementation decisions. This required considerable work, as most of the skills and knowledge required to undertake the project are not taught in the Cambridge BA Computer Science course and the parts that are taught are Part II courses. The time scale of the Part II project meant that I had to learn the courses ahead of the lectures. Sections \S\ref{prep-supervised} through \& \S\ref{prep-bow} detail this stage of the preparation.
+	\item Learning about the relevant concepts and methods. This was useful as it helped me to make informed decisions about implementation decisions. This required considerable work, as most of the skills and knowledge required to undertake the project are not taught in the Cambridge BA Computer Science course and the parts that are taught are Part II courses. The timescale of the Part II project meant that I had to learn the courses ahead of the lectures. Sections \S\ref{prep-supervised} through \& \S\ref{prep-bow} detail this stage of the preparation.
 	
 	\item Specifying the details of the implementation. Sections \S\ref{prep-sweng} \& \S\ref{prep-tools} detail this stage of the preparation.
 \end{enumerate}
@@ -191,7 +185,7 @@ The tasks in Table \ref{table:tasks} are in order of descending priority, due to
 With any software project, it is necessary to consistently consider both the project's requirements and how these will be evaluated. In \S\ref{prep-bayes} I discuss the Na\"{i}ve Bayes Classifier, which I use as a baseline for the classifier and in \S\ref{prep-eval} I consider further aspects of evaluation.
 
 \section{Changes from the Initial Proposal} \label{prep-changes}
-In the proposal (see Appendix \ref{sec:proposal}), I wrote about using the dataset produced by Robinson et. al in which they ``evaluated media performance during the 2003 Iraq War'' \cite{iraq_media_study}. As part of their evaluation, they manually annotated the stance of 4,893 British newspaper articles on the Iraq war. They published the resulting dataset, but it didn't contain the body of the articles - only its headline, author, newspaper and publication date. I consequently investigated resources containing the text of the relevant articles and tried to cross-reference the data from these sources with the manually annotated stance. At the time, many newspapers published different stories online and in print, meaning that I could not rely on these. A few newspapers maintain electronic archives of their printed editions on the internet, however not enough newspapers had such archives. The final resource I looked into was Dow Jones Factiva, a ``global news database'' \cite{factiva}. Upon inspection, this database contained the vast majority of the articles I needed and it was possible for me to cross-reference the articles in it with the labels annotated by Robinson et. al. I initially accessed the dataset through the University of Cambridge's subscription. I therefore (falsely) assumed that this subscription would be sufficient for use in my project, however I later discovered that an academic licence did not permit me to use the API or to carry out text-mining. I consequently contacted Dow Jones and was told that the licence I required would cost in excess of \$20,000.
+In the proposal (see Appendix \ref{sec:proposal}), I wrote about using the dataset produced by Robinson et al. in which they ``evaluated media performance during the 2003 Iraq War'' \cite{iraq_media_study}. As part of their evaluation, they manually annotated the stance of 4,893 British newspaper articles on the Iraq war. They published the resulting dataset, but it didn't contain the body of the articles - only its headline, author, newspaper and publication date. I consequently investigated resources containing the text of the relevant articles and tried to cross-reference the data from these sources with the manually annotated stance. At the time, many newspapers published different stories online and in print, meaning that I could not rely on these. A few newspapers maintain electronic archives of their printed editions on the internet, however not enough newspapers had such archives. The final resource I looked into was Dow Jones Factiva, a ``global news database'' \cite{factiva}. Upon inspection, this database contained the vast majority of the articles I needed and it was possible for me to cross-reference the articles in it with the labels annotated by Robinson et al. I initially accessed the dataset through the University of Cambridge's subscription. I therefore (falsely) assumed that this subscription would be sufficient for use in my project, however, I later discovered that an academic licence did not permit me to use the API or to carry out text-mining. I consequently contacted Dow Jones and was told that the licence I required would cost in excess of \$20,000.
 \newline
 \newline
 After exhausting all other options, I turned my attention to the House of Commons Hansard archives, which contains transcripts of debates between members of Parliament in the Commons Chamber \cite{hansard}. One of the benefits of this dataset is that the texts can be labelled using MPs' voting records.
@@ -207,7 +201,7 @@ Due to the licensing problems I encountered with Dow Jones Factiva \cite{factiva
 \section{Starting Point} \label{prep-start}
 For the reasons described in \S\ref{prep-changes}, the actual starting point for this project differs from what I stated in the proposal (see Appendix \ref{sec:proposal}). In \S\ref{intro-related}, I discussed previous research that is potentially useful to this project. The project builds on the Hansard \cite{hansard} and Parliamentary voting records to produce a dataset which combines the two. The project also uses various Python libraries, which are specified in \S\ref{prep-tools-libs}.
 \section{Introduction to Supervised Learning} \label{prep-supervised} \label{supervised-learning}
-This classification involved in this project is a supervised learning project, since it uses labelled speeches to determine the class (i.e. pro-war or anti-war) other previously unseen texts. Supervised learning is split into two phases: Learning and predicting.
+This classification involved in this project is a supervised learning project since it uses labelled speeches to determine the class (i.e. pro-war or anti-war) other previously unseen texts. Supervised learning is split into two phases: Learning and predicting.
 \newline
 \newline
 In the learning phase, the system receives inputs of feature vectors and their associated labels. A feature vector of length $k$ is usually denoted by $\mathbf{x}$ where 
@@ -277,14 +271,14 @@ We can estimate each $p(x_i | C = y)$ trivially using the training data. Given t
 Due to its simplicity and good performance, I will use the na\"{i}ve Bayes classifier as a baseline for my project.
 \section{Introduction to Support Vector Machines} \label{prep-svm}
 
-Support vector machines (SVMs) are widely used, state-of-the-art classifiers which were designed for binary classification (although they have since been modified to work for multi-class classification) \cite{ml_book}. Since I am viewing the task of determining the sentiment of speeches on the Iraq war as a binary classification problem, using a SVM is a natural choice.
+Support vector machines (SVMs) are widely used, state-of-the-art classifiers which were designed for binary classification (although they have since been modified to work for multi-class classification) \cite{ml_book}. Since I am viewing the task of determining the sentiment of speeches on the Iraq war as a binary classification problem, using an SVM is a natural choice.
 \newline
 \newline
 In contrast to the na\"{i}ve Bayes classifier, the SVM approach to classification is not inherently probabilistic. Instead, they are a form of maximum margin classifier. A maximum margin classifier computes a hyperplane of the form
 \begin{equation} \label{eq:hyperplane}
 	\mathbf{w} \cdot \mathbf{x} + b = 0.
 \end{equation}
-where $\mathbf{w}$ is a normal to the hyperplane. $\mathbf{w}$ and $b$ are determined by the maximisation (\ref{eq:maxdelta}) and $\mathbf{x}$ is a point on the hyperplane. This hyperplane separates the training data, so that for all positive examples
+where $\mathbf{w}$ is a normal to the hyperplane. $\mathbf{w}$ and $b$ are determined by the maximisation (\ref{eq:maxdelta}) and $\mathbf{x}$ is a point on the hyperplane. This hyperplane separates the training data so that for all positive examples
 \begin{equation}
 \mathbf{w} \cdot \mathbf{x} + b \ge 0
 \end{equation}
@@ -425,13 +419,13 @@ From this, we can rewrite (\ref{eq:phiL}) and (\ref{eq:phidecision}) as:
 		-1, \quad \text{otherwise}.
 	\end{cases}
 \end{equation}
-The choice of kernel function can have a significant effect on the performance of a SVM. In order to ensure good results, I will train the SVM using different kernel functions, so the classifier learns which kernel function will work best for the data. The three kernel functions I will consider are:
+The choice of kernel function can have a significant effect on the performance of an SVM. In order to ensure good results, I will train the SVM using different kernel functions, so the classifier learns which kernel function will work best for the data. The three kernel functions I will consider are:
 \begin{align}
 	k(\mathbf{x}, \mathbf{x}') & = \mathbf{x} \cdot \mathbf{x}'& \label{eq:linearkernel} \\
 	k(\mathbf{x}, \mathbf{x}') & = (\gamma (\mathbf{x} \cdot \mathbf{x}') + r)^d \quad & \gamma \in \mathbb{R}_{> 0} . r \in \mathbb{R}_{\ge 0} . d \in \mathbb{N}_{> 0} \label{eq:polykernel} \\
 	k(\mathbf{x}, \mathbf{x}') & = e^{-\gamma ||\mathbf{x} - \mathbf{x}'||^2} \quad & \gamma \in \mathbb{R}_{> 0} \label{eq:rbfkernel}
 \end{align}
-From now on, I will refer to (\ref{eq:linearkernel}), (\ref{eq:polykernel}) and (\ref{eq:rbfkernel}) as the linear kernel, the polynomial kernel and the radial basis function (rbf) kernel respectively. Using the linear kernel is equivalent to our SVM before we introduced the transformation $\phi$. This shows that even with kernel functions, our data may not be linearly separable. It can be shown that linear and polynomial kernels do not necessarily transform the data so that into a space in which it is linearly separable, but the rbf kernel can always map the feature vectors to a space where they are linearly separable. This means that for the linear and polynomial kernels, we may not be able to produce a classifier with the given constraints and for the rbf kernel the SVM is very susceptible to overfitting. Both of these problems can be solved by introducing soft-margins to our SVM. This means that we will allow the SVM to incorrectly classify some of the training examples. In order to do this, we introduce a parameter $C$ which trades off correct classification of training examples with a greater margin width. A greater margin width results in a smoother function, so means that the SVM is less likely to overfit. The higher the value of $C$, the more training examples the SVM will fit correctly. $C$ is a hyperparameter - that is a parameter whose value is fixed before the classifier is trained. All of the hyperparameters for each of the kernels we are considering are shown in Table \ref{table:hyperparameters}. The hyperparameter choice significantly effects the performance of the SVM, so we need an algorithm for choosing them. This is discussed further in both \S\ref{cross-validation} \& \S\ref{impl-classifier}.
+From now on, I will refer to (\ref{eq:linearkernel}), (\ref{eq:polykernel}) and (\ref{eq:rbfkernel}) as the linear kernel, the polynomial kernel and the radial basis function (RBF) kernel respectively. Using the linear kernel is equivalent to our SVM before we introduced the transformation $\phi$. This shows that even with kernel functions, our data may not be linearly separable. It can be shown that linear and polynomial kernels do not necessarily transform the data so that into a space in which it is linearly separable, but the RBF kernel can always map the feature vectors to a space where they are linearly separable. This means that for the linear and polynomial kernels, we may not be able to produce a classifier with the given constraints and for the RBF kernel, the SVM is very susceptible to overfitting. Both of these problems can be solved by introducing soft-margins to our SVM. This means that we will allow the SVM to incorrectly classify some of the training examples. In order to do this, we introduce a parameter $C$ which trades off correct classification of training examples with a greater margin width. A greater margin width results in a smoother function, so means that the SVM is less likely to overfit. The higher the value of $C$, the more training examples the SVM will fit correctly. $C$ is a hyperparameter - that is a parameter whose value is fixed before the classifier is trained. All of the hyperparameters for each of the kernels we are considering are shown in Table \ref{table:hyperparameters}. The hyperparameter choice significantly effects the performance of the SVM, so we need an algorithm for choosing them. This is discussed further in both \S\ref{cross-validation} \& \S\ref{impl-classifier}.
 \FloatBarrier
 \begin{table}[]
 	\centering
@@ -450,7 +444,7 @@ From now on, I will refer to (\ref{eq:linearkernel}), (\ref{eq:polykernel}) and 
 In \S\ref{supervised-learning}, we saw how a supervised learning system is trained on one set of data (the training set), then this trained model is used to predict the labels of previously unseen data (the testing set). In order to evaluate a system, we require the actual data labels, so we can assess the accuracy of the predictions. Having training examples in the testing set results will not provide a useful measure of the system's performance, as it would unfairly reward overfitting. In order to overcome this, we must split our labelled data before we start developing a model. Using 90\% for training and 10\% for testing is the most common way to split the labelled data.
 \subsection{Overfitting} \label{prep-overfitting}
 
-Overfitting is a common problem in supervised learning problems. It occurs when a classifier learns to get a very high performance on the training set, but does not generalise well to unseen data, meaning that the classifier achieves poor results on the test data. Figure \ref{fig:overfitting} illustrates a simple example of a (two-dimensional) hyperplane overfits the given data.
+Overfitting is a common problem in supervised learning problems. It occurs when a classifier learns to get a very high performance on the training set but does not generalise well to unseen data, meaning that the classifier achieves poor results on the test data. Figure \ref{fig:overfitting} illustrates a simple example of a (two-dimensional) hyperplane overfits the given data.
 \begin{figure}
 	\begin{center}
 		\includegraphics[scale=0.6]{figs/overfitting.png}
@@ -458,10 +452,10 @@ Overfitting is a common problem in supervised learning problems. It occurs when 
 	\caption{An example of the an overfitting function.}
 	\label{fig:overfitting}
 \end{figure}
-\subsection{Cross Validation} \label{cross-validation}
-Cross validation is a way to mitigate overfitting. To use this scheme, we split the training set into $k$ disjoint folds. Doing this means that we can iterate the process of training and evaluating without using the data set aside for testing. This is done by training on $k-1$ of the folds, then evaluating the system on the fold left out. This is repeated $k$ times, so each fold is used for evaluation exactly once. Averaging over all the folds each fold gives a reliable evaluation metric. We can use this method to determine the system's hyperparameters and any other settings that need to be determined before training. This is called cross-validation. To do this, we repeat the method described for different combinations of hyperparameters and settings and select the combination whose average evaluation metric is greatest. In this project, I use stratified cross-validation - for this scheme, when splitting the data into folds, I ensure that each fold has a roughly even split of positive and negative examples.
+\subsection{Cross-Validation} \label{cross-validation}
+Cross-validation is a way to mitigate overfitting. To use this scheme, we split the training set into $k$ disjoint folds. Doing this means that we can iterate the process of training and evaluate without using the data set aside for testing. This is done by training on $k-1$ of the folds, then evaluating the system on the fold left out. This is repeated $k$ times, so each fold is used for evaluation exactly once. Averaging over all the folds each fold gives a reliable evaluation metric. We can use this method to determine the system's hyperparameters and any other settings that need to be determined before training. This is called cross-validation. To do this, we repeat the method described for different combinations of hyperparameters and settings and select the combination whose average evaluation metric is greatest. In this project, I use stratified cross-validation - for this scheme, when splitting the data into folds, I ensure that each fold has a roughly even split of positive and negative examples.
 \subsection{Evaluation Metrics} \label{evaluation-metrics}
-Thus far, we have only spoken abstractly about an evaluation metric. There are various options and choice of the measure should be context-specific. The basis of the definitions used in most metrics are defined in the Table \ref{table:true-positives}.
+Thus far, we have only spoken abstractly about an evaluation metric. There are various options and choice of the measure should be context-specific. The bases of the definitions used in most metrics are defined in the Table \ref{table:true-positives}.
 \FloatBarrier
 \begin{table}[]
 	\centering
@@ -500,10 +494,10 @@ A good evaluation metric for an unbalanced dataset will incorporate some trade-o
 \end{equation}
 \section{Introduction to the Bag-of-Words Model} \label{prep-bow}
 
-In mathematics, a bag is a synonym for a multiset - an abstract data type which is like a set, but differs in that it can contain duplicates. In this project, I will represent MPs' speeches using a bag-of-words model, meaning that the representation ignores the order of words. Despite its simplicity, the bag-of-words model is used successfully in a range of sentiment classification applications, as it can effectively capture the discourse of a text \cite{nlp_book}.
+In mathematics, a bag is a synonym for a multiset - an abstract data type which is like a set but differs in that it can contain duplicates. In this project, I will represent MPs' speeches using a bag-of-words model, meaning that the representation ignores the order of words. Despite its simplicity, the bag-of-words model is used successfully in a range of sentiment classification applications, as it can effectively capture the discourse of a text \cite{nlp_book}.
 \newline
 \newline
-To illustrate a bag-of-words model using an example, I will use an quote from a House of Commons debate on 18th March 2003:
+To illustrate a bag-of-words model using an example, I will use a quote from a House of Commons debate on 18th March 2003:
 \begin{center}
 	\textit{``The best way to avoid war is to work through the United Nations.''}
 	\newline
@@ -545,7 +539,7 @@ Due to the structure of the data, it made sense to use a relational database. Af
 
 \subsection{Libraries} \label{prep-tools-libs}
 
-I used BeautifulSoup to parse the Hansard's html and the .ems files from the spam email dataset. Although lxml is a faster parser \cite{parsing}, BeautifulSoup copes better with `broken' html. Before implementation, I found various inconsistencies with the Hansard's html so BeautifulSoup was a better choice (especially since there were no significant time constraints on parsing). The Natural Language Toolkit is a widely used library with multiple functions, so I used this for various things. Similarly, I used functions from scikit-learn when implementing the classifier. In order to perform fast mathematical computations I used both NumPy and SciPy. In order to perform fast HTTP requests, I used the Requests library. In addition to the libraries mentioned, I also used different modules from the Python standard library.
+I used BeautifulSoup to parse the Hansard's HTML and the \texttt{.ems} files from the spam email dataset. Although lxml is a faster parser \cite{parsing}, BeautifulSoup copes better with `broken' html. Before implementation, I found various inconsistencies with the Hansard's html so BeautifulSoup was a better choice (especially since there were no significant time constraints on parsing). The Natural Language Toolkit is a widely used library with multiple functions, so I used this for various things. Similarly, I used functions from scikit-learn when implementing the classifier. In order to perform fast mathematical computations I used both NumPy and SciPy. In order to perform fast HTTP requests, I used the Requests library. In addition to the libraries mentioned, I also used different modules from the Python standard library.
 
 \subsection{Development Environment}
 
@@ -602,6 +596,8 @@ Through the requirements analysis in the preparation section (\S\ref{prep-requir
 	\item Extension: Optimise the SVM classifiers by carrying out singular value decomposition on the feature vectors.
 \end{enumerate}
 
+In addition to these sprints, I also developed an entailment system, using the questions associated with Parliamentary votes along with the features I use for the sentiment analysis. Since this sprint was tangential to the project and did not produce very good results, I do not mention it further in this dissertation.
+\\\\
 As this project is very data intensive, I defined how data would flow before commencing implementation. Figure \ref{fig:dataflow} shows the movement of data between modules and data sources (including local files). Data moves in the direction of the arrows. This diagram shows the project's dependency on the Hansard, data.parliament.uk and the spam email dataset. I therefore ensured that I had a backed-up copies of the data from these sources at the earliest possible stage in the project, to mitigate any issues if the servers hosting these datasets went down at any point throughout the project.
 \newline
 \begin{figure}
@@ -639,11 +635,11 @@ The set data structure is built-in to Python and is implemented using a hash tab
 
 \subsection{Counters} 
 
-The Counter class is part of the collections module, which is part of the Python standard library, meaning that there is ample support available for its use. The data structure is optimised for counting hashable objects \cite{pythoncollectionsdocs}, meaning that it is essentially a multi-set designed to count the number of each element, which makes it perfect for representing a bag of words, making it useful throughout this project. As discussed in section \S\ref{impl-reduction}, it was necessary to reduce the size of the features used for classification, which could easily be done in $\mathcal{O}(k)$ time (where $k$ is the number of dimensions on the reduced features) using Counter's most\_common() method.
+The Counter class is part of the collections module, which is part of the Python standard library, meaning that there is ample support available for its use. The data structure is optimised for counting hashable objects \cite{pythoncollectionsdocs}, meaning that it is essentially a multi-set designed to count the number of each element, which makes it perfect for representing a bag-of-words, making it useful throughout this project. As discussed in section \S\ref{impl-reduction}, it was necessary to reduce the size of the features used for classification, which could easily be done in $\mathcal{O}(k)$ time (where $k$ is the number of dimensions on the reduced features) using Counter's most\_common() method.
 
 \subsection{Sparse Matrices}
 
-The nature of bag of words features means that they are primarily populated by zeros. This means that although the dimensions of them feature matrices (matrices where each row is a set of features for a particular example) are very large, they can be significantly compressed into `sparse matrices', meaning they are more space efficient. Matrix multiplications are also sped up, since there are algorithms specifically designed for sparse matrices. Sparse matrices were most useful in dimensionality reduction, as they dramatically decreased the time taken for singular value decomposition. Listing \ref{lst:reduce_features} gives the code for this feature reduction using sparse matrices.
+The nature of bag-of-words features means that they are primarily populated by zeros. This means that although the dimensions of them feature matrices (matrices where each row is a set of features for a particular example) are very large, they can be significantly compressed into `sparse matrices', meaning they are more space efficient. Matrix multiplications are also sped up, since there are algorithms specifically designed for sparse matrices. Sparse matrices were most useful in dimensionality reduction, as they dramatically decreased the time taken for singular value decomposition. Listing \ref{lst:reduce_features} gives the code for this feature reduction using sparse matrices.
 
 \section{Data Acquisition} \label{impl-acquisition}
 \subsection{Scraping Data} \label{impl-scraping}
@@ -675,7 +671,7 @@ When parsing the debates and quotes, I faced similar difficulties to parsing the
 \pylisting{Python code using regular expressions to clean the text from a paragraph tag.}{get_paragraph_text}
 \subsection{Labelling Data} \label{impl-labelling}
 
-One of my primary reasons for using the Hansard as the corpus for this project was the fact that I could label the data automatically, using MPs' voting records. This in turn meant that the project could be use supervised learning rather than unsupervised learning or semi-supervised learning. It was relatively trivial to retrieve voting data - I used the House of Commons Divisions API from data.parliament.uk.
+One of my primary reasons for using the Hansard as the corpus for this project was the fact that I could label the data automatically, using MPs' voting records. This in turn meant that the project could be use supervised learning rather than unsupervised learning or semi-supervised learning. It was relatively trivial to retrieve voting data - I used the House of Commons Divisions API from data.parliament.uk. One downside to labelling the data in this way is that it introduces noise into the data, due to MPs not voting consistently with their own views due to party whips \cite{whips}, which results in some mislabelling of the data. This noise can be accounted for by good selection of hyperparameters.
 \\\\
 The main difficulty in labelling the data was matching the voting data with the transcript data. This issue was due to the fact that MPs' names varied greatly over time. For example, some MPs adopted married names during their time as an MP and some had titles that were intermittently used to refer to them. Michael Kerr is a good illustration of the multitude of names used by an individual - he is referred to as 13th Marquess of Lothian in the House of Commons Divisions API, the Earl of Ancram in the Hansard and is also known as Baron Kerr of Monteviot. Michael Kerr was one of 36 MPs whose name differed significantly enough between the two data sets that I couldn't algorithmically match their speeches with their voting record. These MPs were mostly unmatchable, due to maiden names, but I manually entered rules to handle them. I matched the other 619 MPs using the function given in Listing \ref{lst:match_full_name}. This method tries to match the given speaker with one of the MPs in the data.parliament.uk dataset, by removing any honorary titles from the speaker's name (since the data.parliament.uk dataset doesn't give these titles), then finding the most similar \footnote{Similarity is calculated using the Levenshtein distance, which is defined as the distance is the number of deletions, insertions, or substitutions required to convert one string into another.} name in the voting record dataset. If this name is deemed to be sufficiently similar, the speaker is matched. If it isn't, a similar function is called, which uses different data in the data.parliament.uk dataset to match the speaker. If this function cannot find a good match either, it raises a `MatchException', which is unhandled by the code in Listing \ref{lst:match_full_name}, meaning that match\_full\_name() also raises this exception. The code that handles these exceptions created a file of any unmatched MPs, which I subsequently manually looked up to find alternative names for the MPs. In order to minimise run-time, I kept a match list, so that once a match was found for a given MP, the same match could be found in constant time, since I used a Python dictionary (which is implemented using a hash table \cite{pythonfaqs}).
 
@@ -700,21 +696,25 @@ To maintain good software engineering practices, I only accessed the database th
 
 \section{Classifier} \label{impl-classifier}
 
+\subsection{Feature Generation}
+
+Once the data was in the database, the first step to develop the classifier was to determine the debates which I would use to develop the classifier. To do this, I wrote a function to query the database for any debates with titles containing one or more of a given set of terms. I then parsed all the speeches in these debates into lists of words, labelling them according to the MP who made the speech. This parsing is altered depending on the optimisations that are applied - I discuss some of these further in section \S\ref{impl-optimisations}. The word lists are then used to create bag-of-words features, in which each element corresponds to an n-gram. This process omits any terms that are used less than 10 times across the training set. These bag-of-words features contain lots of zeros and have high dimensionality, so they can then be reduced to smaller features using singular value decomposition, as discussed in \S\ref{impl-reduction}.
+
 \subsection{Avoiding Overfitting} \label{impl-overfitting}
 
-I took appropriate measures in order to ensure that my classifier wasn't overfitting. Firstly, before implementing a program to determine the stance of MPs' speeches, I wrote a classifier to determine whether a given email is spam. I developed this classifier using a bag of words representation and a support vector machine, as this is how I planned to write the project's main classifier. Since the two tasks are essentially the same, I could use adapt the spam email classifier, so it determined the sentiment of MPs' speeches. Using this development procedure meant that I avoided making the classifier overly specific. It also provided a further way to evaluate the project, as I discuss in section \S\ref{eval-spam}. In addition to this, during development I only ever used the training data, comparing different implementations using averages of F1 scores across cross-validation folds. This meant that there was no scope for developing a classifier that was specifically tailored to produce good results on the testing set.
+I took appropriate measures in order to ensure that my classifier wasn't overfitting. Firstly, before implementing a program to determine the stance of MPs' speeches, I wrote a classifier to determine whether a given email is spam. I developed this classifier using a bag-of-words representation and a support vector machine, as this is how I planned to write the project's main classifier. Since the two tasks are essentially the same, I could use adapt the spam email classifier, so it determined the sentiment of MPs' speeches. Using this development procedure meant that I avoided making the classifier overly specific. It also provided a further way to evaluate the project, as I discuss in section \S\ref{eval-spam}. In addition to this, during development I only ever used the training data, comparing different implementations using averages of F1 scores across cross-validation folds. This meant that there was no scope for developing a classifier that was specifically tailored to produce good results on the testing set.
 
 \subsection{Scikit-learn}
 
 I opted to use the Scikit-learn library to implement the classifier, as it provided a good implementation for both a support vector machine and a na\"{i}ve Bayes classifier and both have significant documentation \cite{nbcdocs, svmdocs} and community support. Scikit-learn is built on other libraries which significantly improves its performance. For example, it makes use of Cython, which is supports C code within Python programs \cite{cythondocs}. In their evaluation of machine learning libraries in Python, Pedregosa et al. showed that the Scikit-learn support vector machine was the faster than any other implementation they tested \cite{skspeed}. A further benefit of Scikit-learn is that it has a na\"{i}ve Bayes classifier, which used similar syntax to the support vector machine, meaning that it was easy to establish a baseline F1 score.
 
-\subsection{Optimisations}
+\subsection{Optimisations} \label{impl-optimisations}
 
-\subsubsection{Stemming}
+\subsubsection{Stemming} \label{impl-stem}
 
-Lemmatisation is the process of using morphological processing to reduce a word to its dictionary form (lemma). Unfortunately, lemmatisation is expensive, so in NLP stemming is often used as an approximation. Stemming is the process of reducing a word to its stem, using a collection of rules that adapt or remove a word's suffix. Stemming algorithms use heuristics to find a word's stem. In the bag of words representation used in this project, stemming means that words with the same stem are counted in the same feature. This is useful, as it is probable that words with the same stem will have similar semantics. Unfortunately, stemming does not perform as well as lemmatisation. For example, a lemmatiser might map `are', `be' and `is' to the lemma `be', since they have the same meaning, where as the Porter stemmer would leave each of these words unchanged. I implemented stemming using the Porter stemming algorithm \cite{porter1980algorithm}.
+Lemmatisation is the process of using morphological processing to reduce a word to its dictionary form (lemma). Unfortunately, lemmatisation is expensive, so in NLP stemming is often used as an approximation. Stemming is the process of reducing a word to its stem, using a collection of rules that adapt or remove a word's suffix. Stemming algorithms use heuristics to find a word's stem. In the bag-of-words representation used in this project, stemming means that words with the same stem are counted in the same feature. This is useful, as it is probable that words with the same stem will have similar semantics. Unfortunately, stemming does not perform as well as lemmatisation. For example, a lemmatiser might map `are', `be' and `is' to the lemma `be', since they have the same meaning, where as the Porter stemmer would leave each of these words unchanged. A further example of where stemming does not have the desired effect is seen when stemming `author' and `authority' - using the Porter stemmer, both words map to `author', despite their different meanings. I implemented stemming using the Porter stemming algorithm \cite{porter1980algorithm}.
 
-\subsubsection{Stop Word Removal}
+\subsubsection{Stop Word Removal} \label{impl-stop}
 
 Stop words (such as `the', `a' and `it') are frequently used words which carry less meaning than other words in a text. In many sentiment analysis applications, stop words will not provide any information about the sentiment of a text, due to the fact that they frequently occur in most texts (regardless of sentiment) However there are also cases where it is useful to consider stop words in classification - for example, a lack prepositions is often associated with less formal texts. I implemented stop word removal using the list of English stop words provided by the Natural Language Toolkit (NLTK). Further to this, I added functionality to whitelist words on the stop word list and add other words to the list. Listing \ref{lst:remove_stopwords} shows the simple function I implemented to remove stop words from a given list of words.
 
@@ -722,7 +722,7 @@ Stop words (such as `the', `a' and `it') are frequently used words which carry l
 
 \subsubsection{N-grams}
 
-The major limitation of the bag-of-words model is that it doesn't represent the order of words. For this reason, many bag of words implementations use n-grams instead of just individual words. An n-gram is a sequence of n words, ordered as they are in the text they were sampled from. Using n-grams enriches the representation of a text; if we know the 2-gram `British troops' is in a given text, it tells us more than just the fact that the words `British' and `troops' are both in the text, since such a text will not necessarily mention British troops. N-grams also give context to words that are otherwise semantically ambiguous. Due to these potential gains, I implemented functionality to extract n-grams from MPs' speeches.
+The major limitation of the bag-of-words model is that it doesn't represent the order of words. For this reason, many bag-of-words implementations use n-grams instead of just individual words. An n-gram is a sequence of n words, ordered as they are in the text they were sampled from. Using n-grams enriches the representation of a text; if we know the 2-gram `British troops' is in a given text, it tells us more than just the fact that the words `British' and `troops' are both in the text, since such a text will not necessarily mention British troops. N-grams also give context to words that are otherwise semantically ambiguous. For example, the stem `author' is semantically ambiguous, since it is the stem of both `author' and `authority'. However, if the stem is part of an n-gram, such as `palestinian author', in the context of the House of Commons debates related to the Iraq war (which don't discuss Palestinian fiction), is clearly derived from the phrase `Palestinian authority' (or another word that is semantically related to authority). I use this example, since this the 17th most pro-Iraq war n-gram used by the classifier (as shown in table \ref{table:pro-grams}). Due to these potential gains, I implemented functionality to extract n-grams from MPs' speeches.
 
 \subsubsection{Learning Settings and Hyperparameters} \label{impl-learning}
 
@@ -736,7 +736,7 @@ I used the same stratified cross-validation scheme to determine the hyperparamet
 	\item If there is one set of optimal hyperparameters and the value of one of the parameters is at the extreme of the initial range for that parameter, extend the search space to include more extreme values of the parameter. Iterate this step until the optimal set of hyperparameters does not lie on the boundary of the range of any of the hyperparameters.
 	\item Perform a grid search with a finer granularity around the current optimal combination of hyperparameters.
 \end{enumerate}
-Figure \ref{fig:gridsearch} gives a graphic illustration of how this algorithm works. The search in the diagram is over ranges for two parameters (for example, $C$ and $\gamma$ in an rbf kernel), where each row is a particular value for one parameter and each column is a particular value for the other. The three grids represent the of hyperparameters considered at each of the three consecutive stages of the algorithm. The shaded squares indicate the optimal combination of hyperparameters in each phase. Since the best hyperparameters in the first step of the algorithm are in the furthest right column, we extend the search space to the right, as shown in the second grid. This algorithm extends to an arbitrary number of dimensions and in practice, I used log-scales where they were most appropriate.
+Figure \ref{fig:gridsearch} gives a graphic illustration of how this algorithm works. The search in the diagram is over ranges for two parameters (for example, $C$ and $\gamma$ in an RBF kernel), where each row is a particular value for one parameter and each column is a particular value for the other. The three grids represent the of hyperparameters considered at each of the three consecutive stages of the algorithm. The shaded squares indicate the optimal combination of hyperparameters in each phase. Since the best hyperparameters in the first step of the algorithm are in the furthest right column, we extend the search space to the right, as shown in the second grid. This algorithm extends to an arbitrary number of dimensions and in practice, I used log-scales where they were most appropriate.
 
 \begin{figure}
 	\begin{center}
@@ -758,7 +758,7 @@ In this chapter I described the overall system architecture and discussed the wo
 
 \chapter{Evaluation} \label{eval}
 
-In this section I assess the successes and failures of what was developed in this project. To follow a similar order to the implementation section, I first analyse the data in section \S\ref{eval-database}, then evaluate the classifier's results in section \S\ref{eval-results} and in section \S\ref{eval-reduction} I consider the benefits of the extension in which I implemented dimensionality reduction. I then move onto section \S\ref{eval-spam} in which I evaluate my results for the spam email classifier. I conclude this chapter by assessing the extent to which the project met its goals in section \S\ref{eval-goals}.
+In this section I assess the successes and failures of what was developed in this project. To follow a similar order to the implementation section, I first analyse the data in section \S\ref{eval-database}, then evaluate the classifier's results in section \S\ref{eval-results} and in section \S\ref{eval-spam} in which I evaluate my results for the spam email classifier. I conclude this chapter by assessing the extent to which the project met its goals in section \S\ref{eval-goals}.
 
 \section{Database Analysis} \label{eval-database}
 
@@ -778,20 +778,33 @@ The main quantitative analysis I carried out on the database was considering the
 	\label{fig:bigzipf}
 \end{figure}
 
-Figure \ref{fig:ngramoffset} is another scatter plot of the same 500 terms, but instead plots their probability offset against their frequency (on a log scale). The probability offset of a given term is given by:
+Figure \ref{fig:ngramoffset} is a scatter plot of probability offset against their frequency (on a log scale) for all n-grams (where $n \le 5$) that occur at least 50 times in the speeches used by the classifier. The probability offset of a given term is given by:
 \begin{equation}
 	\frac{\sum_{s \in P}c_{s}(\text{term})}{\sum_{s \in P \cup N}c_{s}(\text{term})} - \frac{\sum_{t \in T}\sum_{s \in P}c_{s}(t)}{\sum_{t \in T}\sum_{s \in P \cup N}c_{s}(t)}
 \end{equation}
-where $c_{s}(t)$ is the occurrences of term $t$ in speech $s$, $T$ is the set of the 500 most common words and 2-grams in the training set, $P$ is the set of positively labelled (pro-war) speeches in the training set and $N$ is the set of negatively labelled (anti-war) speeches in the training set. The first part of the expression corresponds to the probability of an occurrence of the given term being in a pro-war speech, while the second part is the probability that a given occurrence of any term is in a pro-war speech. This normalisation is necessary due to the fact that the dataset is unbalanced. Any terms for which the probability offset is greater than 0 have a pro-war bias and any term with a probability offset less than 0 have an anti-war bias. The figure shows that the more common terms do not have significant biases, but less frequent terms are more likely to be useful to our classification. Table \ref{table:anti-grams} and table \ref{table:pro-grams} show the most anti-war and pro-war terms respectively, while table \ref{table:databasestats} gives other statistics about the contents of the database.
+where $c_{s}(t)$ is the occurrences of term $t$ in speech $s$, $T$ is the set of the n-grams in the training set (with frequency $\ge 50$ and $n \le 5$), $P$ is the set of positively labelled (pro-war) speeches in the training set and $N$ is the set of negatively labelled (anti-war) speeches in the training set. The first part of the expression corresponds to the probability of an occurrence of the given term being in a pro-war speech, while the second part is the probability that a given occurrence of any term is in a pro-war speech. This normalisation is necessary due to the fact that the dataset is unbalanced. Any terms for which the probability offset is greater than 0 have a pro-war bias and any term with a probability offset less than 0 have an anti-war bias. The figure shows that in general, the more common terms are less biased, but due to their frequency, their biases will likely be more significant, meaning they are still very useful for classification. Table \ref{table:anti-grams} and table \ref{table:pro-grams} show the most anti-war and pro-war terms respectively. Since the classifier uses stemming, stop word removal and n-grams up to $n=5$, I the terms in these tables are processed in the same way. Table \ref{table:databasestats} gives other statistics about the contents of the database, which I computed as part of the database analysis.
 \\\\
 \begin{figure}
 	\begin{center}
 		\includegraphics[scale=0.8]{figs/ngramoffset.png}
 	\end{center}
-	\caption{A scatter plot of probability offset against frequency for the 500 most common words and 2-grams in the training set.}
+	\caption{A scatter plot of probability offset against frequency for the n-grams in the training set.}
 	\label{fig:ngramoffset}
 \end{figure} 
-
+\begin{table}[]
+	\centering
+	\begin{tabular}{lll}
+		\hline
+		\textbf{Quantity} & \textbf{Total} & \textbf{Used by Classifier} \\ \hline
+		MPs               & 655            & 276                         \\
+		Speeches          & 19,513         & 2,83                        \\
+		Debates           & 1578           & 36                          \\ 
+		Tokens            & 4,189,328      & 592,295                     \\
+		Distinct words    & 57,288         & 19,254                      \\ \hline
+	\end{tabular}
+	\caption{A breakdown of the numbers in the database.}
+	\label{table:databasestats}	
+\end{table}
 \begin{table}[]
 	\centering
 	\begin{tabular}{lll}
@@ -839,7 +852,7 @@ where $c_{s}(t)$ is the occurrences of term $t$ in speech $s$, $T$ is the set of
 		novemb&0.194258254&66\\
 		avail&0.190650751&189\\
 		taliban regim&0.186682497&72\\
-		saddam',0.182103742&91\\
+		saddam&0.182103742&91\\
 		practic&0.181780536&68\\
 		emphasis&0.180730116&56\\
 		palestinian author&0.177232325&97\\
@@ -849,20 +862,6 @@ where $c_{s}(t)$ is the occurrences of term $t$ in speech $s$, $T$ is the set of
 	\end{tabular}
 	\caption{The 20 most pro-war n-grams that occur at least 50 times in the debates considered in this project.}
 	\label{table:pro-grams}	
-\end{table}
-\begin{table}[]
-	\centering
-	\begin{tabular}{lll}
-		\hline
-		\textbf{Quantity} & \textbf{Total} & \textbf{Used by Classifier} \\ \hline
-		MPs               & 655            & 276                         \\
-		Speeches          & 19,513         & 2,83                        \\
-		Debates           & 1578           & 36                          \\ 
-		Tokens            & 4,189,328      & 592,295                     \\
-		Distinct words    & 57,288         & 19,254                      \\ \hline
-	\end{tabular}
-	\caption{A breakdown of the numbers in the database.}
-	\label{table:databasestats}	
 \end{table}
 \section{Classifier Results} \label{eval-results}
 
@@ -880,7 +879,7 @@ Table \ref{table:results} highlights the successful performance of the classifie
 	\label{table:results}	
 \end{table}
 
-The cross-validation learning algorithm established that the rbf kernel function would likely produce the best results. In doing so, it performed a search for the best combination of hyperparameters (as described in section \S\ref{impl-learning}). Figure \ref{fig:hyperparamgrid} illustrates the first iteration of the grid search for hyperparameters. The diagram clearly shows that lower values of $C$ result in a better F1 score. This is expected, as lower values of $C$ allow more training examples to be misclassified (as discussed in section \S\ref{prep-svm}) and there is inherent noise in the data, due to MPs not voting consistently with their own views due to party whips \cite{whips}, which results in some mislabelling of the data.
+The cross-validation learning algorithm established that the RBF kernel function would likely produce the best results. In doing so, it performed a search for the best combination of hyperparameters (as described in section \S\ref{impl-learning}). Figure \ref{fig:hyperparamgrid} illustrates the first iteration of the grid search for hyperparameters.
 \\\\
 
 \begin{figure}
@@ -891,7 +890,7 @@ The cross-validation learning algorithm established that the rbf kernel function
 	\label{fig:hyperparamgrid}
 \end{figure}
 
-The learning algorithm which determined the kernel and hyperparameters also determined the settings, which are shown in table \ref{table:settings}. As tables \ref{table:anti-grams} and \ref{table:pro-grams} demonstrate, 2-grams were very useful in classification, so it makes sense that the learning algorithm chose to use them. The tables also show that stop words do carry significant semantic value when they are part of a 2-gram, despite the fact that figure \ref{fig:ngramoffset} shows that stop words are not useful in isolation for classification. Although it may be useful to group numbers for some applications, it was not in this case, as evidenced by the fact that `September 11' had a significant anti-war bias and `1441' was the 15th most pro-war term (the United Nations Security Council Resolution 1441 was an offering to Iraq to encourage them to disarm \cite{resolution}).
+The learning algorithm which determined the kernel and hyperparameters also determined the settings, which are shown in table \ref{table:settings}. As tables \ref{table:anti-grams} and \ref{table:pro-grams} demonstrate, n-grams were very useful in classification, so it makes sense that the learning algorithm chose to use them. Although using n-grams up to $n = 5$ produces a large number of features, this was easily handled using the dimensionality reduction I implemented. I detailed why stemming and stop word removal were useful in sections \S\ref{impl-stem} and \S\ref{impl-stop} respectively. Although it may be useful to group numbers for some applications, it was not in this case, as evidenced by the fact that `resolut 1441' was one of the most pro-war term (the United Nations Security Council Resolution 1441 was an offering to Iraq to encourage them to disarm \cite{resolution}).
 \\\\
 Interestingly, table \ref{table:results} shows that for both classifiers, the F1 score was higher when was calculated on predictions for each speech, rather than on predictions for each MP. This is counter-intuitive, since the MPs' predictions are made using an aggregation of their speeches - we might expect that having more data would lead to better classifications. The most feasible explanation is that speeches made by MPs who make less speeches are more likely to be misclassified. This makes sense, since if an MP is less sure of their stance on the war, their view is more likely to have changed over the period of time from which this project's corpus was created. Further to this, an MP who is less sure of their stance is more likely to be convinced to follow their party's line. I decided to test the hypothesis that MPs who made less speeches in debates related to the Iraq war were more likely to be misclassified, by carrying out a t-test. The mean of the number of speeches made for correctly classified MPs was 10, whereas it was only 5 for misclassified MPs. While this does support the hypothesis, the t statistic was 0.951, meaning it was only significant to the 80\% level, which is not sufficiently high to make any conclusive statements about the hypothesis.
 
@@ -911,9 +910,7 @@ Interestingly, table \ref{table:results} shows that for both classifiers, the F1
 	\label{table:settings}	
 \end{table}
 
-\section{Evaluation of Dimensionality Reduction} \label{eval-reduction}
 
-When testing the principle component analysis (PCA) I had implemented (see section \S\ref{impl-reduction}), I realised that the slow operation of the singular value decomposition (svd - part of the principle component analysis algorithm) had become the bottleneck on the running time of the classifier and the gains in performance it achieved were marginal. The poor running time was due to the fact that the feature vectors that the algorithm was decomposing were so large. I therefore decided to truncate these vectors by decreasing the bag size in the bag of words model, before performing the svd. While this did significantly speed-up the PCA, it resulted in a lower F1 score than could be achieved by truncating the feature vectors to the same dimensionality, just by decreasing bag size. Since decreasing the bag size had no time overhead and produced better results, I decided to use this in the classifier and omit the use of PCA entirely.
 
 
 \section{Spam Email Dataset} \label{eval-spam}
@@ -932,7 +929,7 @@ This project was successful in achieving two main aims of creating a dataset of 
 
 \section{Achievements}
 
-Through carrying out this project, I created a dataset using data from the Hansard and data.parliament.uk. This dataset contains all the speeches and votes made between September 11th 2001 and 18th March 2003 (inclusive). I then used this dataset to develop an SVM classifier which achieved an F1 score of 0.898 on MPs' speeches, which is significantly better than the baseline 0.392, which was the F1 score of the na\"{i}ve Bayes classifier on the same data.
+Through carrying out this project, I created a dataset using data from the Hansard and data.parliament.uk. This dataset contains all the speeches and votes made between September 11th 2001 and 18th March 2003 (inclusive). I then used this dataset to develop an SVM classifier which achieved an F1 score of 0.894 on MPs' speeches, which is significantly better than the baseline 0.392, which was the F1 score of the na\"{i}ve Bayes classifier on the same data.
 
 \section{Lessons Learned}
 
