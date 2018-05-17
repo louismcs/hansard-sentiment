@@ -6,7 +6,7 @@ def plot_zipf():
         reader = csv.reader(f)
         freqs = []
         ranks = []
-        for i, line in enumerate(reader):
+        for line in reader:
             freqs.append(int(line[0]))
             ranks.append(int(line[3]))
 

@@ -8,11 +8,9 @@ import re
 from nltk import PorterStemmer
 from nltk import ngrams
 from nltk.corpus import stopwords
-from numpy import array
 from numpy import linalg
 from numpy import log10
 from numpy import logspace
-from numpy import matmul
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import svds
 
@@ -359,9 +357,4 @@ def generate_refined_poly_values(poly_params, no_of_cs, no_of_gammas, no_of_ds, 
         'ds': d_values,
         'rs': r_values
     }
-"""
-SETS = generate_poly_param_sets(generate_poly_values(4, 5, 1, 1))
 
-for count, values in enumerate(SETS):
-    print('{}: c: {}. gamma: {}. d: {}. r: {}.'.format(count, values['c'], values['gamma'], values['d'], values['r']))
- """

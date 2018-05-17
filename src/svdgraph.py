@@ -1,6 +1,5 @@
 import pickle
 
-from numpy import array
 from sklearn.manifold import TSNE
 
 from matplotlib import pyplot
@@ -121,7 +120,7 @@ def make_svd_scatter():
 
     train_features = pickle.load(open('features.p', 'rb'))
     train_samples = pickle.load(open('samples.p', 'rb'))
-    
+
 
     positive_xs = []
     positive_ys = []
@@ -139,9 +138,6 @@ def make_svd_scatter():
 
     print('Got coords')
 
-    """ ax = pyplot.gca()
-    ax.set_xscale('log')
-    ax.set_yscale('log') """
     pyplot.scatter(positive_xs, positive_ys, s=1, marker="P")
     pyplot.scatter(negative_xs, negative_ys, s=1, marker="X")
 

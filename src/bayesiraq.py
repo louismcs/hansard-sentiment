@@ -1,9 +1,7 @@
 """ Functions to train and test a naive Bayes classifier on MPs' speeches on the Iraq war """
 
 from sklearn.naive_bayes import GaussianNB
-from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, f1_score
-from sklearn import svm
 
 import database
 
@@ -18,14 +16,12 @@ from trainiraq import get_speeches
 def compute_member_f1s(settings, data):
     """ Runs one loop of the cross-validation """
 
-    train_features, train_samples, common_words = generate_train_data(settings, data['train'] + data['test'])
+    train_features, train_samples, common_words = generate_train_data(settings,
+                                                                      data['train'] + data['test'])
 
     test_features, test_samples, members = generate_test_data(common_words, settings, data['test'])
 
     print('SPeeches: {}'.format(len(train_samples) + len(test_samples)))
-    #classifier = svm.SVC()
-
-    #classifier = MLPClassifier(solver='lbfgs')
 
     classifier = GaussianNB()
 

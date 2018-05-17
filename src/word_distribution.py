@@ -11,7 +11,7 @@ def plot_distribution():
             ys.append(float(line[1]))
 
     ax = pyplot.gca()
-    #ax.set_xscale('log')
+    ax.set_xscale('log')
     pyplot.axhline(0, ls='--', color='black', lw=0.1)
     pyplot.xlabel('Word Frequency')
     pyplot.ylabel('Probability Offset')

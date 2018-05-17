@@ -10,7 +10,9 @@ Kent Beck, Mike Beedle, Arie van Bennekum, Alistair Cockburn, Ward Cunningham,
 \bibitem{cythondocs}
 Stefan Behnel, Robert Bradshaw, Dag~Sverre Seljebotn, Greg Ewing, William
   Stein, Gabriel Gellner, et~al.
-\newblock Cython's documentation.
+\newblock Cython's documentation, 2018.
+\newblock \url{http://docs.cython.org/en/latest/} (Last accessed on 10th May
+  2018).
 
 \bibitem{whips}
 Giacomo Benedetto and Simon Hix.
@@ -25,7 +27,10 @@ Maneesh Bhand, Dan Robinson, and Conal Sathi.
 
 \bibitem{parsing}
 Ian Bicking.
-\newblock Python html parser performance.
+\newblock Python html parser performance, 2008.
+\newblock
+  \url{http://www.ianbicking.org/blog/2008/03/python-html-parser-performance.html}
+  (Last accessed on 11th April 2018).
 
 \bibitem{ml_book}
 C.~M Bishop.
@@ -46,14 +51,20 @@ Alan~Kaylor Cline and Inderjit~S Dhillon.
 \bibitem{resolution}
 CNN.
 \newblock Text of u.n. resolution on iraq.
+\newblock 2002.
 
 \bibitem{numpysvd}
 The~SciPy community.
-\newblock Numpy svd documentation.
+\newblock Numpy svd documentation, 2018.
+\newblock
+  \url{https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.linalg.svd.html}
+  (Last accessed on 12th May 2018).
 
 \bibitem{numpymanual}
 The~SciPy community.
-\newblock Numpy v1.14 manual.
+\newblock Numpy v1.14 manual, 2018.
+\newblock \url{https://docs.scipy.org/doc/numpy/index.html} (Last accessed on
+  16th April 2018).
 
 \bibitem{corpus_definition}
 Cambridge Dictionary.
@@ -61,15 +72,21 @@ Cambridge Dictionary.
 
 \bibitem{pythonfaqs}
 Python~Software Foundation.
-\newblock Design and history faq.
+\newblock Design and history faq, 2018.
+\newblock \url{https://docs.python.org/3.6/faq/design.html} (Last accessed on
+  2nd May 2018).
 
 \bibitem{pythoncollectionsdocs}
 Python~Software Foundation.
-\newblock Python collections documentation.
+\newblock Python collections documentation, 2018.
+\newblock \url{https://docs.python.org/3/library/collections.html} (Last
+  accessed on 10th May 2018).
 
 \bibitem{pythonsetdocs}
 Python~Software Foundation.
-\newblock Python set types documentation.
+\newblock Python set types documentation, 2018.
+\newblock \url{https://docs.python.org/3.6/library/stdtypes.html#frozenset}
+  (Last accessed on 10th May 2018).
 
 \bibitem{open_parliament_licence}
 UK~Government.
@@ -102,15 +119,22 @@ Dan Jurafsky and James~H. Martin.
 
 \bibitem{nbcdocs}
 Scikit learn developers.
-\newblock Naive bayes user guide.
+\newblock Naive bayes user guide, 2018.
+\newblock \url{http://scikit-learn.org/stable/modules/naive_bayes.html} (Last
+  accessed on 10th May 2018).
 
 \bibitem{sklearnpca}
 Scikit learn developers.
-\newblock Scikit learn pca.
+\newblock Scikit learn pca, 2018.
+\newblock
+  \url{http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html}
+  (Last accessed on 10th May 2018).
 
 \bibitem{svmdocs}
 Scikit learn developers.
-\newblock Support vector machines user guide.
+\newblock Support vector machines user guide, 2018.
+\newblock \url{http://scikit-learn.org/stable/modules/svm.html} (Last accessed
+  on 10th May 2018).
 
 \bibitem{spampaper}
 Ben Medlock.
@@ -167,19 +191,27 @@ Kareem Shaheen.
 
 \bibitem{sqlitetypes}
 SQLite.
-\newblock Datatypes in sqlite version 3.
+\newblock Datatypes in sqlite version 3, 2018.
+\newblock \url{https://sqlite.org/datatype3.html} (Last accessed on 5th March
+  2018).
 
 \bibitem{sqlitezeroconfig}
 SQLite.
-\newblock Sqlite is a zero-configuration database.
+\newblock Sqlite is a zero-configuration database, 2018.
+\newblock \url{https://sqlite.org/zeroconf.html} (Last accessed on 5th March
+  2018).
 
 \bibitem{sqliteserverless}
 SQLite.
-\newblock Sqlite is serverless.
+\newblock Sqlite is serverless, 2018.
+\newblock \url{https://sqlite.org/serverless.html} (Last accessed on 5th March
+  2018).
 
 \bibitem{sqlitelicence}
 SQLite.
-\newblock Sqlite licence.
+\newblock Sqlite licence, 2018.
+\newblock \url{https://sqlite.org/copyright.html} (Last accessed on 5th March
+  2018).
 
 \bibitem{predicting_elections_twitter}
 Andranik Tumasjan, Timm~Oliver Sprenger, Philipp~G Sandner, and Isabell~M

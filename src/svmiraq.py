@@ -2,7 +2,6 @@
 
 import pickle
 from random import shuffle
-import csv
 from numpy import array, array_split, mean, sqrt, std
 from sklearn import svm
 from sklearn.metrics import accuracy_score, f1_score
@@ -397,7 +396,7 @@ def find_linear_params(settings, mp_folds, linear_param_values):
                 max_linear_param_set = linear_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
-            """ elif f1_mean == max_f1_mean:
+            elif f1_mean == max_f1_mean:
                 multiple_max_means = True
 
         if len(linear_param_values['cs']) > 1 and not multiple_max_means:
@@ -411,7 +410,7 @@ def find_linear_params(settings, mp_folds, linear_param_values):
             elif max_linear_param_set['c'] == max_c:
                 c_log_diff = linear_param_values['cs'][1] / linear_param_values['cs'][0]
                 linear_param_values['cs'] = generate_higher_log_params(max_c, 5, c_log_diff)
-                params_found = False """
+                params_found = False
 
     return max_f1s, max_linear_param_set
 
@@ -439,7 +438,7 @@ def find_rbf_params(settings, mp_folds, rbf_param_values):
                 max_rbf_param_set = rbf_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
-            """ elif f1_mean == max_f1_mean:
+            elif f1_mean == max_f1_mean:
                 multiple_max_means = True
 
         if not multiple_max_means:
@@ -469,7 +468,7 @@ def find_rbf_params(settings, mp_folds, rbf_param_values):
                     gamma_log_diff = rbf_param_values['gammas'][1] / rbf_param_values['gammas'][0]
                     rbf_param_values['gammas'] = generate_higher_log_params(max_gamma, 5,
                                                                             gamma_log_diff)
-                    params_found = False """
+                    params_found = False
 
     return max_f1s, max_rbf_param_set
 
@@ -497,7 +496,7 @@ def find_poly_params(settings, mp_folds, poly_param_values):
                 max_poly_param_set = poly_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
-            """ elif f1_mean == max_f1_mean:
+            elif f1_mean == max_f1_mean:
                 multiple_max_means = True
 
         if not multiple_max_means:
@@ -548,7 +547,7 @@ def find_poly_params(settings, mp_folds, poly_param_values):
                 if max_poly_param_set['r'] == max_r:
                     r_diff = poly_param_values['rs'][1] - poly_param_values['rs'][0]
                     poly_param_values['rs'] = generate_higher_params(max_r, 3, r_diff)
-                    params_found = False """
+                    params_found = False
 
     return max_f1s, max_poly_param_set
 
@@ -648,14 +647,13 @@ def learn_settings(settings, mp_folds):
 
     print('N gram learned')
     print(current_f1s)
-    """ 
     linear_param_values = generate_linear_values(5)
 
     linear_f1s, linear_params = find_linear_params(settings, mp_folds, linear_param_values)
 
     linear_mean = mean(linear_f1s)
 
-    print('Linear mean: {}'.format(linear_mean)) """
+    print('Linear mean: {}'.format(linear_mean))
 
     rbf_param_values = generate_rbf_values(5, 7)
 
@@ -665,21 +663,15 @@ def learn_settings(settings, mp_folds):
 
     print('RBF mean: {}'.format(rbf_mean))
 
-    """ poly_param_values = generate_poly_values(4, 1, 1, 1)
+    poly_param_values = generate_poly_values(4, 1, 1, 1)
 
     poly_f1s, poly_params = find_poly_params(settings, mp_folds, poly_param_values)
 
     poly_mean = mean(poly_f1s)
 
-    print('Poly mean: {}'.format(poly_mean)) """
+    print('Poly mean: {}'.format(poly_mean))
 
-
-    settings['kernel'] = 'rbf'
-    settings['rbf_c'] = rbf_params['c']
-    settings['rbf_gamma'] = rbf_params['gamma']
-    current_f1s = rbf_f1s
-
-    """ if linear_mean > rbf_mean:
+    if linear_mean > rbf_mean:
         if linear_mean > poly_mean:
             settings['kernel'] = 'linear'
             settings['linear_c'] = linear_params['c']
@@ -703,7 +695,7 @@ def learn_settings(settings, mp_folds):
             settings['poly_gamma'] = poly_params['gamma']
             settings['poly_d'] = poly_params['d']
             settings['poly_r'] = poly_params['r']
-            current_f1s = poly_f1s """
+            current_f1s = poly_f1s
 
     print('Hyper parameters learned')
     print(current_f1s)

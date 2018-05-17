@@ -13,37 +13,51 @@ Warning--entry type for "factiva" isn't style-file defined
 --line 42 of file refs.bib
 Warning--entry type for "parsing" isn't style-file defined
 --line 182 of file refs.bib
+I was expecting a `,' or a `}'---line 188 of file refs.bib
+ :  
+ :  url = {http://www.ianbicking.org/blog/2008/03/python-html-parser-performance.html},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
 Warning--entry type for "pythonfaqs" isn't style-file defined
---line 189 of file refs.bib
+--line 191 of file refs.bib
 Warning--entry type for "pythonsetdocs" isn't style-file defined
---line 196 of file refs.bib
+--line 200 of file refs.bib
 Warning--entry type for "pythoncollectionsdocs" isn't style-file defined
---line 203 of file refs.bib
+--line 209 of file refs.bib
 Warning--entry type for "sqlitezeroconfig" isn't style-file defined
---line 210 of file refs.bib
+--line 218 of file refs.bib
 Warning--entry type for "sqliteserverless" isn't style-file defined
---line 217 of file refs.bib
+--line 227 of file refs.bib
 Warning--entry type for "sqlitelicence" isn't style-file defined
---line 224 of file refs.bib
+--line 236 of file refs.bib
 Warning--entry type for "sqlitetypes" isn't style-file defined
---line 231 of file refs.bib
+--line 245 of file refs.bib
 Warning--entry type for "numpymanual" isn't style-file defined
---line 238 of file refs.bib
+--line 254 of file refs.bib
 Warning--entry type for "nbcdocs" isn't style-file defined
---line 266 of file refs.bib
+--line 284 of file refs.bib
 Warning--entry type for "svmdocs" isn't style-file defined
---line 273 of file refs.bib
+--line 293 of file refs.bib
 Warning--entry type for "cythondocs" isn't style-file defined
---line 280 of file refs.bib
+--line 302 of file refs.bib
+I was expecting a `,' or a `}'---line 308 of file refs.bib
+ :  
+ :  url = {http://docs.cython.org/en/latest/},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
 Warning--entry type for "sklearnpca" isn't style-file defined
---line 305 of file refs.bib
+--line 329 of file refs.bib
 Warning--entry type for "numpysvd" isn't style-file defined
---line 313 of file refs.bib
+--line 339 of file refs.bib
+I was expecting a `,' or a `}'---line 374 of file refs.bib
+ :  
+ :  date={8th November 2002},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
 Warning--empty journal in rep_dem_one
 Warning--empty journal in svd
 Warning--empty journal in resolution
-Warning--empty year in resolution
 Warning--empty year in first_twitter
 Warning--empty publisher in nlp_book
 Warning--can't use both volume and number fields in twitter_as_a_corpus
-(There were 26 warnings)
+(There were 3 error messages)
