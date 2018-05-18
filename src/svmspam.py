@@ -17,7 +17,8 @@ from trainhelper import (generate_linear_param_sets, generate_linear_values,
                          generate_refined_poly_values,
                          get_n_grams, normalise, reduce_features,
                          remove_punctuation, remove_stopwords, remove_tags,
-                         stem_words)
+                         stem_words, generate_lower_log_params, generate_higher_log_params,
+                         generate_lower_params, generate_higher_params)
 
 
 def generate_word_list(body, settings):
@@ -344,7 +345,7 @@ def find_linear_params(settings, spam_message_folds, gen_message_folds, linear_p
         for i, param_f1s in enumerate(f1_matrix):
             f1_mean = mean(param_f1s)
             if f1_mean > max_f1_mean:
-                #multiple_max_means = False
+                multiple_max_means = False
                 max_linear_param_set = linear_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
@@ -387,7 +388,7 @@ def find_rbf_params(settings, spam_message_folds, gen_message_folds, rbf_param_v
         for i, param_f1s in enumerate(f1_matrix):
             f1_mean = mean(param_f1s)
             if f1_mean > max_f1_mean:
-                #multiple_max_means = False
+                multiple_max_means = False
                 max_rbf_param_set = rbf_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
@@ -447,7 +448,7 @@ def find_poly_params(settings, spam_message_folds, gen_message_folds, poly_param
         for i, param_f1s in enumerate(f1_matrix):
             f1_mean = mean(param_f1s)
             if f1_mean > max_f1_mean:
-                #multiple_max_means = False
+                multiple_max_means = False
                 max_poly_param_set = poly_param_sets[i]
                 max_f1s = param_f1s
                 max_f1_mean = mean(param_f1s)
@@ -689,7 +690,7 @@ def learn_settings(settings, spam_message_folds, gen_message_folds):
         settings['rbf_gamma'] = rbf_params['gamma']
 
     else:
-        #Assert kernel = poly
+        #Assert kernel is poly
         current_f1s, poly_params = refine_poly_params(settings, spam_message_folds,
                                                       gen_message_folds)
         settings['poly_c'] = poly_params['c']
