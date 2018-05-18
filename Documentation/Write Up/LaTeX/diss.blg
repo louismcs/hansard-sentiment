@@ -12,44 +12,44 @@ Warning--entry type for "hansard" isn't style-file defined
 Warning--entry type for "factiva" isn't style-file defined
 --line 42 of file refs.bib
 Warning--entry type for "parsing" isn't style-file defined
---line 182 of file refs.bib
-I was expecting a `,' or a `}'---line 188 of file refs.bib
+--line 184 of file refs.bib
+I was expecting a `,' or a `}'---line 190 of file refs.bib
  :  
  :  url = {http://www.ianbicking.org/blog/2008/03/python-html-parser-performance.html},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
 Warning--entry type for "pythonfaqs" isn't style-file defined
---line 191 of file refs.bib
+--line 193 of file refs.bib
 Warning--entry type for "pythonsetdocs" isn't style-file defined
---line 200 of file refs.bib
+--line 202 of file refs.bib
 Warning--entry type for "pythoncollectionsdocs" isn't style-file defined
---line 209 of file refs.bib
+--line 211 of file refs.bib
 Warning--entry type for "sqlitezeroconfig" isn't style-file defined
---line 218 of file refs.bib
+--line 220 of file refs.bib
 Warning--entry type for "sqliteserverless" isn't style-file defined
---line 227 of file refs.bib
+--line 229 of file refs.bib
 Warning--entry type for "sqlitelicence" isn't style-file defined
---line 236 of file refs.bib
+--line 238 of file refs.bib
 Warning--entry type for "sqlitetypes" isn't style-file defined
---line 245 of file refs.bib
+--line 247 of file refs.bib
 Warning--entry type for "numpymanual" isn't style-file defined
---line 254 of file refs.bib
+--line 256 of file refs.bib
 Warning--entry type for "nbcdocs" isn't style-file defined
---line 284 of file refs.bib
+--line 286 of file refs.bib
 Warning--entry type for "svmdocs" isn't style-file defined
---line 293 of file refs.bib
+--line 295 of file refs.bib
 Warning--entry type for "cythondocs" isn't style-file defined
---line 302 of file refs.bib
-I was expecting a `,' or a `}'---line 308 of file refs.bib
+--line 304 of file refs.bib
+I was expecting a `,' or a `}'---line 310 of file refs.bib
  :  
  :  url = {http://docs.cython.org/en/latest/},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
 Warning--entry type for "sklearnpca" isn't style-file defined
---line 329 of file refs.bib
+--line 331 of file refs.bib
 Warning--entry type for "numpysvd" isn't style-file defined
---line 339 of file refs.bib
-I was expecting a `,' or a `}'---line 374 of file refs.bib
+--line 341 of file refs.bib
+I was expecting a `,' or a `}'---line 376 of file refs.bib
  :  
  :  date={8th November 2002},
 (Error may have been on previous line)
